@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+import logoImage from "@/assets/laundry_guyz.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -33,14 +34,12 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <Link to="/" className="flex items-center gap-2 mb-6">
-              <div className="w-12 h-12 bg-gradient-to-br from-primary to-coral rounded-xl flex items-center justify-center">
-                <span className="text-primary-foreground font-serif font-bold text-xl">LG</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="font-serif font-bold text-xl text-background leading-tight">The Laundry</span>
-                <span className="font-serif font-bold text-xl text-primary leading-tight">Guyz</span>
-              </div>
+            <Link to="/" className="flex items-center gap-2 mb-2">
+            <img 
+              src={logoImage} 
+              alt="The Laundry Guyz Logo" 
+              className="h-30 w-90 object-contain"
+            />
             </Link>
             <p className="text-background/70 mb-6 leading-relaxed">
               Premium laundry and dry cleaning services delivered to your doorstep. Experience the difference with The Laundry Guyz.
@@ -112,7 +111,7 @@ const Footer = () => {
               <li>
                 <div className="flex items-start gap-3 text-background/70">
                   <MapPin className="w-5 h-5 mt-0.5 flex-shrink-0" />
-                  <span>123 Clean Street, Laundry District, NY 10001</span>
+                  <span>Hyderabad, India </span>
                 </div>
               </li>
             </ul>

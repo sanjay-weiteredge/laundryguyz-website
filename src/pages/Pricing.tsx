@@ -88,7 +88,7 @@ const Pricing = () => {
       </section>
 
       {/* Subscription Plans */}
-      <section className="section-padding">
+      {/* <section className="section-padding">
         <div className="container-custom">
           <div className="text-center mb-16">
             <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">
@@ -148,7 +148,7 @@ const Pricing = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Individual Pricing */}
       <section className="section-padding bg-secondary/30">

@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { Menu, X, Phone, Mail, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logoImage from "@/assets/laundry_guyz.jpeg";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -43,14 +44,12 @@ const Header = () => {
       <nav className="container-custom py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
-            <div className="w-12 h-12 bg-gradient-to-br from-primary to-coral rounded-xl flex items-center justify-center shadow-md">
-              <span className="text-primary-foreground font-serif font-bold text-xl">LG</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="font-serif font-bold text-xl text-foreground leading-tight">The Laundry</span>
-              <span className="font-serif font-bold text-xl text-primary leading-tight">Guyz</span>
-            </div>
+          <Link to="/" className="flex items-center">
+            <img 
+              src={logoImage} 
+              alt="The Laundry Guyz Logo" 
+              className="h-16 w-50 object-contain"
+            />
           </Link>
 
           {/* Desktop Navigation */}

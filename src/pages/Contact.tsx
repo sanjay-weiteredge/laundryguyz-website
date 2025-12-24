@@ -20,7 +20,7 @@ const contactInfo = [
   {
     icon: MapPin,
     title: "Headquarters",
-    details: ["123 Clean Street", "Laundry District, NY 10001"],
+    details: ["HITEC City, Hyderabad"],
   },
   {
     icon: Clock,
@@ -30,11 +30,11 @@ const contactInfo = [
 ];
 
 const locations = [
-  { city: "New York", stores: 12, address: "Multiple locations across Manhattan, Brooklyn, and Queens" },
-  { city: "Los Angeles", stores: 8, address: "Serving LA County and Orange County areas" },
-  { city: "Chicago", stores: 6, address: "Downtown and North Shore locations" },
-  { city: "Houston", stores: 5, address: "Greater Houston metropolitan area" },
-  { city: "Miami", stores: 4, address: "Miami-Dade and Broward County" },
+  { city: "Hyderabad", stores: 12, address: "Gachibowli" },
+  { city: "Hyderabad", stores: 8, address: "HITEC City" },
+  { city: "Hyderabad", stores: 6, address: "Jubilee Hills" },
+  { city: "Hyderabad", stores: 5, address: "Ameerpet" },
+  // { city: "Miami", stores: 4, address: "Miami-Dade and Broward County" },
 ];
 
 const Contact = () => {

@@ -49,7 +49,7 @@ const About = () => {
               <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
                 Redefining{" "}
                 <span className="text-gradient">Laundry Care</span>{" "}
-                Since 2008
+                Since 2025
               </h1>
               <p className="text-lg text-muted-foreground leading-relaxed mb-8">
                 The Laundry Guyz was founded with a simple mission: to provide premium, hassle-free laundry and dry cleaning services that fit into your busy lifestyle. What started as a single store has grown into a nationwide network of 50+ locations.
@@ -103,7 +103,7 @@ const About = () => {
       </section>
 
       {/* Timeline Section */}
-      <section className="section-padding bg-secondary/30">
+      {/* <section className="section-padding bg-secondary/30">
         <div className="container-custom">
           <div className="text-center mb-16">
             <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">
@@ -115,9 +115,9 @@ const About = () => {
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <div className="relative">
+            <div className="relative"> */}
               {/* Timeline Line */}
-              <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-border md:-translate-x-1/2" />
+              {/* <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-border md:-translate-x-1/2" />
 
               {milestones.map((milestone, index) => (
                 <div
@@ -125,9 +125,9 @@ const About = () => {
                   className={`relative flex items-center gap-8 mb-12 ${
                     index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
                   }`}
-                >
+                > */}
                   {/* Content */}
-                  <div className={`flex-1 ml-20 md:ml-0 ${index % 2 === 0 ? "md:text-right md:pr-12" : "md:pl-12"}`}>
+                  {/* <div className={`flex-1 ml-20 md:ml-0 ${index % 2 === 0 ? "md:text-right md:pr-12" : "md:pl-12"}`}>
                     <div className="bg-card rounded-2xl p-6 shadow-card inline-block">
                       <div className="text-primary font-bold text-lg mb-2">{milestone.year}</div>
                       <h3 className="font-serif font-bold text-xl text-foreground mb-2">
@@ -135,19 +135,19 @@ const About = () => {
                       </h3>
                       <p className="text-muted-foreground">{milestone.description}</p>
                     </div>
-                  </div>
+                  </div> */}
 
                   {/* Dot */}
-                  <div className="absolute left-8 md:left-1/2 w-4 h-4 bg-primary rounded-full md:-translate-x-1/2 shadow-glow" />
+                  {/* <div className="absolute left-8 md:left-1/2 w-4 h-4 bg-primary rounded-full md:-translate-x-1/2 shadow-glow" /> */}
 
                   {/* Spacer */}
-                  <div className="hidden md:block flex-1" />
-                </div>
-              ))}
+                  {/* <div className="hidden md:block flex-1" />
+                </div> */}
+              {/* ))}
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Team Section */}
       <section className="section-padding">
