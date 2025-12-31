@@ -1,19 +1,25 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
-import { Menu, X, Phone, Mail, MapPin } from "lucide-react";
+import { Menu, X, Phone, Mail, MapPin, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
+import UserProfileDropdown from "@/components/auth/UserProfileDropdown";
 import logoImage from "@/assets/laundry_guyz.jpeg";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const { isAuthenticated, user, logout } = useAuth();
 
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "Services", path: "/services" },
     { name: "Pricing", path: "/pricing" },
     { name: "About", path: "/about" },
+    { name: "Stores", path: "/stores" },
+    { name: "Franchise ", path: "/contact" },
     { name: "Contact", path: "/contact" },
+    { name: "Career", path: "/careers" },
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -69,11 +75,19 @@ const Header = () => {
             ))}
           </div>
 
-          {/* CTA Button */}
+          {/* CTA Button / Profile */}
           <div className="hidden lg:flex items-center gap-4">
-            <Button variant="hero" size="lg" asChild>
-              <Link to="/contact">Schedule Pickup</Link>
-            </Button>
+            {isAuthenticated ? (
+              <UserProfileDropdown
+                userName={user?.name}
+                userMobileNumber={user?.mobileNumber}
+                onLogout={logout}
+              />
+            ) : (
+              <Button variant="hero" size="lg" asChild>
+                <Link to="/login">Login</Link>
+              </Button>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -102,9 +116,30 @@ const Header = () => {
                   {link.name}
                 </Link>
               ))}
-              <Button variant="hero" size="lg" asChild className="mt-2">
-                <Link to="/contact">Schedule Pickup</Link>
-              </Button>
+              {isAuthenticated ? (
+                <div className="mt-2 space-y-2">
+                  <div className="px-2 py-2 text-sm">
+                    <p className="font-medium">{user?.name}</p>
+                    <p className="text-muted-foreground text-xs">{user?.mobileNumber}</p>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="w-full"
+                    onClick={() => {
+                      logout();
+                      setIsMenuOpen(false);
+                    }}
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Log out
+                  </Button>
+                </div>
+              ) : (
+                <Button variant="hero" size="lg" asChild className="mt-2">
+                  <Link to="/login" onClick={() => setIsMenuOpen(false)}>Login</Link>
+                </Button>
+              )}
             </div>
           </div>
         )}
