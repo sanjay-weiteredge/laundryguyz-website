@@ -19,6 +19,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { toast } from '@/hooks/use-toast';
 import { ArrowRight } from 'lucide-react';
+import { sendOTP, verifyOTP } from '@/service/api';
 
 // Step 1: Mobile number schema
 const mobileSchema = z.object({
@@ -44,47 +45,49 @@ const Login = () => {
     },
   });
 
-  const onMobileSubmit = (data: MobileFormData) => {
-    // In a real app, you would send OTP to the mobile number here
-    // For now, we'll just simulate it
-    setMobileNumber(data.mobileNumber);
-    toast({
-      title: 'OTP Sent',
-      description: `OTP has been sent to ${data.mobileNumber}`,
-    });
-    setStep(2);
+  const onMobileSubmit = async (data: MobileFormData) => {
+    try {
+      await sendOTP(data.mobileNumber);
+      setMobileNumber(data.mobileNumber);
+      toast({
+        title: 'OTP Sent',
+        description: `An OTP has been sent to ${data.mobileNumber}`,
+      });
+      setStep(2);
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: error.message || 'Failed to send OTP',
+        variant: 'destructive',
+      });
+    }
   };
 
-  const handleOtpVerify = (data: OtpFormData) => {
-    // In a real app, you would verify the OTP with the backend
-    // For now, we'll accept any 6-digit OTP
-    if (data.otp.length === 6) {
+  const handleOtpVerify = async (data: OtpFormData) => {
+    try {
+      const response = await verifyOTP(mobileNumber, data.otp);
+      login(response.user, response.token);
+
       toast({
         title: 'OTP Verified',
-        description: 'OTP verified successfully',
+        description: 'Please complete your profile to continue.',
       });
       setStep(3);
-    } else {
+
+    } catch (error) {
       toast({
-        title: 'Invalid OTP',
-        description: 'Please enter a valid 6-digit OTP',
+        title: 'Verification Failed',
+        description: error.message || 'Failed to verify OTP',
         variant: 'destructive',
       });
     }
   };
 
   const handleDetailsSubmit = (data: DetailsFormData) => {
-    // Create user object and login
-    const user = {
-      id: `user_${Date.now()}`,
-      mobileNumber,
-      name: data.name,
-      email: data.email || undefined,
-    };
-
-    login(user);
+    // NOTE: An endpoint to update user details (name, email) is needed here.
+    // For now, we will just navigate to the home page as the user is already logged in.
     toast({
-      title: 'Login Successful',
+      title: 'Profile Setup Complete',
       description: `Welcome, ${data.name}!`,
     });
     navigate('/');
