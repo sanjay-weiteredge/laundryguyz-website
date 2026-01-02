@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Phone } from "lucide-react";
+import BookingModal from "../booking/BookingModal";
 
 const CTASection = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <section className="py-20 bg-gradient-to-r from-primary to-coral relative overflow-hidden">
       {/* Background Elements */}
@@ -24,12 +27,10 @@ const CTASection = () => {
             <Button
               size="xl"
               className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 shadow-lg"
-              asChild
+              onClick={() => setIsModalOpen(true)}
             >
-              <Link to="/contact">
-                Schedule Free Pickup
-                <ArrowRight className="w-5 h-5" />
-              </Link>
+              Schedule Free Pickup
+              <ArrowRight className="w-5 h-5" />
             </Button>
             <Button
               variant="outline"
@@ -45,6 +46,7 @@ const CTASection = () => {
           </div>
         </div>
       </div>
+      <BookingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </section>
   );
 };

@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import Layout from '@/components/layout/Layout';
 import { useAuth } from '@/contexts/AuthContext';
 import {
@@ -8,82 +9,132 @@ import {
   CardDescription,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Package } from 'lucide-react';
+import { Package, Loader2 } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import OrderCard, { type Order } from '@/components/orders/OrderCard';
 import { getStatusText } from '@/components/orders/orderUtils';
-
-// Mock order data - in a real app, this would come from an API
-const mockOrders: Order[] = [
-  {
-    id: 'ORD-001',
-    date: '2024-01-15',
-    status: 'completed',
-    items: ['5 Shirts', '3 Pants', '2 Jackets'],
-    total: 45.00,
-    address: '123 Main St, City, State 12345',
-  },
-  {
-    id: 'ORD-002',
-    date: '2024-01-20',
-    status: 'in-progress',
-    items: ['10 Shirts', '5 Pants'],
-    total: 35.00,
-    address: '123 Main St, City, State 12345',
-  },
-  {
-    id: 'ORD-003',
-    date: '2024-01-25',
-    status: 'pending',
-    items: ['3 Dresses', '2 Suits'],
-    total: 60.00,
-    address: '123 Main St, City, State 12345',
-  },
-];
+import { getUserOrders, cancelOrder, rescheduleOrder } from '@/service/api';
 
 const Orders = () => {
-  const { user } = useAuth();
+  const { user, token } = useAuth();
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleCancelOrder = (orderId: string) => {
-    // In a real app, this would call an API to cancel the order
-    toast({
-      title: 'Order Cancelled',
-      description: `Order ${orderId} has been cancelled successfully.`,
-    });
+  useEffect(() => {
+    if (user && token) {
+      fetchOrders();
+    } else {
+      setLoading(false);
+    }
+  }, [user, token]);
+
+  const fetchOrders = async () => {
+    if (!token) return;
+    
+    setLoading(true);
+    setError(null);
+    try {
+      const ordersData = await getUserOrders(token);
+      setOrders(ordersData);
+    } catch (err: any) {
+      console.error('Error fetching orders:', err);
+      setError(err.message || 'Failed to fetch orders');
+      toast({
+        title: 'Error',
+        description: err.message || 'Failed to fetch orders',
+        variant: 'destructive',
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleRescheduleOrder = (orderId: string) => {
-    // In a real app, this would open a reschedule dialog/modal
+  const handleCancelOrder = async (orderId: string) => {
+    if (!token) return;
+
+    try {
+      await cancelOrder(token, orderId);
+      toast({
+        title: 'Order Cancelled',
+        description: `Order ${orderId} has been cancelled successfully.`,
+      });
+      // Refresh orders list
+      await fetchOrders();
+    } catch (err: any) {
+      console.error('Error cancelling order:', err);
+      toast({
+        title: 'Error',
+        description: err.message || 'Failed to cancel order',
+        variant: 'destructive',
+      });
+    }
+  };
+
+  const handleRescheduleOrder = async (orderId: string) => {
+    // For now, show a toast. In a real app, this would open a reschedule dialog/modal
+    // where user can select new pickup slot times
     toast({
       title: 'Reschedule Order',
-      description: `Reschedule functionality for order ${orderId} will be available soon.`,
+      description: `Reschedule functionality for order ${orderId} will be available soon. Please contact support to reschedule.`,
     });
+    
+    // TODO: Implement reschedule modal with date/time picker
+    // Example implementation:
+    // const order = orders.find((o) => o.orderId === orderId);
+    // if (order && token) {
+    //   // Open modal to select new pickup slot
+    //   // Then call: await rescheduleOrder(token, orderId, pickupSlotStart, pickupSlotEnd);
+    //   // await fetchOrders();
+    // }
   };
 
   const handleDownloadInvoice = (orderId: string) => {
-    // In a real app, this would generate and download a PDF invoice
-    // For now, we'll create a simple text-based invoice
-    const order = mockOrders.find((o) => o.id === orderId);
-    if (!order) return;
+    const order = orders.find((o) => o.orderId === orderId);
+    if (!order) {
+      toast({
+        title: 'Error',
+        description: 'Order not found',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    // Calculate total
+    const total = order.services.reduce((sum, service) => sum + service.lineTotal, 0);
+    
+    // Format delivery address
+    const formatAddress = (address: typeof order.deliveryAddress): string => {
+      if (!address) return 'No address provided';
+      const parts = [
+        address.addressLine,
+        address.city,
+        address.state,
+        address.pincode,
+      ].filter(Boolean);
+      return parts.join(', ');
+    };
 
     // Create invoice content
     const invoiceContent = `
 INVOICE
-Order ID: ${order.id}
-Date: ${new Date(order.date).toLocaleDateString('en-US', {
+Order ID: ${order.orderId}
+Date: ${new Date(order.createdAt).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
     })}
 Status: ${getStatusText(order.status)}
 
-Items:
-${order.items.map((item) => `  - ${item}`).join('\n')}
+Services:
+${order.services.map((service) => `  - ${service.quantity}x ${service.name} - $${service.lineTotal.toFixed(2)}`).join('\n')}
 
+Total Items: ${order.totalItems}
+${order.storeName ? `Store: ${order.storeName}\n` : ''}
 Delivery Address:
-${order.address}
+${formatAddress(order.deliveryAddress)}
 
-Total Amount: $${order.total.toFixed(2)}
+Total Amount: $${total.toFixed(2)}
 
 Thank you for your business!
     `.trim();
@@ -96,7 +147,7 @@ Thank you for your business!
     link.download = `Invoice-${orderId}.txt`;
     document.body.appendChild(link);
     link.click();
-    //Cleanup – memory leak na ho
+    // Cleanup – memory leak na ho
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
 
@@ -121,6 +172,41 @@ Thank you for your business!
     );
   }
 
+  if (loading) {
+    return (
+      <Layout>
+        <div className="container-custom py-16 min-h-screen flex items-center justify-center">
+          <div className="flex flex-col items-center gap-4">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <p className="text-muted-foreground">Loading your orders...</p>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
+
+  if (error) {
+    return (
+      <Layout>
+        <div className="container-custom py-16 min-h-screen">
+          <div className="max-w-6xl mx-auto">
+            <Card>
+              <CardHeader>
+                <CardTitle>Error</CardTitle>
+                <CardDescription>{error}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button onClick={fetchOrders} variant="outline">
+                  Try Again
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <div className="container-custom py-16 min-h-screen">
@@ -130,7 +216,7 @@ Thank you for your business!
             <p className="text-muted-foreground">Track and manage your laundry orders</p>
           </div>
 
-          {mockOrders.length === 0 ? (
+          {orders.length === 0 ? (
             <Card>
               <CardContent className="py-16 text-center">
                 <Package className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
@@ -145,9 +231,9 @@ Thank you for your business!
             </Card>
           ) : (
             <div className="space-y-4">
-              {mockOrders.map((order) => (
+              {orders.map((order) => (
                 <OrderCard
-                  key={order.id}
+                  key={order.orderId}
                   order={order}
                   onCancel={handleCancelOrder}
                   onReschedule={handleRescheduleOrder}

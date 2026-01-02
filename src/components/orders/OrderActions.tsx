@@ -1,9 +1,10 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { X, CalendarClock, Download } from 'lucide-react';
+import { canCancelOrder, canRescheduleOrder } from './orderUtils';
 
 interface OrderActionsProps {
-  status: 'completed' | 'in-progress' | 'pending';
+  status: string;
   orderId: string;
   onCancel: (orderId: string) => void;
   onReschedule: (orderId: string) => void;
@@ -17,7 +18,8 @@ const OrderActions: React.FC<OrderActionsProps> = ({
   onReschedule,
   onDownloadInvoice,
 }) => {
-  if (status === 'completed') {
+  // Show download invoice for delivered/completed orders
+  if (status === 'delivered' || status === 'completed') {
     return (
       <Button
         variant="outline"
@@ -30,25 +32,37 @@ const OrderActions: React.FC<OrderActionsProps> = ({
     );
   }
 
+  // Show cancel and reschedule for pending/confirmed orders
+  const canCancel = canCancelOrder(status);
+  const canReschedule = canRescheduleOrder(status);
+
+  if (!canCancel && !canReschedule) {
+    return null; // No actions available for this status
+  }
+
   return (
     <div className="flex gap-2">
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => onReschedule(orderId)}
-      >
-        <CalendarClock className="mr-2 h-4 w-4" />
-        Reschedule
-      </Button>
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => onCancel(orderId)}
-        className="text-destructive hover:text-destructive"
-      >
-        <X className="mr-2 h-4 w-4" />
-        Cancel
-      </Button>
+      {canReschedule && (
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => onReschedule(orderId)}
+        >
+          <CalendarClock className="mr-2 h-4 w-4" />
+          Reschedule
+        </Button>
+      )}
+      {canCancel && (
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => onCancel(orderId)}
+          className="text-destructive hover:text-destructive"
+        >
+          <X className="mr-2 h-4 w-4" />
+          Cancel
+        </Button>
+      )}
     </div>
   );
 };

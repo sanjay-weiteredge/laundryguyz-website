@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -20,10 +20,11 @@ import { toast } from '@/hooks/use-toast';
 const detailsSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Please enter a valid email address').optional().or(z.literal('')),
-  photo: z.string().optional(),
 });
 
-export type DetailsFormData = z.infer<typeof detailsSchema>;
+export type DetailsFormData = z.infer<typeof detailsSchema> & {
+  photoFile?: File | null;
+};
 
 interface BasicDetailsFormProps {
   onSubmit: (data: DetailsFormData) => void;
@@ -35,56 +36,69 @@ const BasicDetailsForm: React.FC<BasicDetailsFormProps> = ({
   onBack,
 }) => {
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
   const detailsForm = useForm<DetailsFormData>({
     resolver: zodResolver(detailsSchema),
     defaultValues: {
       name: '',
       email: '',
-      photo: '',
+      photoFile: null,
     },
   });
 
+  // Cleanup object URL on unmount or when photo changes
+  useEffect(() => {
+    return () => {
+      if (photoPreview && photoPreview.startsWith('blob:')) {
+        URL.revokeObjectURL(photoPreview);
+      }
+    };
+  }, [photoPreview]);
+
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      // Validate file type
-      if (!file.type.startsWith('image/')) {
-        toast({
-          title: 'Invalid File Type',
-          description: 'Please upload an image file (JPG, PNG, or GIF)',
-          variant: 'destructive',
-        });
-        return;
-      }
-      // Validate file size (max 5MB)
-      if (file.size > 5 * 1024 * 1024) {
-        toast({
-          title: 'File Too Large',
-          description: 'Please upload an image smaller than 5MB',
-          variant: 'destructive',
-        });
-        return;
-      }
-      // Convert to base64
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64String = reader.result as string;
-        setPhotoPreview(base64String);
-        detailsForm.setValue('photo', base64String);
-      };
-      reader.onerror = () => {
-        toast({
-          title: 'Error',
-          description: 'Failed to read the image file',
-          variant: 'destructive',
-        });
-      };
-      reader.readAsDataURL(file);
+    if (!file) return;
+
+    // Validate file type - backend only accepts JPEG, JPG, PNG
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+    if (!allowedTypes.includes(file.type.toLowerCase())) {
+      toast({
+        title: 'Invalid File Type',
+        description: 'Please upload a JPEG, JPG, or PNG image file',
+        variant: 'destructive',
+      });
+      return;
     }
+    
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast({
+        title: 'File Too Large',
+        description: 'Please upload an image smaller than 5MB',
+        variant: 'destructive',
+      });
+      return;
+    }
+    
+    // Cleanup previous object URL if exists
+    if (photoPreview && photoPreview.startsWith('blob:')) {
+      URL.revokeObjectURL(photoPreview);
+    }
+    
+    // Store file for upload (multipart, not base64)
+    setPhotoFile(file);
+    
+    // Create preview using object URL (for display only)
+    const objectUrl = URL.createObjectURL(file);
+    setPhotoPreview(objectUrl);
+    detailsForm.setValue('photoFile', file);
   };
 
   const handleSubmit = (data: DetailsFormData) => {
-    onSubmit(data);
+    onSubmit({
+      ...data,
+      photoFile: photoFile, // Use state variable instead of form data
+    });
   };
 
   return (
@@ -103,7 +117,7 @@ const BasicDetailsForm: React.FC<BasicDetailsFormProps> = ({
             <div className="relative">
               <Input
                 type="file"
-                accept="image/*"
+                accept="image/jpeg,image/jpg,image/png"
                 onChange={handlePhotoChange}
                 className="hidden"
                 id="photo-upload"
@@ -119,7 +133,7 @@ const BasicDetailsForm: React.FC<BasicDetailsFormProps> = ({
               </Button>
             </div>
             <p className="text-xs text-muted-foreground text-center">
-              Max size: 5MB. JPG, PNG, or GIF
+              Max size: 5MB. JPEG, JPG, or PNG
             </p>
           </div>
         </FormItem>
