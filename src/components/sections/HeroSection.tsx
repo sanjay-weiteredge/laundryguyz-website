@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles, Clock, Truck } from "lucide-react";
 import heroImage from "@/assets/hero-laundry.jpg";
+import BookingModal from "../booking/BookingModal";
 
 const HeroSection = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const features = [
     { icon: Sparkles, text: "Eco-Friendly Solutions" },
     { icon: Clock, text: "48-Hour Turnaround" },
@@ -40,11 +43,9 @@ const HeroSection = () => {
             </p>
 
             <div className="flex flex-wrap gap-4 mb-10 animate-fade-up delay-300">
-              <Button variant="hero" size="xl" asChild>
-                <Link to="/contact">
-                  Schedule Free Pickup
-                  <ArrowRight className="w-5 h-5" />
-                </Link>
+              <Button variant="hero" size="xl" onClick={() => setIsModalOpen(true)}>
+                Schedule Free Pickup
+                <ArrowRight className="w-5 h-5" />
               </Button>
               <Button variant="hero-outline" size="xl" asChild>
                 <Link to="/pricing">View Pricing</Link>
@@ -89,6 +90,7 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
+      <BookingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </section>
   );
 };
