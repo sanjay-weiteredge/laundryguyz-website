@@ -57,8 +57,8 @@ const Login = () => {
 
   const handleOtpVerify = (data: OtpFormData) => {
     // In a real app, you would verify the OTP with the backend
-    // For now, we'll accept any 6-digit OTP
-    if (data.otp.length === 6) {
+    // For now, we'll accept any 4-digit OTP
+    if (data.otp.length === 4) {
       toast({
         title: 'OTP Verified',
         description: 'OTP verified successfully',
@@ -67,7 +67,7 @@ const Login = () => {
     } else {
       toast({
         title: 'Invalid OTP',
-        description: 'Please enter a valid 6-digit OTP',
+        description: 'Please enter a valid 4-digit OTP',
         variant: 'destructive',
       });
     }
@@ -80,6 +80,7 @@ const Login = () => {
       mobileNumber,
       name: data.name,
       email: data.email || undefined,
+      photo: data.photo || undefined,
     };
 
     login(user);

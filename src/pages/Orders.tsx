@@ -3,16 +3,18 @@ import { useAuth } from '@/contexts/AuthContext';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
+  CardDescription,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Package, Calendar, MapPin, Phone, Eye } from 'lucide-react';
+import { Package } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
+import OrderCard, { type Order } from '@/components/orders/OrderCard';
+import { getStatusText } from '@/components/orders/orderUtils';
 
 // Mock order data - in a real app, this would come from an API
-const mockOrders = [
+const mockOrders: Order[] = [
   {
     id: 'ORD-001',
     date: '2024-01-15',
@@ -39,34 +41,70 @@ const mockOrders = [
   },
 ];
 
-const getStatusColor = (status: string) => {
-  switch (status) {
-    case 'completed':
-      return 'bg-green-500';
-    case 'in-progress':
-      return 'bg-blue-500';
-    case 'pending':
-      return 'bg-yellow-500';
-    default:
-      return 'bg-gray-500';
-  }
-};
-
-const getStatusText = (status: string) => {
-  switch (status) {
-    case 'completed':
-      return 'Completed';
-    case 'in-progress':
-      return 'In Progress';
-    case 'pending':
-      return 'Pending';
-    default:
-      return status;
-  }
-};
-
 const Orders = () => {
   const { user } = useAuth();
+
+  const handleCancelOrder = (orderId: string) => {
+    // In a real app, this would call an API to cancel the order
+    toast({
+      title: 'Order Cancelled',
+      description: `Order ${orderId} has been cancelled successfully.`,
+    });
+  };
+
+  const handleRescheduleOrder = (orderId: string) => {
+    // In a real app, this would open a reschedule dialog/modal
+    toast({
+      title: 'Reschedule Order',
+      description: `Reschedule functionality for order ${orderId} will be available soon.`,
+    });
+  };
+
+  const handleDownloadInvoice = (orderId: string) => {
+    // In a real app, this would generate and download a PDF invoice
+    // For now, we'll create a simple text-based invoice
+    const order = mockOrders.find((o) => o.id === orderId);
+    if (!order) return;
+
+    // Create invoice content
+    const invoiceContent = `
+INVOICE
+Order ID: ${order.id}
+Date: ${new Date(order.date).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })}
+Status: ${getStatusText(order.status)}
+
+Items:
+${order.items.map((item) => `  - ${item}`).join('\n')}
+
+Delivery Address:
+${order.address}
+
+Total Amount: $${order.total.toFixed(2)}
+
+Thank you for your business!
+    `.trim();
+
+    // Create a blob and download
+    const blob = new Blob([invoiceContent], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `Invoice-${orderId}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    //Cleanup – memory leak na ho
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    toast({
+      title: 'Invoice Downloaded',
+      description: `Invoice for order ${orderId} has been downloaded.`,
+    });
+  };
 
   if (!user) {
     return (
@@ -108,57 +146,13 @@ const Orders = () => {
           ) : (
             <div className="space-y-4">
               {mockOrders.map((order) => (
-                <Card key={order.id} className="hover:shadow-lg transition-shadow">
-                  <CardHeader>
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <CardTitle className="flex items-center gap-2 mb-2">
-                          <Package className="h-5 w-5" />
-                          Order {order.id}
-                        </CardTitle>
-                        <CardDescription className="flex items-center gap-2">
-                          <Calendar className="h-4 w-4" />
-                          {new Date(order.date).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                          })}
-                        </CardDescription>
-                      </div>
-                      <Badge
-                        className={`${getStatusColor(order.status)} text-white`}
-                      >
-                        {getStatusText(order.status)}
-                      </Badge>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      <div>
-                        <h4 className="font-semibold mb-2">Items:</h4>
-                        <ul className="list-disc list-inside text-muted-foreground">
-                          {order.items.map((item, index) => (
-                            <li key={index}>{item}</li>
-                          ))}
-                        </ul>
-                      </div>
-                      <div className="flex items-center gap-2 text-muted-foreground">
-                        <MapPin className="h-4 w-4" />
-                        <span>{order.address}</span>
-                      </div>
-                      <div className="flex items-center justify-between pt-4 border-t">
-                        <div>
-                          <span className="text-sm text-muted-foreground">Total: </span>
-                          <span className="text-xl font-bold">${order.total.toFixed(2)}</span>
-                        </div>
-                        <Button variant="outline" size="sm">
-                          <Eye className="mr-2 h-4 w-4" />
-                          View Details
-                        </Button>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                <OrderCard
+                  key={order.id}
+                  order={order}
+                  onCancel={handleCancelOrder}
+                  onReschedule={handleRescheduleOrder}
+                  onDownloadInvoice={handleDownloadInvoice}
+                />
               ))}
             </div>
           )}

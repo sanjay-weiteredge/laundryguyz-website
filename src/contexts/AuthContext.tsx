@@ -5,6 +5,7 @@ interface User {
   mobileNumber: string;
   name: string;
   email?: string;
+  photo?: string; // Base64 encoded image or URL
 }
 
 interface AuthContextType {

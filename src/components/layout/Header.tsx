@@ -81,6 +81,7 @@ const Header = () => {
               <UserProfileDropdown
                 userName={user?.name}
                 userMobileNumber={user?.mobileNumber}
+                userPhoto={user?.photo}
                 onLogout={logout}
               />
             ) : (

@@ -15,12 +15,14 @@ import { User, LogOut, Package, MapPin } from 'lucide-react';
 interface UserProfileDropdownProps {
   userName?: string;
   userMobileNumber?: string;
+  userPhoto?: string;
   onLogout: () => void;
 }
 
 const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({
   userName,
   userMobileNumber,
+  userPhoto,
   onLogout,
 }) => {
   const navigate = useNavigate();
@@ -42,7 +44,7 @@ const UserProfileDropdown: React.FC<UserProfileDropdownProps> = ({
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
           <Avatar className="h-10 w-10">
-            <AvatarImage src="" alt={userName || "User"} />
+            <AvatarImage src={userPhoto || ""} alt={userName || "User"} />
             <AvatarFallback>
               {userName
                 ?.split(" ")

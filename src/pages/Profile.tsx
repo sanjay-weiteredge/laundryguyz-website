@@ -3,6 +3,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   Card,
   CardContent,
@@ -21,9 +22,9 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { User, Mail, Phone, Save } from 'lucide-react';
+import { User, Mail, Phone, Save, Camera } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const profileSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -32,12 +33,14 @@ const profileSchema = z.object({
     .string()
     .min(10, 'Mobile number must be at least 10 digits')
     .regex(/^[0-9]+$/, 'Mobile number must contain only digits'),
+  photo: z.string().optional(),
 });
 
 type ProfileFormData = z.infer<typeof profileSchema>;
 
 const Profile = () => {
   const { user, login } = useAuth();
+  const [photoPreview, setPhotoPreview] = useState<string | null>(user?.photo || null);
 
   const form = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
@@ -45,6 +48,7 @@ const Profile = () => {
       name: user?.name || '',
       email: user?.email || '',
       mobileNumber: user?.mobileNumber || '',
+      photo: user?.photo || '',
     },
   });
 
@@ -54,9 +58,43 @@ const Profile = () => {
         name: user.name || '',
         email: user.email || '',
         mobileNumber: user.mobileNumber || '',
+        photo: user.photo || '',
       });
+      setPhotoPreview(user.photo || null);
     }
   }, [user, form]);
+
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        toast({
+          title: 'Invalid File Type',
+          description: 'Please upload an image file (JPG, PNG, or GIF)',
+          variant: 'destructive',
+        });
+        return;
+      }
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        toast({
+          title: 'File Too Large',
+          description: 'Please upload an image smaller than 5MB',
+          variant: 'destructive',
+        });
+        return;
+      }
+      // Convert to base64
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        setPhotoPreview(base64String);
+        form.setValue('photo', base64String);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const onSubmit = (data: ProfileFormData) => {
     if (user) {
@@ -65,6 +103,7 @@ const Profile = () => {
         name: data.name,
         email: data.email || undefined,
         mobileNumber: data.mobileNumber,
+        photo: data.photo || undefined,
       };
       login(updatedUser);
       toast({
@@ -109,6 +148,44 @@ const Profile = () => {
             <CardContent>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  {/* Photo Upload */}
+                  <FormItem>
+                    <FormLabel className="text-center block">Profile Photo</FormLabel>
+                    <div className="flex flex-col items-center gap-4">
+                      <Avatar className="h-32 w-32">
+                        <AvatarImage src={photoPreview || ''} alt={user?.name || 'Profile'} />
+                        <AvatarFallback className="text-2xl">
+                          {user?.name
+                            ?.split(' ')
+                            .map((n) => n[0])
+                            .join('')
+                            .toUpperCase() || <User className="h-8 w-8" />}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="relative">
+                        <Input
+                          type="file"
+                          accept="image/*"
+                          onChange={handlePhotoChange}
+                          className="hidden"
+                          id="profile-photo-upload"
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => document.getElementById('profile-photo-upload')?.click()}
+                        >
+                          <Camera className="mr-2 h-4 w-4" />
+                          {photoPreview ? 'Change Photo' : 'Upload Photo'}
+                        </Button>
+                      </div>
+                      <p className="text-xs text-muted-foreground text-center">
+                        Max size: 5MB. JPG, PNG, or GIF
+                      </p>
+                    </div>
+                  </FormItem>
+
                   <FormField
                     control={form.control}
                     name="name"
@@ -168,10 +245,12 @@ const Profile = () => {
                     )}
                   />
 
-                  <Button type="submit" size="lg" className="w-full sm:w-auto">
-                    <Save className="mr-2 h-4 w-4" />
-                    Save Changes
-                  </Button>
+                  <div className="flex justify-center">
+                    <Button type="submit" size="lg" className="w-full sm:w-auto">
+                      <Save className="mr-2 h-4 w-4" />
+                      Save Changes
+                    </Button>
+                  </div>
                 </form>
               </Form>
             </CardContent>
