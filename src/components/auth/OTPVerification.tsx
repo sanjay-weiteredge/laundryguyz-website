@@ -63,7 +63,7 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({
                     {...field}
                     onChange={(value) => {
                       field.onChange(value);
-                      // Auto-submit when 6 digits are entered
+                     
                       if (value.length === 4) {
                         setTimeout(() => {
                           otpForm.handleSubmit(handleSubmit)();

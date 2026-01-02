@@ -19,7 +19,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { toast } from '@/hooks/use-toast';
 import { ArrowRight } from 'lucide-react';
-import { sendOTP, verifyOTP } from '@/service/api';
+import { sendOTP, verifyOTP, updateProfile, getUserProfile } from '@/service/api';
 
 // Step 1: Mobile number schema
 const mobileSchema = z.object({
@@ -34,7 +34,7 @@ type MobileFormData = z.infer<typeof mobileSchema>;
 const Login = () => {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [mobileNumber, setMobileNumber] = useState('');
-  const { login } = useAuth();
+  const { login, token } = useAuth();
   const navigate = useNavigate();
 
   // Step 1: Mobile number form
@@ -66,8 +66,48 @@ const Login = () => {
   const handleOtpVerify = async (data: OtpFormData) => {
     try {
       const response = await verifyOTP(mobileNumber, data.otp);
-      login(response.user, response.token);
+      
+      // Determine if new user - backend may not send isNewUser flag
+      // Check if user has name or email to determine if profile is complete
+      const isNewUser = response.isNewUser ?? (!response.user.name && !response.user.email);
+      
+      // For existing users, fetch complete profile data including image URL
+      if (!isNewUser && response.token) {
+        try {
+          const profileData = await getUserProfile(response.token);
+          const mappedUser = {
+            id: profileData.id,
+            name: profileData.name || '',
+            email: profileData.email || '',
+            mobileNumber: profileData.phone_number || mobileNumber,
+            photo: profileData.image || '',
+          };
+          login(mappedUser, response.token);
+          
+          toast({
+            title: 'Login Successful',
+            description: `Welcome back, ${mappedUser.name || 'User'}!`,
+          });
+          navigate('/');
+          return;
+        } catch (profileError) {
+          // Fallback to response data if profile fetch fails
+          console.error('Error fetching profile:', profileError);
+        }
+      }
+      
+      // Map backend user data to frontend format (for new users or if profile fetch failed)
+      const mappedUser = {
+        id: response.user.id,
+        name: response.user.name || '',
+        email: response.user.email || '',
+        mobileNumber: response.user.phone_number || mobileNumber,
+        photo: response.user.image || '',
+      };
+      
+      login(mappedUser, response.token);
 
+      // If new user, show basic details form
       toast({
         title: 'OTP Verified',
         description: 'Please complete your profile to continue.',
@@ -83,14 +123,61 @@ const Login = () => {
     }
   };
 
-  const handleDetailsSubmit = (data: DetailsFormData) => {
-    // NOTE: An endpoint to update user details (name, email) is needed here.
-    // For now, we will just navigate to the home page as the user is already logged in.
-    toast({
-      title: 'Profile Setup Complete',
-      description: `Welcome, ${data.name}!`,
-    });
-    navigate('/');
+  const handleDetailsSubmit = async (data: DetailsFormData) => {
+    if (!token) {
+      toast({
+        title: 'Error',
+        description: 'Please log in to complete your profile',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    try {
+      const profileData: { name?: string; email?: string } = {};
+      
+      if (data.name) {
+        profileData.name = data.name;
+      }
+      if (data.email) {
+        profileData.email = data.email || undefined;
+      }
+
+      // Call API to update profile
+      await updateProfile(
+        token,
+        profileData,
+        data.photoFile || undefined
+      );
+
+      // Fetch updated profile from API to get complete data including image URL
+      const profileDataResponse = await getUserProfile(token);
+      
+      // Map backend response to frontend format
+      const updatedUser = {
+        id: profileDataResponse.id,
+        name: profileDataResponse.name || '',
+        email: profileDataResponse.email || '',
+        mobileNumber: profileDataResponse.phone_number || mobileNumber,
+        photo: profileDataResponse.image || '',
+      };
+
+      // Update auth context with updated profile
+      login(updatedUser, token);
+
+      toast({
+        title: 'Profile Setup Complete',
+        description: `Welcome, ${data.name}!`,
+      });
+      navigate('/');
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      toast({
+        title: 'Update Failed',
+        description: error.message || 'Failed to update profile. Please try again.',
+        variant: 'destructive',
+      });
+    }
   };
 
   return (
