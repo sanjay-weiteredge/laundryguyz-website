@@ -305,9 +305,9 @@ export const getNearbyStores = async (latitude, longitude, token, radiusKm = nul
 
   const data = await response.json();
   if (!response.ok || !data.success) {
-    if (response.status === 401) {
-      throw new Error('Unauthorized: Please log in again.');
-    }
+    // if (response.status === 401) {
+    //   throw new Error('Unauthorized: Please log in again.');
+    // }
     throw new Error(data.message || 'Failed to fetch nearby stores');
   }
   return data;

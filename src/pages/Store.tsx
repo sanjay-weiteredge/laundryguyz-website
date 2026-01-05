@@ -43,11 +43,11 @@ const Store = () => {
       setError(null);
       setLocationError(null);
 
-       if (!token) {
-        setError('Please log in to view nearby stores.');
-        setLoading(false);
-        return;
-      }
+      //  if (!token) {
+      //   setError('Please log in to view nearby stores.');
+      //   setLoading(false);
+      //   return;
+      // }
 
       // Get user's current location
       if (!navigator.geolocation) {
@@ -60,7 +60,7 @@ const Store = () => {
         async (position) => {
           try {
             const { latitude, longitude } = position.coords;
-            const response = await getNearbyStores(latitude, longitude, token) as NearbyStoresResponse;
+            const response = await getNearbyStores(latitude, longitude, token || null) as NearbyStoresResponse;
 
             if (response.success) {
               setStores(response.data || []);
@@ -109,7 +109,7 @@ const Store = () => {
     };
 
     fetchStores();
-  }, [token]);
+  }, []);
 
   const formatDistance = (distance: number) => {
     if (distance < 1) {

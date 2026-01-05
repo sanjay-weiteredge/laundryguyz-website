@@ -4,8 +4,8 @@ import { Users, MapPin, Award, Clock } from "lucide-react";
 const stats = [
   { icon: Users, value: 100000, suffix: "+", label: "Happy Customers" },
   { icon: MapPin, value: 50, suffix: "+", label: "Store Locations" },
-  { icon: Award, value: 15, suffix: "+", label: "Years Experience" },
-  { icon: Clock, value: 48, suffix: "hr", label: "Quick Turnaround" },
+  // { icon: Award, value: 15, suffix: "+", label: "Years Experience" },
+  { icon: Clock, value: 5, suffix: "hr", label: "Express Service" },
 ];
 
 const StatsSection = () => {
@@ -52,7 +52,7 @@ const StatsSection = () => {
       className="py-20 bg-gradient-to-r from-primary to-coral"
     >
       <div className="container-custom">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-8">
           {stats.map((stat, index) => (
             <div
               key={index}

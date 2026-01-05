@@ -5,32 +5,46 @@ import laundryImg from "@/assets/service-laundry.jpg";
 import dryCleaningImg from "@/assets/service-drycleaning.jpg";
 import ironingImg from "@/assets/service-ironing.jpg";
 import shoesImg from "@/assets/service-shoes.jpg";
+import sareeRollingImg from "@/assets/saree.jpg";
+import handbagImg from "@/assets/handbag.jpg";
+import toyImg from "@/assets/Toy.png";
 
 const services = [
   {
     title: "Laundry Service",
-    description: "Professional wash, dry, and fold service with premium detergents and fabric softeners.",
     image: laundryImg,
-    features: ["Stain Removal", "Fabric Care", "Quick Turnaround"],
+    features: ["Wash and Fold", "Wash and Iron"],
   },
+  // {
+  //   title: "Saree Rolling",
+  //   image: sareeRollingImg,
+  //   features: [],
+  // },
   {
     title: "Dry Cleaning",
-    description: "Expert dry cleaning for delicate fabrics, suits, dresses, and specialty garments.",
     image: dryCleaningImg,
-    features: ["Woolmark Certified", "Color Protection", "Premium Care"],
+    features: [],
   },
   {
     title: "Steam Ironing",
-    description: "Crisp, wrinkle-free clothes with our professional steam pressing service.",
     image: ironingImg,
-    features: ["Precision Pressing", "Collar & Cuff Care", "Express Service"],
+    features: [],
   },
-  {
-    title: "Shoe Cleaning",
-    description: "Restore your favorite footwear with our professional shoe cleaning and care.",
-    image: shoesImg,
-    features: ["Deep Cleaning", "Leather Care", "Sole Restoration"],
-  },
+  // {
+  //   title: "Shoe care",
+  //   image: shoesImg,
+  //   features: [],
+  // },
+  // {
+  //   title: "Handbag care",
+  //   image: handbagImg,
+  //   features: [],
+  // },
+  // {
+  //   title: "Soft-toy care",
+  //   image: toyImg,
+  //   features: [],
+  // },
 ];
 
 const ServicesSection = () => {
@@ -73,21 +87,20 @@ const ServicesSection = () => {
                 <h3 className="font-serif text-xl font-bold text-foreground mb-3">
                   {service.title}
                 </h3>
-                <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
-                  {service.description}
-                </p>
 
                 {/* Features */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {service.features.map((feature, idx) => (
-                    <span
-                      key={idx}
-                      className="text-xs bg-secondary px-3 py-1 rounded-full text-secondary-foreground"
-                    >
-                      {feature}
-                    </span>
-                  ))}
-                </div>
+                {service.features.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {service.features.map((feature, idx) => (
+                      <span
+                        key={idx}
+                        className="text-xs bg-secondary px-3 py-1 rounded-full text-secondary-foreground"
+                      >
+                        {feature}
+                      </span>
+                    ))}
+                  </div>
+                )}
 
                 <Link
                   to="/services"
