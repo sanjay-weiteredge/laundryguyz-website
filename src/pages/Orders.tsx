@@ -13,13 +13,15 @@ import { Package, Loader2 } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import OrderCard, { type Order } from '@/components/orders/OrderCard';
 import { getStatusText } from '@/components/orders/orderUtils';
-import { getUserOrders, cancelOrder, rescheduleOrder } from '@/service/api';
+import { getUserOrders, cancelOrder } from '@/service/api';
+import { useBookingModal } from '@/contexts/BookingModalContext';
 
 const Orders = () => {
   const { user, token } = useAuth();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { openModal } = useBookingModal();
 
   useEffect(() => {
     if (user && token) {
@@ -71,22 +73,17 @@ const Orders = () => {
     }
   };
 
-  const handleRescheduleOrder = async (orderId: string) => {
-    // For now, show a toast. In a real app, this would open a reschedule dialog/modal
-    // where user can select new pickup slot times
-    toast({
-      title: 'Reschedule Order',
-      description: `Reschedule functionality for order ${orderId} will be available soon. Please contact support to reschedule.`,
-    });
-    
-    // TODO: Implement reschedule modal with date/time picker
-    // Example implementation:
-    // const order = orders.find((o) => o.orderId === orderId);
-    // if (order && token) {
-    //   // Open modal to select new pickup slot
-    //   // Then call: await rescheduleOrder(token, orderId, pickupSlotStart, pickupSlotEnd);
-    //   // await fetchOrders();
-    // }
+  const handleRescheduleOrder = (orderId: string) => {
+    const orderToReschedule = orders.find((o) => o.orderId === orderId);
+    if (orderToReschedule) {
+      openModal('reschedule', orderToReschedule);
+    } else {
+      toast({
+        title: 'Error',
+        description: 'Could not find order details to reschedule.',
+        variant: 'destructive',
+      });
+    }
   };
 
   const handleDownloadInvoice = (orderId: string) => {

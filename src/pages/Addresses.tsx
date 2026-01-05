@@ -154,7 +154,11 @@ const AddressesPage = () => {
     };
 
     setForm({ ...createInitialFormState(), ...normalized });
-    setCoords(address?.coords ?? null);
+    if (address?.latitude && address?.longitude) {
+      setCoords({ latitude: address.latitude, longitude: address.longitude });
+    } else {
+      setCoords(null);
+    }
     setShowAltPhone(Boolean(normalized.altPhone));
     setEditingAddressId(addressId);
     setMode('form');
@@ -208,7 +212,11 @@ const AddressesPage = () => {
     if (!validateForm()) return;
     setSavingAddress(true);
     try {
-        const payload = { ...form, coords };
+        const payload = {
+          ...form,
+          latitude: coords?.latitude ?? null,
+          longitude: coords?.longitude ?? null,
+        };
         if (editingAddressId) {
             await apiUpdateAddress(editingAddressId, payload, token);
         } else {
@@ -244,12 +252,12 @@ const AddressesPage = () => {
     const iconMap = { Home: Home, Work: Briefcase, Other: MapPin };
     const Icon = iconMap[address.label] || MapPin;
     return (
-      <div key={index} className={`bg-card rounded-lg p-4 mb-4 shadow-sm border ${address.isDefault ? 'border-pink-400 bg-pink-50' : 'border-border'}`}>
+      <div key={index} className={`bg-card rounded-lg p-4 mb-4 shadow-sm border ${address.isDefault ? 'border-peach-300 bg-peach-100' : 'border-border'}`}>
         <div className="flex justify-between items-start">
           <div className="flex items-center gap-3">
-            <Icon className="w-5 h-5 text-pink-500" />
+            <Icon className="w-5 h-5 text-peach-400" />
             <span className="font-semibold">{address.fullName}</span>
-            {address.isDefault && <span className="text-xs bg-pink-400 text-white px-2 py-0.5 rounded-full">Default</span>}
+            {address.isDefault && <span className="text-xs bg-peach-300 text-white px-2 py-0.5 rounded-full">Default</span>}
           </div>
           <button onClick={() => handleAddressMenu(address)}><EllipsisVertical className="w-5 h-5" /></button>
         </div>
@@ -264,7 +272,7 @@ const AddressesPage = () => {
 
   const renderListMode = () => (
     <div className="h-full">
-      {renderHeader({ title: 'Saved Addresses', subtitle: 'Manage your delivery addresses', leftAction: <Button variant="ghost" className="text-pink-500" onClick={handleAddNew}><Plus className="w-4 h-4 mr-1"/>Add New</Button>, rightAction: null })}
+      {renderHeader({ title: 'Saved Addresses', subtitle: 'Manage your delivery addresses', leftAction: <Button className="bg-peach-400 hover:bg-peach-500" onClick={handleAddNew}><Plus className="w-4 h-4 mr-1"/>Add New</Button>, rightAction: null })}
       <div className="p-4 overflow-y-auto">
         {loadingAddresses ? <p>Loading...</p> :
           savedAddresses.length > 0 ? savedAddresses.map(renderSavedAddressCard) :
@@ -272,7 +280,7 @@ const AddressesPage = () => {
             <MapPin className="w-12 h-12 mx-auto text-muted-foreground"/>
             <h3 className="mt-4 font-semibold">No addresses yet</h3>
             <p className="text-sm text-muted-foreground mt-1">Save your locations for faster checkout.</p>
-            <Button className="mt-4 bg-pink-500 hover:bg-pink-600" onClick={handleAddNew}>Add Address</Button>
+            <Button className="mt-4 bg-peach-400 hover:bg-peach-500" onClick={handleAddNew}>Add Address</Button>
           </div>}
       </div>
     </div>
@@ -284,13 +292,15 @@ const AddressesPage = () => {
         title: editingAddressId ? 'Edit Delivery Address' : 'Add Delivery Address',
         subtitle: 'Enter all required fields to save your address',
         leftAction: null,
-        rightAction: <Button variant="ghost" className="text-pink-500" onClick={handleCancel}>Cancel</Button>
+        rightAction: <Button variant="ghost" className="text-peach-400" onClick={handleCancel}>Cancel</Button>
       })}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        <Input placeholder="Full Name (Required)" value={form.fullName} onChange={(e) => handleFieldChange('fullName', e.target.value)} />
-        <Input type="tel" placeholder="Phone Number (Required)" value={form.phone} onChange={(e) => handleFieldChange('phone', e.target.value.replace(/[^0-9]/g, ''))} maxLength={10} />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Input placeholder="Full Name (Required)" value={form.fullName} onChange={(e) => handleFieldChange('fullName', e.target.value)} />
+          <Input type="tel" placeholder="Phone Number (Required)" value={form.phone} onChange={(e) => handleFieldChange('phone', e.target.value.replace(/[^0-9]/g, ''))} maxLength={10} />
+        </div>
         {!showAltPhone ? (
-          <button className="text-sm text-pink-500" onClick={() => setShowAltPhone(true)}>+ Add Alternate Phone Number</button>
+          <button className="text-sm text-peach-400" onClick={() => setShowAltPhone(true)}>+ Add Alternate Phone Number</button>
         ) : (
           <Input type="tel" placeholder="Alternate Phone Number" value={form.altPhone} onChange={(e) => handleFieldChange('altPhone', e.target.value.replace(/[^0-9]/g, ''))} maxLength={10} />
         )}
@@ -298,10 +308,14 @@ const AddressesPage = () => {
         {locationLoading && <p className="text-sm text-muted-foreground">Please wait, while we get the details...</p>}
         
         <div className="flex gap-4">
-          <Input placeholder="Pincode (Required)" value={form.pincode} onChange={(e) => handleFieldChange('pincode', e.target.value)} className="flex-1" />
-          <Button className="bg-pink-500 hover:bg-pink-600" onClick={handleUseCurrentLocation} disabled={locationLoading}>
-            <Locate className="w-4 h-4 mr-2" /> Use My Location
-          </Button>
+          <div className="w-[70%]">
+            <Input placeholder="Pincode (Required)" value={form.pincode} onChange={(e) => handleFieldChange('pincode', e.target.value)} />
+          </div>
+          <div className="w-[30%]">
+            <Button className="bg-peach-400 hover:bg-peach-500 w-full" onClick={handleUseCurrentLocation} disabled={locationLoading}>
+              <Locate className="w-4 h-4 mr-2" /> Use My Location
+            </Button>
+          </div>
         </div>
 
         <div className="flex gap-4">
@@ -311,8 +325,10 @@ const AddressesPage = () => {
 
         <Input placeholder="House No., Building Name (Required)" value={form.house} onChange={(e) => handleFieldChange('house', e.target.value)} />
         <Input placeholder="Road name, Area, Colony (Required)" value={form.street} onChange={(e) => handleFieldChange('street', e.target.value)} />
-        <Input placeholder="Add Nearby Famous Shop/Mall/Landmark" value={form.landmark} onChange={(e) => handleFieldChange('landmark', e.target.value)} />
-        <Textarea placeholder="Delivery Instructions (optional)" value={form.instructions} onChange={(e) => handleFieldChange('instructions', e.target.value)} />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Textarea placeholder="Add Nearby Famous Shop/Mall/Landmark" value={form.landmark} onChange={(e) => handleFieldChange('landmark', e.target.value)} />
+          <Textarea placeholder="Delivery Instructions (optional)" value={form.instructions} onChange={(e) => handleFieldChange('instructions', e.target.value)} />
+        </div>
 
         <div>
           <h4 className="text-sm font-medium mb-2">Type of address</h4>
@@ -321,7 +337,7 @@ const AddressesPage = () => {
               <Button
                 key={label}
                 variant={form.label === label ? 'default' : 'outline'}
-                className={form.label === label ? 'bg-pink-100 text-pink-600 border-pink-300' : ''}
+                className={form.label === label ? 'bg-peach-400 text-white hover:bg-peach-500' : ''}
                 onClick={() => handleFieldChange('label', label)}
               >
                 {label}
@@ -330,7 +346,7 @@ const AddressesPage = () => {
           </div>
         </div>
 
-        <Button className="w-full bg-pink-500 hover:bg-pink-600" onClick={handleSaveAddress} disabled={savingAddress}>
+        <Button className="w-full bg-peach-400 hover:bg-peach-500" onClick={handleSaveAddress} disabled={savingAddress}>
           <Save className="w-4 h-4 mr-2" /> {savingAddress ? 'Saving...' : 'Save Address'}
         </Button>
       </div>
@@ -339,8 +355,9 @@ const AddressesPage = () => {
 
   return (
     <Layout>
-      <div className="container mx-auto p-4 h-screen">
+      <div className="container mx-auto p-4">
         {mode === 'form' ? renderFormMode() : renderListMode()}
+
 
         {/* Action Sheet Modal */}
         <Dialog open={showActionSheet} onOpenChange={setShowActionSheet}>
@@ -379,7 +396,7 @@ const AddressesPage = () => {
                 </DialogHeader>
                 <DialogFooter>
                     <Button variant="outline" onClick={() => setShowSetDefaultModal(false)}>Cancel</Button>
-                    <Button className="bg-pink-500 hover:bg-pink-600" onClick={confirmSetDefaultAddress}>Set Default</Button>
+                    <Button className="bg-peach-400 hover:bg-peach-500" onClick={confirmSetDefaultAddress}>Set Default</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
