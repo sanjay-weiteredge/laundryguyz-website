@@ -25,9 +25,9 @@ const SuccessStep: React.FC<SuccessStepProps> = ({ bookingDetails }) => {
   };
 
   return (
-    <div className="text-center flex flex-col items-center p-4">
-      <CheckCircle className="w-16 h-16 text-green-500 mb-4" />
-      <h3 className="text-xl font-bold text-foreground mb-2">Booking Successful!</h3>
+    <div className="flex-shrink-0 text-center flex flex-col items-center p-0">
+      <CheckCircle className="w-10 h-10 text-green-500 mb-4" />
+      <h3 className="text-xl font-bold text-foreground mb-1">Booking Successful!</h3>
       <p className="text-muted-foreground mb-6">
         Your service has been booked successfully
       </p>
@@ -39,11 +39,11 @@ const SuccessStep: React.FC<SuccessStepProps> = ({ bookingDetails }) => {
             <span className="font-bold text-foreground">#{bookingDetails.id}</span>
           </div>
 
-          <div>
-            <span className="text-muted-foreground font-bold">Services</span>
-            <div className="font-medium text-foreground">
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">Services:</span>
+            <span className="font-medium text-foreground text-right">
               {bookingDetails.items.map(item => item.service.name).join(', ')}
-            </div>
+            </span>
           </div>
 
           <div className="flex justify-between">

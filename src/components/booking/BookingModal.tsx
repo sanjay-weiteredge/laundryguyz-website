@@ -7,10 +7,18 @@ import SuccessStep from './SuccessStep';
 import { Button } from '../ui/button';
 import { Loader2 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
-import { bookService, getAddresses } from '@/service/api';
+import { bookService, getAddresses, rescheduleOrder } from '@/service/api';
 import { toast } from '@/hooks/use-toast';
+import { type Order } from '@/components/orders/OrderCard';
 
-const BookingModal = ({ isOpen, onClose }) => {
+interface BookingModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  mode?: 'book' | 'reschedule';
+  order?: Order | null;
+}
+
+const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, mode = 'book', order = null }) => {
   const [step, setStep] = useState(1);
   const [selectedServices, setSelectedServices] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState(null);
@@ -21,6 +29,21 @@ const BookingModal = ({ isOpen, onClose }) => {
   const { token } = useAuth();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (mode === 'reschedule' && order) {
+      const servicesFromOrder = order.services.map(s => ({
+        id: s.id,
+        name: s.name,
+        quantity: s.quantity,
+      }));
+      setSelectedServices(servicesFromOrder);
+      setStep(2); // Start from step 2 for reschedule
+    } else {
+      // Reset form when opening in 'book' mode or when props change
+      setStep(1);
+      setSelectedServices([]);
+    }
+  }, [isOpen, mode, order]);
 
   if (!isOpen) return null;
 
@@ -53,8 +76,7 @@ const BookingModal = ({ isOpen, onClose }) => {
       // Step 4: Call the booking service
       const result = await bookService(bookingData, token);
       setBookingDetails(result);
-      setStep(3); // Move to success step
-
+      setStep(3);
     } catch (error) {
       console.error('Failed to create booking:', error);
       toast({ variant: 'destructive', title: 'Booking Failed', description: error.message || 'Could not complete your booking.' });
@@ -63,10 +85,39 @@ const BookingModal = ({ isOpen, onClose }) => {
     }
   };
 
+  const handleReschedule = async () => {
+    if (!order || !selectedSlot || !token) return;
+
+    setIsBooking(true);
+    try {
+      const result = await rescheduleOrder(token, order.orderId, selectedSlot.start, selectedSlot.end);
+
+      // Adapt the reschedule response to a format the SuccessStep can understand
+      const formattedDetails = {
+        id: result.data.orderId,
+        items: selectedServices.map(s => ({ service: { name: s.name } })),
+        store: { name: order.storeName || 'N/A' },
+        pickup_scheduled_at_ist: result.data.pickupSlot.start,
+        pickup_slot_end_ist: result.data.pickupSlot.end,
+      };
+      setBookingDetails(formattedDetails);
+      setStep(3);
+    } catch (error) {
+      console.error('Failed to reschedule order:', error);
+      toast({ variant: 'destructive', title: 'Reschedule Failed', description: error.message || 'Could not reschedule your order.' });
+    } finally {
+      setIsBooking(false);
+    }
+  };
+
   const nextStep = () => {
     if (step === 2) {
-      handleBooking();
-    } else {
+      if (mode === 'reschedule') {
+        handleReschedule();
+      } else {
+        handleBooking();
+      }
+    } else if (step < 3) {
       setStep(prev => prev + 1);
     }
   };
@@ -99,14 +150,14 @@ const BookingModal = ({ isOpen, onClose }) => {
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center p-4">
       <div className="bg-card rounded-lg shadow-xl p-6 w-full max-w-2xl flex flex-col h-auto max-h-[90vh]">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-bold text-foreground">Schedule a Pickup</h2>
+          <h2 className="text-xl font-bold text-foreground">{mode === 'reschedule' ? 'Reschedule Order' : 'Schedule a Pickup'}</h2>
           <button onClick={handleClose} className="text-muted-foreground hover:text-foreground">&times;</button>
         </div>
         
         <StatusBar step={step} />
 
         <div className="mt-4 flex-grow overflow-y-auto p-1 no-scrollbar">
-          {step === 1 && <ServiceSelection selectedServices={selectedServices} onServiceToggle={setSelectedServices} />}
+          {step === 1 && <ServiceSelection selectedServices={selectedServices} onServiceToggle={setSelectedServices} onClose={handleClose} />}
           {step === 2 && <BookingSlot selectedSlot={selectedSlot} onSlotSelect={setSelectedSlot} isExpress={isExpress} onExpressToggle={setIsExpress} serviceId={selectedServices[0]?.id} selectedDate={selectedDate} onDateSelect={setSelectedDate} />}
           {step === 3 && <SuccessStep bookingDetails={bookingDetails} />}
         </div>
@@ -120,9 +171,9 @@ const BookingModal = ({ isOpen, onClose }) => {
           {step === 2 && (
             <div className="flex justify-between items-center">
               <Button variant="outline" onClick={prevStep} disabled={isBooking}>Back</Button>
-              <Button onClick={nextStep} disabled={isNextDisabled() || isBooking}>
+              <Button onClick={nextStep} disabled={isNextDisabled() || isBooking} className={mode === 'reschedule' ? 'flex-end' : ''}>
                 {isBooking && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                Book service on {selectedDate ? `${['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][selectedDate.getDay()]}, ${selectedDate.getDate()} ${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][selectedDate.getMonth()]}` : ''}
+                {mode === 'reschedule' ? 'Confirm Reschedule' : `Book on ${selectedDate ? selectedDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : ''}`}
               </Button>
             </div>
           )}

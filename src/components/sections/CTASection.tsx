@@ -20,7 +20,7 @@ const CTASection = () => {
             Ready for Fresh, Clean Clothes?
           </h2>
           <p className="text-lg md:text-xl text-primary-foreground/80 mb-10 leading-relaxed">
-            Schedule your free pickup today and experience the premium laundry service that thousands trust. Get 20% off your first order!
+            Schedule your pickup today and experience the premium laundry service that thousands trust. Get 20% off your first order!
           </p>
 
           <div className="flex flex-wrap justify-center gap-4">
@@ -29,7 +29,7 @@ const CTASection = () => {
               className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 shadow-lg"
               onClick={() => setIsModalOpen(true)}
             >
-              Schedule Free Pickup
+              Schedule Pickup
               <ArrowRight className="w-5 h-5" />
             </Button>
             <Button
