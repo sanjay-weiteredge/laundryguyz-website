@@ -289,3 +289,26 @@ export const rescheduleOrder = async (token, orderId, pickupSlotStart, pickupSlo
   }
   return data;
 };
+
+export const getNearbyStores = async (latitude, longitude, token, radiusKm = null) => {
+  let url = `${API_BASE_URL}/users/nearby-stores?latitude=${latitude}&longitude=${longitude}`;
+  if (radiusKm !== null && radiusKm !== undefined) {
+    url += `&radius_km=${radiusKm}`;
+  }
+
+  const headers = {};
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+
+  const response = await fetch(url, { headers });
+
+  const data = await response.json();
+  if (!response.ok || !data.success) {
+    if (response.status === 401) {
+      throw new Error('Unauthorized: Please log in again.');
+    }
+    throw new Error(data.message || 'Failed to fetch nearby stores');
+  }
+  return data;
+};
