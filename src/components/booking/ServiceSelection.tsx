@@ -69,14 +69,14 @@ const ServiceSelection: React.FC<ServiceSelectionProps> = ({ selectedServices, o
 
   return (
     <div>
-      <h3 className="text-md font-semibold mb-4 text-foreground">Select Your Services</h3>
-      <div className="grid grid-cols-3 gap-2">
+      <h3 className="text-md font-semibold mb-4 text-foreground">Select Services</h3>
+      <div className="custom-carousel">
         {services.map(service => {
           const isSelected = selectedServices.some(s => s.id === service.id);
           return (
-            <div
-              key={service.id}
-              onClick={() => toggleService(service)}
+            <div className="custom-carousel-item" key={service.id}>
+              <div
+                onClick={() => toggleService(service)}
               className={`cursor-pointer p-2 rounded-xl border-2 relative transition-all duration-200 ${
                 isSelected ? 'bg-primary/10 border-primary shadow-md' : 'bg-card border-border'
               }`}>
@@ -87,6 +87,7 @@ const ServiceSelection: React.FC<ServiceSelectionProps> = ({ selectedServices, o
               )}
               <img src={service.image} alt={service.name} className="w-full h-16 object-contain mb-1" />
               <h4 className="font-bold text-center text-foreground text-sm">{service.name}</h4>
+              </div>
             </div>
           );
         })}
