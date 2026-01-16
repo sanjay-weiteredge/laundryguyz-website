@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Package, Calendar, MapPin } from 'lucide-react';
+import { Package, Calendar, MapPin, Clock } from 'lucide-react';
 import OrderActions from './OrderActions';
 import { getStatusColor, getStatusText } from './orderUtils';
 
@@ -88,12 +88,29 @@ const OrderCard: React.FC<OrderCardProps> = ({
             </CardTitle>
             <CardDescription className="flex items-center gap-2">
               <Calendar className="h-4 w-4" />
-              {new Date(order.createdAt).toLocaleDateString('en-US', {
+              {new Date(order.pickupScheduledAt).toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',
               })}
             </CardDescription>
+            {order.pickupSlot && (
+              <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
+                <Clock className="h-4 w-4" />
+                <span>
+                  Pickup Slot:{' '}
+                  {new Date(order.pickupSlot.start).toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}{' '}
+                  -{' '}
+                  {new Date(order.pickupSlot.end).toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
+                </span>
+              </div>
+            )}
           </div>
           <Badge className={`${getStatusColor(order.status)} text-white`}>
             {getStatusText(order.status)}
@@ -107,7 +124,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
             <ul className="list-disc list-inside text-muted-foreground">
               {order.services.map((service, index) => (
                 <li key={index}>
-                  {service.quantity}x {service.name} - ${service.lineTotal.toFixed(2)}
+                  {service.quantity}x {service.name} - Rs.{service.lineTotal.toFixed(2)}
                 </li>
               ))}
             </ul>
@@ -128,7 +145,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
           <div className="flex items-center justify-between pt-4 border-t">
             <div>
               <span className="text-sm text-muted-foreground">Total: </span>
-              <span className="text-xl font-bold">${total.toFixed(2)}</span>
+              <span className="text-xl font-bold">Rs.{total.toFixed(2)}</span>
             </div>
             <OrderActions
               status={order.status}

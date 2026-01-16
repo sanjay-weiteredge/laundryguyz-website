@@ -102,6 +102,37 @@ const About = () => {
         </div>
       </section>
 
+      {/* Our Story Section */}
+      <section className="section-padding bg-secondary/20">
+        <div className="container-custom">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-6 text-center">
+              Our Story
+            </h2>
+            <div className="space-y-5 text-lg text-muted-foreground leading-relaxed">
+              <p>
+                Laundry and dry cleaning are part of everyday life — yet for a long time, professional garment care has
+                felt either inconvenient, expensive, or reserved only for special clothing.
+              </p>
+              <p>
+                Daily wear was often handled at home with inconsistent results, while dry cleaning remained something
+                people turned to only for rare or high-value garments. The Laundry Guyz came together to bridge that
+                gap.
+              </p>
+              <p>
+                Laundry is not an occasional requirement — it&apos;s part of daily life. Created in 2025, The Laundry
+                Guyz are here to make professional cleaning easy to access, practical to use, and reliable enough to
+                depend on regularly!
+              </p>
+              <p>
+                Instead of limiting professional care to select garments or rare occasions, The Laundry Guyz brings it
+                into everyday routines, covering clothing, home linen, and personal lifestyle items alike.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Timeline Section */}
       {/* <section className="section-padding bg-secondary/30">
         <div className="container-custom">

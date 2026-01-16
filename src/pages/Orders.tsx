@@ -15,6 +15,8 @@ import OrderCard, { type Order } from '@/components/orders/OrderCard';
 import { getStatusText } from '@/components/orders/orderUtils';
 import { getUserOrders, cancelOrder } from '@/service/api';
 import { useBookingModal } from '@/contexts/BookingModalContext';
+import jsPDF from 'jspdf';
+import logo from "@/assets/laundry_guyz.png";
 
 const Orders = () => {
   const { user, token } = useAuth();
@@ -33,7 +35,7 @@ const Orders = () => {
 
   const fetchOrders = async () => {
     if (!token) return;
-    
+
     setLoading(true);
     setError(null);
     try {
@@ -88,71 +90,74 @@ const Orders = () => {
 
   const handleDownloadInvoice = (orderId: string) => {
     const order = orders.find((o) => o.orderId === orderId);
-    if (!order) {
-      toast({
-        title: 'Error',
-        description: 'Order not found',
-        variant: 'destructive',
-      });
-      return;
-    }
+    if (!order) return;
 
-    // Calculate total
-    const total = order.services.reduce((sum, service) => sum + service.lineTotal, 0);
-    
-    // Format delivery address
-    const formatAddress = (address: typeof order.deliveryAddress): string => {
-      if (!address) return 'No address provided';
-      const parts = [
-        address.addressLine,
-        address.city,
-        address.state,
-        address.pincode,
-      ].filter(Boolean);
-      return parts.join(', ');
-    };
+    const doc = new jsPDF();
 
-    // Create invoice content
-    const invoiceContent = `
-INVOICE
-Order ID: ${order.orderId}
-Date: ${new Date(order.createdAt).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    })}
-Status: ${getStatusText(order.status)}
+    const formatCurrency = (amount: number) =>
+      amount.toLocaleString('en-IN', { style: 'currency', currency: 'INR' });
 
-Services:
-${order.services.map((service) => `  - ${service.quantity}x ${service.name} - $${service.lineTotal.toFixed(2)}`).join('\n')}
+    let y = 20;
 
-Total Items: ${order.totalItems}
-${order.storeName ? `Store: ${order.storeName}\n` : ''}
-Delivery Address:
-${formatAddress(order.deliveryAddress)}
+    // Logo
+    doc.addImage(logo, 'PNG', 15, 10, 40, 15);
+    doc.setFontSize(18);
+    doc.text('Invoice', 105, 20, { align: 'center' });
 
-Total Amount: $${total.toFixed(2)}
+    y += 20;
+    doc.setFontSize(11);
 
-Thank you for your business!
-    `.trim();
+    doc.text(`Order ID: ${order.orderId}`, 15, y);
+    doc.text(`Date: ${new Date(order.createdAt).toLocaleDateString()}`, 150, y);
+    y += 10;
 
-    // Create a blob and download
-    const blob = new Blob([invoiceContent], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `Invoice-${orderId}.txt`;
-    document.body.appendChild(link);
-    link.click();
-    // Cleanup – memory leak na ho
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    doc.text(`Status: ${getStatusText(order.status)}`, 15, y);
+    y += 10;
+
+    doc.text('Services:', 15, y);
+    y += 6;
+
+    order.services.forEach((service) => {
+      doc.text(
+        `• ${service.quantity}x ${service.name} - ${formatCurrency(service.lineTotal)}`,
+        20,
+        y
+      );
+      y += 6;
+    });
+
+    y += 6;
+
+    const total = order.services.reduce((sum, s) => sum + s.lineTotal, 0);
+
+    doc.setFontSize(12);
+    doc.text(`Total Items: ${order.totalItems}`, 15, y);
+    y += 8;
+    doc.text(`Total Amount: ${formatCurrency(total)}`, 15, y);
+
+    y += 10;
+
+    const address = order.deliveryAddress
+      ? `${order.deliveryAddress.addressLine}, ${order.deliveryAddress.city}, ${order.deliveryAddress.state} - ${order.deliveryAddress.pincode}`
+      : 'N/A';
+
+    doc.setFontSize(11);
+    doc.text('Delivery Address:', 15, y);
+    y += 6;
+    doc.text(address, 20, y, { maxWidth: 170 });
+
+    y += 20;
+    doc.setFontSize(10);
+    doc.text('Thank you for choosing Laundry Guyz ❤️', 105, y, { align: 'center' });
+
+    doc.save(`Invoice-${order.orderId}.pdf`);
 
     toast({
       title: 'Invoice Downloaded',
       description: `Invoice for order ${orderId} has been downloaded.`,
     });
   };
+
 
   if (!user) {
     return (

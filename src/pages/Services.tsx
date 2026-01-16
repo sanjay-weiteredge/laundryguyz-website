@@ -6,6 +6,9 @@ import laundryImg from "@/assets/service-laundry.jpg";
 import dryCleaningImg from "@/assets/service-drycleaning.jpg";
 import ironingImg from "@/assets/service-ironing.jpg";
 import shoesImg from "@/assets/service-shoes.jpg";
+import sareeRollingImg from "@/assets/saree.jpg";
+import handbagImg from "@/assets/handbag.jpg";
+import toyImg from "@/assets/Toy.png";
 
 const services = [
   {
@@ -63,6 +66,48 @@ const services = [
       "Protective coating",
     ],
     price: "From $14.99/pair",
+  },
+  {
+    title: "Saree Rolling",
+    description:
+      "Specialized saree rolling service to keep your traditional wear crisp, neatly pleated, and ready to wear for any occasion.",
+    image: sareeRollingImg,
+    features: [
+      "Professional saree rolling",
+      "Suitable for silk & delicate fabrics",
+      "Storage-friendly folding",
+      "Careful handling of embellishments",
+      "Ideal for bridal & festive wear",
+    ],
+    price: "From $3.99/saree",
+  },
+  {
+    title: "Handbag Care",
+    description:
+      "Restore and protect your favorite handbags with our dedicated cleaning and conditioning service for leather and fabric bags.",
+    image: handbagImg,
+    features: [
+      "Surface cleaning & stain removal",
+      "Leather conditioning",
+      "Color-safe cleaning methods",
+      "Deodorizing treatment",
+      "Shape retention care",
+    ],
+    price: "From $19.99/bag",
+  },
+  {
+    title: "Soft-toy Care",
+    description:
+      "Gentle yet effective cleaning for your soft toys to keep them fresh, hygienic, and safe for children.",
+    image: toyImg,
+    features: [
+      "Deep cleaning & sanitization",
+      "Allergen reduction",
+      "Color-safe wash process",
+      "Odor removal",
+      "Gentle drying to protect shape",
+    ],
+    price: "From $4.99/toy",
   },
 ];
 
