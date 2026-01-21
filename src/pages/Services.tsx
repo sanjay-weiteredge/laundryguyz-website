@@ -7,49 +7,48 @@ import dryCleaningImg from "@/assets/service-drycleaning.jpg";
 import ironingImg from "@/assets/service-ironing.jpg";
 import shoesImg from "@/assets/service-shoes.jpg";
 import sareeRollingImg from "@/assets/saree.jpg";
-import handbagImg from "@/assets/handbag.jpg";
+import handbagImg from "@/assets/handbag.png";
 import toyImg from "@/assets/Toy.png";
 
 const services = [
   {
     title: "Laundry Service",
-    description: "Our premium laundry service ensures your everyday clothes are washed, dried, and folded to perfection. We use eco-friendly detergents that are tough on stains but gentle on fabrics.",
+    description: "The Laundry Guyz make everyday laundry effortless. We ensure that your clothes are washed, dried, and carefully folded/ironed as per the bundle of your choice! With detergents that are tough on stains yet gentle on fabrics. Catering to your unique needs, we provide multiple bundle options to choose from,  flexible to suit your preferences.",
     image: laundryImg,
     features: [
-      "Wash, dry, and fold service",
-      "Stain pre-treatment included",
-      "Eco-friendly detergents",
-      "Fabric softener options",
-      "Same-day service available",
-      "Per-kg pricing available",
+      "Wash and Fold Bundle",
+      "Wash and Iron Bundle ",
+      "Eco-Friendly Laundry ",
+      "Baby-wear Laundry",
+      "Woolen Laundry",
+      "Premium Laundry",
     ],
-    price: "From $2.99/lb",
+    price: "“Starting from Rs.90/KG”",
   },
   {
     title: "Dry Cleaning",
-    description: "Trust your delicate garments, suits, and special occasion wear to our expert dry cleaning service. We use certified processes that protect colors and fabrics.",
+    description: "Our Dry-Cleaning service is designed to care for delicate garments, formal wear, and embroidered pieces with close attention to fabric and finish. Each item is professionally processed and handled with utmost care help maintain its fabric quality, color, structure, and overall appearance.",
     image: dryCleaningImg,
     features: [
-      "Woolmark certified process",
-      "Suit & formal wear specialists",
-      "Wedding dress cleaning",
-      "Leather & suede care",
-      "Color restoration",
-      "Minor repairs included",
+      "Branded/Premium Casual wear",
+      "Suits & Formals",
+      "Wedding & Festive wear",
+      "Leather & Suede fabric",
+      "Home Linen & Furnishing",
+      "Color & Finish preservation",
+      "Minor repairs available",
     ],
     price: "From $4.99/item",
   },
   {
     title: "Steam Ironing",
-    description: "Get crisp, wrinkle-free clothes with our professional steam ironing service. Perfect for dress shirts, blouses, and any garment that needs a polished finish.",
+    description: "TheLaundryGuyz understand that not everyone has the time to iron out their laundry pile. Let us handle the tedious chore of ironing your laundry with our exclusive Iron-only service. Our professionals steam-iron your clothes using the proper heat settings suitable for each fabric.",
     image: ironingImg,
     features: [
-      "Professional steam press",
-      "Collar & cuff attention",
+      "Professional Steam-Press",
+      "Collar & Cuff precision ",
       "Crease perfection",
-      "Hanger or folded delivery",
-      "Express 24-hour service",
-      "Bulk discounts available",
+      "Folded/Hanger packing",
     ],
     price: "From $1.99/item",
   },
@@ -70,42 +69,42 @@ const services = [
   {
     title: "Saree Rolling",
     description:
-      "Specialized saree rolling service to keep your traditional wear crisp, neatly pleated, and ready to wear for any occasion.",
+      "A Saree is much more than Six-Yards-of-Fabric, and not every Saree can be handwashed. At The Laundry Guyz, we treat each Saree with care and understanding of its fabric, craftsmanship and embellishments. With Industry-best, professional saree rolling machine, along with optional starch and polish, we help protect and extend the life of your saree beyond what casual washing or ironing can achieve.",
     image: sareeRollingImg,
     features: [
-      "Professional saree rolling",
-      "Suitable for silk & delicate fabrics",
-      "Storage-friendly folding",
-      "Careful handling of embellishments",
-      "Ideal for bridal & festive wear",
+      "Pair with Dry-Cleaning ",
+      "Indsutry Best Professional Rolling Machine",
+      "Heat Adjusted as per Fabric ",
+      "Optional Starch/Polish available",
     ],
     price: "From $3.99/saree",
   },
   {
     title: "Handbag Care",
     description:
-      "Restore and protect your favorite handbags with our dedicated cleaning and conditioning service for leather and fabric bags.",
+      "Make sure that your handbag stay beautiful and its material protected, with The Laundry Guyz. Whether it’s removing stains, refreshing worn leather, or reviving colors, we treat each bag with professional precision, caring for every detail from material to hardware. Our exclusive dedicated Handbag care service ensures your bag retains its charm and longevity.",
     image: handbagImg,
     features: [
-      "Surface cleaning & stain removal",
+      "Cleaning for all types and sizes of handbags.",
+      "Gentle stain removal and surface care",
+      "Hardware and embellishment-safe",
       "Leather conditioning",
       "Color-safe cleaning methods",
       "Deodorizing treatment",
-      "Shape retention care",
     ],
     price: "From $19.99/bag",
   },
   {
     title: "Soft-toy Care",
     description:
-      "Gentle yet effective cleaning for your soft toys to keep them fresh, hygienic, and safe for children.",
+      "Bring your child’s favorite soft toy back to life and love. With hands-on attention to the soft-toy material and stuffing, our Soft-toy care services ensure that the plushie is hygienic, clean, fresh and snuggle safe!",
     image: toyImg,
     features: [
-      "Deep cleaning & sanitization",
-      "Allergen reduction",
-      "Color-safe wash process",
-      "Odor removal",
-      "Gentle drying to protect shape",
+      "Deep Cleaning & Sanitization",
+      "Allergen Reduction",
+      "Color-Safe Wash Process",
+      "Odor Removal",
+      "Gentle Drying to Protect Shape",
     ],
     price: "From $4.99/toy",
   },
@@ -117,16 +116,15 @@ const Services = () => {
       {/* Hero Section */}
       <section className="bg-gradient-hero py-20">
         <div className="container-custom">
-          <div className="max-w-3xl mx-auto text-center">
-            <span className="inline-block text-primary font-semibold mb-4 tracking-wide uppercase text-sm">
+          <div className="max-w-2xl mx-auto">
+            <span className="inline-block text-primary font-semibold mb-4 tracking-wide text-md">
               Our Services
             </span>
-            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
-              Premium Care for{" "}
-              <span className="text-gradient">Every Garment</span>
+            <h1 className="font-serif text-4xl md:text-5xl lg:text-4xl font-bold text-foreground text-center mb-6">
+              Laundry & Care- done to perfection! 
             </h1>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              From everyday laundry to specialty cleaning, we provide comprehensive garment care with world-class equipment and eco-friendly solutions.
+            <p className="text-lg text-muted-foreground leading-relaxed text-center">
+From everyday laundry to delicate and specialty items, we deliver reliable cleaning by skilled staff and trusted equipment.
             </p>
           </div>
         </div>
@@ -151,10 +149,11 @@ const Services = () => {
                     alt={service.title}
                     className="relative rounded-3xl shadow-large object-cover w-full h-[400px]"
                   />
-                  <div className="absolute -bottom-6 -right-6 bg-primary text-primary-foreground rounded-2xl p-6 shadow-glow">
-                    <div className="text-sm font-medium opacity-80">Starting</div>
-                    <div className="text-2xl font-bold">{service.price}</div>
-                  </div>
+                   {index === 0 && (
+      <div className="absolute -bottom-6 -right-6 bg-primary text-primary-foreground rounded-2xl p-6 shadow-glow">
+        <div className="text-2xl font-bold">{service.price}</div>
+      </div>
+    )}
                 </div>
 
                 {/* Content */}

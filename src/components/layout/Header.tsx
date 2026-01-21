@@ -32,16 +32,16 @@ const Header = () => {
           <div className="flex items-center gap-6">
             <a href="tel:+1234567890" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
               <Phone className="w-4 h-4" />
-              <span className="hidden sm:inline">+1 (234) 567-890</span>
+              <span className="hidden sm:inline">+91</span>
             </a>
             <a href="mailto:hello@thelaundryguyz.com" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
               <Mail className="w-4 h-4" />
-              <span className="hidden sm:inline">hello@thelaundryguyz.com</span>
+              <span className="hidden sm:inline">info@thelaundryguyz.com</span>
             </a>
           </div>
           <div className="flex items-center gap-2">
-            <MapPin className="w-4 h-4" />
-            <span className="hidden sm:inline">50+ Locations Nationwide</span>
+            {/* <MapPin className="w-4 h-4" /> */}
+            {/* <span className="hidden sm:inline">50+ Locations Nationwide</span> */}
           </div>
         </div>
       </div>

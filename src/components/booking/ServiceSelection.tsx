@@ -80,11 +80,6 @@ const ServiceSelection: React.FC<ServiceSelectionProps> = ({ selectedServices, o
               className={`cursor-pointer p-2 rounded-xl border-2 relative transition-all duration-200 ${
                 isSelected ? 'bg-primary/10 border-primary shadow-md' : 'bg-card border-border'
               }`}>
-              {isSelected && (
-                <div className="absolute top-2 right-2 w-5 h-5 bg-primary rounded-full flex items-center justify-center">
-                  <svg className="w-3 h-3 text-primary-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
-                </div>
-              )}
               <img src={service.image} alt={service.name} className="w-full h-16 object-contain mb-1" />
               <h4 className="font-bold text-center text-foreground text-sm">{service.name}</h4>
               </div>

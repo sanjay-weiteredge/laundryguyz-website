@@ -1,15 +1,16 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Sparkles, Clock, Truck } from "lucide-react";
+import { ArrowRight, Sparkles, Clock, Truck,MapPin} from "lucide-react";
 import heroImage from "@/assets/hero-laundry.jpg";
 import { useBookingModal } from "@/contexts/BookingModalContext";
 
 const HeroSection = () => {
   const { openModal } = useBookingModal();
   const features = [
-    { icon: Sparkles, text: "Eco-Friendly Solutions" },
-    { icon: Clock, text: "48-Hour Turnaround" },
-    { icon: Truck, text: "Free Pickup & Delivery" },
+    { icon: Sparkles, text: "Free Pickup & Delivery" },
+    { icon: Clock, text: "2 hour SoS Delivery" },
+    { icon: Truck, text: "Express Delivery options" },
+    { icon: MapPin, text: "15+ Service Range " },
   ];
 
   return (
@@ -27,27 +28,22 @@ const HeroSection = () => {
             <div className="inline-flex items-center gap-2 bg-secondary px-4 py-2 rounded-full mb-6 animate-fade-up">
               <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
               <span className="text-sm font-medium text-secondary-foreground">
-                Flat 20% Off On 1st Order
-              </span>
+Flat 20% off on 1st order!               </span>
             </div>
 
-            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6 animate-fade-up delay-100">
-              Premium{" "}
-              <span className="text-gradient">Laundry & Dry Clean</span>{" "}
-              Service at Your Doorstep
+            <h1 className="font-serif text-3xl md:text-5xl lg:text-3xl font-bold text-foreground leading-tight mb-6 animate-fade-up delay-100">
+             Premium Laundry & Dry Clean Service at Your Doorstep
             </h1>
 
             <p className="text-lg text-muted-foreground mb-8 max-w-xl leading-relaxed animate-fade-up delay-200">
-              Experience world-class laundry services with eco-friendly solutions and certified machinery. Fresh, clean clothes delivered right to your door.
-            </p>
+Experience World-Class Laundry, Dry-Cleaning, and related services by industry-seasoned professionals and trusted machinery! Fresh, Fragrant, and Clean clothes delivered right to your door!            </p>
 
             <div className="flex flex-wrap gap-4 mb-10 animate-fade-up delay-300">
               <Button variant="hero" size="xl" onClick={() => openModal('book')}>
-                Schedule Pickup
-                <ArrowRight className="w-5 h-5" />
+   “Schedule Pickup”<ArrowRight className="w-5 h-5" />
               </Button>
               <Button variant="hero-outline" size="xl" asChild>
-                <Link to="/pricing">View Pricing</Link>
+                <Link to="/pricing">“View Pricing”</Link>
               </Button>
             </div>
 
@@ -77,8 +73,8 @@ const HeroSection = () => {
               
               {/* Floating Stats Card */}
               <div className="absolute -bottom-6 -left-6 bg-card rounded-2xl p-6 shadow-large animate-float">
-                <div className="text-3xl font-serif font-bold text-primary mb-1">50+</div>
-                <div className="text-sm text-muted-foreground">Store Locations</div>
+                {/* <div className="text-3xl font-serif font-bold text-primary mb-1">50+</div> */}
+                <div className="text-sm text-muted-foreground">2 to 72 hr Turnaround!</div>
               </div>
 
               {/* Floating Badge */}

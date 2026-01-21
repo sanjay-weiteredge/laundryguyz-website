@@ -43,16 +43,15 @@ const About = () => {
         <div className="container-custom">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <span className="inline-block text-primary font-semibold mb-4 tracking-wide uppercase text-sm">
-                About Us
+              <span className="inline-block text-primary font-semibold mb-4 tracking-wide text-md">
+              About Us
               </span>
-              <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
-                Redefining{" "}
-                <span className="text-gradient">Laundry Care</span>{" "}
-                Since 2025
+              <h1 className="font-serif text-4xl md:text-5xl lg:text-3xl font-bold text-foreground mb-6">
+               Redefining Laundry Care Since 2025
+
               </h1>
               <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-                The Laundry Guyz was founded with a simple mission: to provide premium, hassle-free laundry and dry cleaning services that fit into your busy lifestyle. What started as a single store has grown into a nationwide network of 50+ locations.
+The Laundry Guyz was founded with a simple mission: to provide premium, hassle-free laundry and dry cleaning services that fit into your busy lifestyle. What started as a single store has grown into a nationwide network of 50+ locations.
               </p>
               <Button variant="hero" size="lg" asChild>
                 <Link to="/contact">
@@ -111,22 +110,23 @@ const About = () => {
             </h2>
             <div className="space-y-5 text-lg text-muted-foreground leading-relaxed">
               <p>
-                Laundry and dry cleaning are part of everyday life — yet for a long time, professional garment care has
-                felt either inconvenient, expensive, or reserved only for special clothing.
+                Laundry and Dry Cleaning are part of everyday life — yet for a long time, professional garment care has felt either inconvenient, expensive, or reserved only for special clothing.
               </p>
               <p>
-                Daily wear was often handled at home with inconsistent results, while dry cleaning remained something
-                people turned to only for rare or high-value garments. The Laundry Guyz came together to bridge that
-                gap.
+                Daily wear was often handled at home with inconsistent results, while dry cleaning remained something people turned to only for rare or high-value garments.
               </p>
               <p>
-                Laundry is not an occasional requirement — it&apos;s part of daily life. Created in 2025, The Laundry
-                Guyz are here to make professional cleaning easy to access, practical to use, and reliable enough to
-                depend on regularly!
+                The Laundry Guyz came together to bridge that gap.
               </p>
               <p>
-                Instead of limiting professional care to select garments or rare occasions, The Laundry Guyz brings it
-                into everyday routines, covering clothing, home linen, and personal lifestyle items alike.
+                Laundry is not an occasional requirement — it’s part of daily life.
+              </p>
+              <p>
+                Created in <b>2025</b>, <b>The Laundry Guyz</b> are here to make professional cleaning <b>easy to access, practical to use, and reliable enough to depend on regularly! </b>
+              </p>
+              <p>
+                Instead of limiting professional care to select garments or rare occasions, The Laundry Guyz brings it into everyday routines covering Clothing, Home Linen, and personal lifestyle items alike.
+
               </p>
             </div>
           </div>
