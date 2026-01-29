@@ -15,12 +15,12 @@ const contactInfo = [
   {
     icon: Mail,
     title: "Email",
-    details: ["hello@thelaundryguyz.com", "support@thelaundryguyz.com"],
+    details: ["info@thelaundryguyz.com"],
   },
   {
     icon: MapPin,
     title: "Headquarters",
-    details: ["HITEC City, Hyderabad"],
+    details: ["Crystal Corner 22P, Registration Colony, Hyderabad."],
   },
   {
     icon: Clock,

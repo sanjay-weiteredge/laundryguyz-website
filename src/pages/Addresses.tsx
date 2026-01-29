@@ -104,7 +104,7 @@ const AddressesPage = () => {
             ...prev,
             pincode: locationInfo.postal_code || '',
             state: locationInfo.state || '',
-            city: locationInfo.city || '',
+            city: locationInfo.city || '', 
             house: house,
             street: street,
           }));
@@ -122,7 +122,7 @@ const AddressesPage = () => {
       },
       { enableHighAccuracy: true }
     );
-  };
+  }; 
 
   const validateForm = () => {
     const missing = REQUIRED_FIELDS.filter((field) => !form[field]?.trim());
