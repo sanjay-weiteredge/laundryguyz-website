@@ -10,7 +10,7 @@ const contactInfo = [
   {
     icon: Phone,
     title: "Phone",
-    details: ["+91"],
+    details: ["+91 7799456886"],
   },
   {
     icon: Mail,

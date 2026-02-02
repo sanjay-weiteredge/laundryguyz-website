@@ -4,7 +4,7 @@ import { Menu, X, Phone, Mail, MapPin, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import UserProfileDropdown from "@/components/auth/UserProfileDropdown";
-import logoImage from "@/assets/laundry_guyz.jpeg";
+import logoImage from "@/assets/image.png";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,7 +17,7 @@ const Header = () => {
     { name: "Pricing", path: "/pricing" },
     { name: "About", path: "/about" },
     { name: "Stores", path: "/stores" },
-    { name: "Franchise ", path: "/contact" },
+    { name: "Franchise ", path: "/franchise" },
     { name: "Contact", path: "/contact" },
     { name: "Career", path: "/careers" },
   ];
@@ -32,7 +32,7 @@ const Header = () => {
           <div className="flex items-center gap-6">
             <a href="tel:+1234567890" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
               <Phone className="w-4 h-4" />
-              <span className="hidden sm:inline">+91</span>
+              <span className="hidden sm:inline">+91 7799456886</span>
             </a>
             <a href="mailto:hello@thelaundryguyz.com" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
               <Mail className="w-4 h-4" />
@@ -51,10 +51,10 @@ const Header = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center">
-            <img 
-              src={logoImage} 
-              alt="The Laundry Guyz Logo" 
-              className="h-16 w-50 object-contain"
+            <img
+              src={logoImage}
+              alt="The Laundry Guyz Logo"
+              className="h-18 w-48 object-contain"
             />
           </Link>
 
@@ -64,11 +64,10 @@ const Header = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`font-medium transition-all duration-300 hover:text-primary ${
-                  isActive(link.path)
-                    ? "text-primary border-b-2 border-primary pb-1"
-                    : "text-foreground/80"
-                }`}
+                className={`font-medium transition-all duration-300 hover:text-primary ${isActive(link.path)
+                  ? "text-primary border-b-2 border-primary pb-1"
+                  : "text-foreground/80"
+                  }`}
               >
                 {link.name}
               </Link>
@@ -109,9 +108,8 @@ const Header = () => {
                 <Link
                   key={link.path}
                   to={link.path}
-                  className={`font-medium py-2 transition-colors ${
-                    isActive(link.path) ? "text-primary" : "text-foreground/80"
-                  }`}
+                  className={`font-medium py-2 transition-colors ${isActive(link.path) ? "text-primary" : "text-foreground/80"
+                    }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {link.name}

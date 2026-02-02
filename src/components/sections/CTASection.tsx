@@ -17,7 +17,7 @@ const CTASection = () => {
       <div className="container-custom relative z-10">
         <div className="max-w-3xl mx-auto text-center text-primary-foreground">
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-             Experience, Laundry Done Right!?
+            Experience, Laundry Done Right!?
           </h2>
           <p className="text-lg md:text-xl text-primary-foreground/80 mb-10 leading-relaxed">
             Schedule your pickup today and experience the premium laundry service that thousands trust. Get 20% off your first order!
@@ -28,6 +28,7 @@ const CTASection = () => {
               size="xl"
               className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 shadow-lg"
               onClick={() => setIsModalOpen(true)}
+              disabled={true}
             >
               Schedule Pickup
               <ArrowRight className="w-5 h-5" />

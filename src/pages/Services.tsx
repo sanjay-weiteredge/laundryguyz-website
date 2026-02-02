@@ -2,6 +2,7 @@ import Layout from "@/components/layout/Layout";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Check } from "lucide-react";
+import { useBookingModal } from "@/contexts/BookingModalContext";
 import laundryImg from "@/assets/service-laundry.jpg";
 import dryCleaningImg from "@/assets/service-drycleaning.jpg";
 import ironingImg from "@/assets/service-ironing.jpeg";
@@ -13,7 +14,7 @@ import toyImg from "@/assets/Toy.png";
 const services = [
   {
     title: "Laundry Service",
-    description:"The Laundry Guyz make everyday laundry effortless. We ensure that your clothes are washed, dried, and carefully folded/ironed according to the bundle of your choice, with detergents that are tough on stains yet gentle on fabrics. Catering to your unique needs, we provide multiple bundle options to choose from, each flexible to suit your unique preferences.",
+    description: "The Laundry Guyz make everyday laundry effortless. We ensure that your clothes are washed, dried, and carefully folded/ironed according to the bundle of your choice, with detergents that are tough on stains yet gentle on fabrics. Catering to your unique needs, we provide multiple bundle options to choose from, each flexible to suit your unique preferences.",
     image: laundryImg,
     features: [
       "Wash and Fold Bundle",
@@ -27,7 +28,7 @@ const services = [
   },
   {
     title: "Dry Cleaning",
-    description:"Our Dry-Cleaning service is designed to care for delicate garments, formal wear, and embroidered pieces with close attention to fabric and finish. Each item is professionally processed and handled with utmost care to help maintain its fabric quality, color, structure, and overall appearance.",
+    description: "Our Dry-Cleaning service is designed to care for delicate garments, formal wear, and embroidered pieces with close attention to fabric and finish. Each item is professionally processed and handled with utmost care to help maintain its fabric quality, color, structure, and overall appearance.",
     image: dryCleaningImg,
     features: [
       "Branded/Premium Casual wear",
@@ -42,7 +43,7 @@ const services = [
   },
   {
     title: "Steam Ironing",
-    description:"TheLaundryGuyz understand that not everyone has the time to iron out their laundry pile. Let us handle the tedious chore of ironing your laundry with our exclusive Iron-only service. Our professionals steam-iron your clothes using the proper heat settings suitable for each fabric.",
+    description: "TheLaundryGuyz understand that not everyone has the time to iron out their laundry pile. Let us handle the tedious chore of ironing your laundry with our exclusive Iron-only service. Our professionals steam-iron your clothes using the proper heat settings suitable for each fabric.",
     image: ironingImg,
     features: [
       "Professional Steam-Press",
@@ -68,7 +69,7 @@ const services = [
   // },
   {
     title: "Saree Rolling",
-    description:"A Saree is much more than Six-Yards-of-Fabric, and not every Saree can be handwashed. At TheLaundryGuyz, we treat each Saree with care and understanding of its fabric, craftsmanship, and embellishments. With Industry-best, professional saree rolling machines, along with optional starch and polish, we help protect and extend the life of your saree beyond what casual washing or ironing can achieve.",    image: sareeRollingImg,
+    description: "A Saree is much more than Six-Yards-of-Fabric, and not every Saree can be handwashed. At TheLaundryGuyz, we treat each Saree with care and understanding of its fabric, craftsmanship, and embellishments. With Industry-best, professional saree rolling machines, along with optional starch and polish, we help protect and extend the life of your saree beyond what casual washing or ironing can achieve.", image: sareeRollingImg,
     features: [
       "Pair with Dry-Cleaning ",
       "Indsutry Best Professional Rolling Machine",
@@ -80,7 +81,7 @@ const services = [
   {
     title: "Handbag Care",
     description:
-"Make sure that your handbag stay beautiful and its material protected, with TheLaundryGuyz. Whether it’s removing stains, refreshing worn leather, or reviving colors, we treat each bag with professional precision, caring for every detail from material to hardware. Our exclusive dedicated Handbag care service ensures your bag retains its charm and longevity.",    image: handbagImg,
+      "Make sure that your handbag stay beautiful and its material protected, with TheLaundryGuyz. Whether it’s removing stains, refreshing worn leather, or reviving colors, we treat each bag with professional precision, caring for every detail from material to hardware. Our exclusive dedicated Handbag care service ensures your bag retains its charm and longevity.", image: handbagImg,
     features: [
       "Cleaning for all types and sizes of handbags.",
       "Gentle stain removal and surface care",
@@ -93,7 +94,7 @@ const services = [
   },
   {
     title: "Soft-toy Care",
-    description:"Bring your child’s favorite soft toy back to life and love. With hands-on attention to the soft-toy material and stuffing, our Soft-toy care services ensure that the plushie is hygienic, clean, fresh and snuggle safe!",    image: toyImg,
+    description: "Bring your child’s favorite soft toy back to life and love. With hands-on attention to the soft-toy material and stuffing, our Soft-toy care services ensure that the plushie is hygienic, clean, fresh and snuggle safe!", image: toyImg,
     features: [
       "Deep Cleaning & Sanitization",
       "Allergen Reduction",
@@ -106,13 +107,14 @@ const services = [
 ];
 
 const Services = () => {
+  const { openModal } = useBookingModal();
   return (
     <Layout>
       {/* Hero Section */}
       <section className="bg-gradient-hero py-20">
         <div className="container-custom">
           <div className="max-w-3xl mx-auto text-center">
-           <span className="inline-block text-primary text-center font-semibold mb-4 tracking-wide text-sm">
+            <span className="inline-block text-primary text-center font-semibold mb-4 tracking-wide text-sm">
               Our Services
             </span>
             <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
@@ -120,7 +122,7 @@ const Services = () => {
               <span className="text-gradient">Done to Perfection!</span>
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed text-center">
-From Everyday Laundry to Delicate and Embroidered Fabrics, we Deliver Reliable Services by Skilled Professionals Seasoned over years and Industry-Trusted Equipment.            </p>
+              From Everyday Laundry to Delicate and Embroidered Fabrics, we Deliver Reliable Services by Skilled Professionals Seasoned over years and Industry-Trusted Equipment.            </p>
           </div>
         </div>
       </section>
@@ -132,9 +134,8 @@ From Everyday Laundry to Delicate and Embroidered Fabrics, we Deliver Reliable S
             {services.map((service, index) => (
               <div
                 key={index}
-                className={`grid lg:grid-cols-2 gap-12 items-center ${
-                  index % 2 === 1 ? "lg:flex-row-reverse" : ""
-                }`}
+                className={`grid lg:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? "lg:flex-row-reverse" : ""
+                  }`}
               >
                 {/* Image */}
                 <div className={`relative ${index % 2 === 1 ? "lg:order-2" : ""}`}>
@@ -144,11 +145,11 @@ From Everyday Laundry to Delicate and Embroidered Fabrics, we Deliver Reliable S
                     alt={service.title}
                     className="relative rounded-3xl shadow-large object-cover w-full h-[400px]"
                   />
-                   {index === 0 && (
-      <div className="absolute -bottom-6 -right-6 bg-primary text-primary-foreground rounded-2xl p-6 shadow-glow">
-        <div className="text-2xl font-bold">{service.price}</div>
-      </div>
-    )}
+                  {index === 0 && (
+                    <div className="absolute -bottom-6 -right-6 bg-primary text-primary-foreground rounded-2xl p-6 shadow-glow">
+                      <div className="text-2xl font-bold">{service.price}</div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Content */}
@@ -172,11 +173,9 @@ From Everyday Laundry to Delicate and Embroidered Fabrics, we Deliver Reliable S
                     ))}
                   </div>
 
-                  <Button variant="hero" size="lg" asChild>
-                    <Link to="/contact">
-                      Book This Service
-                      <ArrowRight className="w-4 h-4" />
-                    </Link>
+                  <Button variant="hero" size="lg" onClick={() => openModal('book')} disabled={true}>
+                    Book This Service
+                    <ArrowRight className="w-4 h-4" />
                   </Button>
                 </div>
               </div>

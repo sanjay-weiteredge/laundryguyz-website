@@ -1,13 +1,22 @@
 import { useEffect, useState } from "react";
-import { Users, MapPin, Award, Clock } from "lucide-react";
+import {
+  Users,
+  Store,
+  MapPin,
+  Zap,
+  Award,
+  Clock,
+  Timer,
+  CheckCircle
+} from "lucide-react";
 
 const stats = [
   { icon: Users, value: 100000, suffix: "+", label: "Happy Customers" },
-  { icon: MapPin, value: 10, suffix: "+", label: "Stores across Hyderabad" },
-  { icon: MapPin, value: 3, suffix: "hrs", label: "Priority Service" },
+  { icon: Store, value: 10, suffix: "+", label: "Stores across Hyderabad" },
+  { icon: Zap, value: 3, suffix: "hrs", label: "Priority Service" },
   { icon: Award, value: 9, suffix: "hrs", label: "Same Day Service" },
   { icon: Clock, value: 24, suffix: "hrs", label: "Next Day Service " },
-  { icon: Clock, value: 3, suffix: "days", label: "Standard Service" },
+  { icon: Timer, value: 3, suffix: "days", label: "Standard Service" },
 
 ];
 

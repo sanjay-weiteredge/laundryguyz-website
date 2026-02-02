@@ -38,25 +38,25 @@ const HeroSection = () => {
             <div className="inline-flex items-center gap-2 bg-secondary px-4 py-2 rounded-full mb-6 animate-fade-up">
               <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
               <span className="text-sm font-medium text-secondary-foreground">
-Flat 20% off on 1st order!               </span>
+                Flat 20% off on 1st order!               </span>
             </div>
 
             {/* <h1 className="font-serif text-3xl md:text-5xl lg:text-3xl font-bold text-foreground leading-tight mb-6 animate-fade-up delay-100">
              Premium Laundry & Dry Clean Service at Your Doorstep
             </h1> */}
-                <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6 animate-fade-up delay-100">
+            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6 animate-fade-up delay-100">
               Premium{" "}
               <span className="text-gradient">Laundry & Dry Clean</span>{" "}
               Service at Your Doorstep
             </h1>
 
             <p className="text-lg text-muted-foreground mb-8 max-w-xl leading-relaxed animate-fade-up delay-200">
-Experience World-Class Laundry, Dry-Cleaning, and related services by Industry-Seasoned professionals and Trusted Machinery! Fresh, Fragrant, and Clean clothes delivered right to your door!
-           </p>
+              Experience World-Class Laundry, Dry-Cleaning, and related services by Industry-Seasoned professionals and Trusted Machinery! Fresh, Fragrant, and Clean clothes delivered right to your door!
+            </p>
 
             <div className="flex flex-wrap gap-4 mb-10 animate-fade-up delay-300">
-              <Button variant="hero" size="xl" onClick={() => openModal('book')}>
-   “Schedule Pickup”<ArrowRight className="w-5 h-5" />
+              <Button variant="hero" size="xl" onClick={() => openModal('book')} disabled={true}>
+                “Schedule Pickup”<ArrowRight className="w-5 h-5" />
               </Button>
               <Button variant="hero-outline" size="xl" asChild>
                 <Link to="/pricing">“View Pricing”</Link>
@@ -86,7 +86,7 @@ Experience World-Class Laundry, Dry-Cleaning, and related services by Industry-S
                 alt="Professional laundry service - fresh clothes and modern machines"
                 className="relative rounded-3xl shadow-large object-cover w-full h-[400px] lg:h-[500px]"
               />
-              
+
               {/* Floating Stats Card */}
               <div className="absolute -bottom-6 -left-6 bg-card rounded-2xl p-6 shadow-large animate-float">
                 {/* <div className="text-3xl font-serif font-bold text-primary mb-1">50+</div> */}
