@@ -3,9 +3,12 @@ import { Users, MapPin, Award, Clock } from "lucide-react";
 
 const stats = [
   { icon: Users, value: 100000, suffix: "+", label: "Happy Customers" },
-  { icon: MapPin, value: 50, suffix: "+", label: "Store Locations" },
-  // { icon: Award, value: 15, suffix: "+", label: "Years Experience" },
-  { icon: Clock, value: 5, suffix: "hr", label: "Express Service" },
+  { icon: MapPin, value: 10, suffix: "+", label: "Stores across Hyderabad" },
+  { icon: MapPin, value: 3, suffix: "hrs", label: "Priority Service" },
+  { icon: Award, value: 9, suffix: "hrs", label: "Same Day Service" },
+  { icon: Clock, value: 24, suffix: "hrs", label: "Next Day Service " },
+  { icon: Clock, value: 3, suffix: "days", label: "Standard Service" },
+
 ];
 
 const StatsSection = () => {
@@ -52,16 +55,16 @@ const StatsSection = () => {
       className="py-20 bg-gradient-to-r from-primary to-coral"
     >
       <div className="container-custom">
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-6 gap-8">
           {stats.map((stat, index) => (
             <div
               key={index}
               className="text-center text-primary-foreground"
             >
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-foreground/10 rounded-2xl mb-4">
-                <stat.icon className="w-8 h-8" />
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-primary-foreground/10 rounded-2xl mb-4">
+                <stat.icon className="w-6 h-6" />
               </div>
-              <div className="font-serif text-4xl md:text-5xl font-bold mb-2">
+              <div className="font-serif text-4xl md:text-4xl font-bold mb-2">
                 {counters[index].toLocaleString()}
                 {stat.suffix}
               </div>

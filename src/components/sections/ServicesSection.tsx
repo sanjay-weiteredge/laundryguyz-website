@@ -5,7 +5,7 @@ import "@/styles/carousel.css";
 import React, { useEffect, useRef, useState } from "react";
 import laundryImg from "@/assets/service-laundry.jpg";
 import dryCleaningImg from "@/assets/service-drycleaning.jpg";
-import ironingImg from "@/assets/service-ironing.jpg";
+import ironingImg from "@/assets/service-ironing.jpeg";
 import shoesImg from "@/assets/service-shoes.jpg";
 import sareeRollingImg from "@/assets/saree.jpg";
 import handbagImg from "@/assets/handbag.png";
@@ -87,7 +87,7 @@ const ServicesSection = () => {
       <div className="container-custom">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-block text-primary font-semibold mb-4 tracking-wide uppercase text-sm">
+          <span className="inline-block text-primary font-semibold mb-4 tracking-wide text-sm">
             Our Services
           </span>
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
@@ -149,7 +149,7 @@ const ServicesSection = () => {
                       to="/services"
                       className="inline-flex items-center gap-2 text-primary font-medium text-sm hover:gap-3 transition-all"
                     >
-                      Learn More
+                      Know More
                       <ArrowRight className="w-4 h-4" />
                     </Link>
                   </div>

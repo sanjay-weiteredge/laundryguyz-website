@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Award, Users, Heart, Target } from "lucide-react";
 import heroImage from "@/assets/hero-laundry.jpg";
+import storyImage from "@/assets/service-laundry.jpg";
 
 const values = [
   {
@@ -43,15 +44,13 @@ const About = () => {
         <div className="container-custom">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <span className="inline-block text-primary font-semibold mb-4 tracking-wide text-md">
-              About Us
-              </span>
-              <h1 className="font-serif text-4xl md:text-5xl lg:text-3xl font-bold text-foreground mb-6">
-               Redefining Laundry Care Since 2025
+              <h1 className="font-serif text-5xl md:text-5xl lg:text-5xl font-bold text-foreground mb-6">
+                Laundry,
+                <span className="text-gradient">done better!</span>
 
               </h1>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-The Laundry Guyz was founded with a simple mission: to provide premium, hassle-free laundry and dry cleaning services that fit into your busy lifestyle. What started as a single store has grown into a nationwide network of 50+ locations.
+              <p className="text-lg text-muted-foreground leading-relaxed mb-4">
+                The Laundry Guyz are built to match the rhythm of today's fast-moving lifestyles, valuing speed and accessibility without compromising care. With flexible bundles and express turnarounds, including our 3-hour PRIORITY service, we bring ease to everyday Laundry and Dry Cleaning. Combining professional expertise, thoughtful handling, and seamless processes, The Laundry Guyz ensure that all your unique needs for every situation are well met!
               </p>
               <Button variant="hero" size="lg" asChild>
                 <Link to="/contact">
@@ -104,30 +103,38 @@ The Laundry Guyz was founded with a simple mission: to provide premium, hassle-f
       {/* Our Story Section */}
       <section className="section-padding bg-secondary/20">
         <div className="container-custom">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-6 text-center">
-              Our Story
-            </h2>
-            <div className="space-y-5 text-lg text-muted-foreground leading-relaxed">
-              <p>
-                Laundry and Dry Cleaning are part of everyday life — yet for a long time, professional garment care has felt either inconvenient, expensive, or reserved only for special clothing.
-              </p>
-              <p>
-                Daily wear was often handled at home with inconsistent results, while dry cleaning remained something people turned to only for rare or high-value garments.
-              </p>
-              <p>
-                The Laundry Guyz came together to bridge that gap.
-              </p>
-              <p>
-                Laundry is not an occasional requirement — it’s part of daily life.
-              </p>
-              <p>
-                Created in <b>2025</b>, <b>The Laundry Guyz</b> are here to make professional cleaning <b>easy to access, practical to use, and reliable enough to depend on regularly! </b>
-              </p>
-              <p>
-                Instead of limiting professional care to select garments or rare occasions, The Laundry Guyz brings it into everyday routines covering Clothing, Home Linen, and personal lifestyle items alike.
-
-              </p>
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-6">
+                Our Story
+              </h2>
+              <div className="space-y-5 text-lg text-muted-foreground leading-relaxed">
+                <p>
+                  Laundry and Dry Cleaning are part of everyday life, yet for a long time, professional garment care has felt either inconvenient, expensive, or reserved only for special clothing.
+                </p>
+                <p>
+                  Daily wear was often handled at home with inconsistent results and often harsh methods that eat away fabric life. On the other hand, Dry Cleaning remained something people turned to only for rare or high-value garments.
+                </p>
+                <p>
+                  <b>The Laundry Guyz came together to bridge that gap.</b>
+                </p>
+                <p>
+                  Laundry is not an occasional requirement — it’s part of daily life.
+                </p>
+                <p>
+                  Created in <b>2025</b>, The Laundry Guyz are here to make professional cleaning easy to access, practical to use, and reliable enough to depend on regularly!
+                </p>
+                <p>
+                  Instead of limiting professional care to select garments or rare occasions, The Laundry Guyz bring it into everyday routines, covering Clothing, Home Linen, and personal lifestyle items alike.
+                </p>
+              </div>
+            </div>
+            <div className="relative">
+              <img
+                src={storyImage}
+                alt="Our Story"
+                className="rounded-3xl shadow-large object-cover w-full h-auto"
+              />
             </div>
           </div>
         </div>
@@ -147,8 +154,8 @@ The Laundry Guyz was founded with a simple mission: to provide premium, hassle-f
 
           <div className="max-w-4xl mx-auto">
             <div className="relative"> */}
-              {/* Timeline Line */}
-              {/* <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-border md:-translate-x-1/2" />
+      {/* Timeline Line */}
+      {/* <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-border md:-translate-x-1/2" />
 
               {milestones.map((milestone, index) => (
                 <div
@@ -157,8 +164,8 @@ The Laundry Guyz was founded with a simple mission: to provide premium, hassle-f
                     index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
                   }`}
                 > */}
-                  {/* Content */}
-                  {/* <div className={`flex-1 ml-20 md:ml-0 ${index % 2 === 0 ? "md:text-right md:pr-12" : "md:pl-12"}`}>
+      {/* Content */}
+      {/* <div className={`flex-1 ml-20 md:ml-0 ${index % 2 === 0 ? "md:text-right md:pr-12" : "md:pl-12"}`}>
                     <div className="bg-card rounded-2xl p-6 shadow-card inline-block">
                       <div className="text-primary font-bold text-lg mb-2">{milestone.year}</div>
                       <h3 className="font-serif font-bold text-xl text-foreground mb-2">
@@ -168,13 +175,13 @@ The Laundry Guyz was founded with a simple mission: to provide premium, hassle-f
                     </div>
                   </div> */}
 
-                  {/* Dot */}
-                  {/* <div className="absolute left-8 md:left-1/2 w-4 h-4 bg-primary rounded-full md:-translate-x-1/2 shadow-glow" /> */}
+      {/* Dot */}
+      {/* <div className="absolute left-8 md:left-1/2 w-4 h-4 bg-primary rounded-full md:-translate-x-1/2 shadow-glow" /> */}
 
-                  {/* Spacer */}
-                  {/* <div className="hidden md:block flex-1" />
+      {/* Spacer */}
+      {/* <div className="hidden md:block flex-1" />
                 </div> */}
-              {/* ))}
+      {/* ))}
             </div>
           </div>
         </div>

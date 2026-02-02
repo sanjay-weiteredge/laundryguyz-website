@@ -17,13 +17,13 @@ const steps = [
     icon: CheckCircle,
     step: "03",
     title: "Expert Cleaning",
-    description: "Your garments are cleaned with premium solutions and certified machinery.",
+    description: "Your garments are tagged and sorted based on fabric and package selected before being processed by our professionals.",
   },
   {
     icon: Calendar,
     step: "04",
     title: "Fast Delivery",
-    description: "Fresh, clean clothes delivered back to your door within 48 hours.",
+    description: "Fresh, clean clothes delivered back to your door as per your scheduled time and service!",
   },
 ];
 
@@ -33,7 +33,7 @@ const HowItWorksSection = () => {
       <div className="container-custom">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-block text-primary font-semibold mb-4 tracking-wide uppercase text-sm">
+          <span className="inline-block text-primary font-semibold mb-4 tracking-wide text-sm">
             How It Works
           </span>
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
@@ -52,7 +52,7 @@ const HowItWorksSection = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {steps.map((step, index) => (
               <div key={index} className="relative group">
-                <div className="bg-card rounded-2xl p-8 text-center shadow-card hover-lift relative z-10">
+                <div className="bg-card rounded-2xl p-8 text-center shadow-card hover-lift relative z-10 h-full">
                   {/* Step Number */}
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-10 h-10 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold text-sm shadow-glow">
                     {step.step}

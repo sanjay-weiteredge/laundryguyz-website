@@ -7,10 +7,13 @@ const Footer = () => {
 
   const services = [
     { name: "Laundry Service", path: "/services" },
+    { name: "Saree Rolling", path: "/services" },
     { name: "Dry Cleaning", path: "/services" },
     { name: "Steam Ironing", path: "/services" },
-    { name: "Shoe Cleaning", path: "/services" },
-    { name: "Carpet Cleaning", path: "/services" },
+    { name: "Shoe Care", path: "/services" },
+    { name: "Handbag Care", path: "/services" },
+    { name: "Soft-toy Care", path: "/services" },
+
   ];
 
   const company = [
