@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
-import logoImage from "@/assets/laundry_guyz.png";
+import logoImage from "@/assets/image.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -38,15 +38,19 @@ const Footer = () => {
           {/* Brand */}
           <div className="lg:col-span-1">
             <Link to="/" className="flex items-center gap-2 mb-2">
-            <img 
-              src={logoImage} 
-              alt="The Laundry Guyz Logo" 
-              className="h-30 w-90 object-contain"
-            />
+              <img
+                src={logoImage}
+                alt="The Laundry Guyz Logo"
+                className="h-30 w-90 object-contain"
+              />
             </Link>
-            <p className="text-background/70 mb-6 leading-relaxed">
-              Premium laundry and dry cleaning services delivered to your doorstep. Experience the difference with The Laundry Guyz.
+            <p className="text-background/70 mb-2 leading-relaxed">
+              Premium laundry and dry cleaning services delivered to your doorstep.
             </p>
+            <p className="text-background/70 mb-2 leading-relaxed">
+              Experience the difference with The Laundry Guyz.
+            </p>
+
             <div className="flex gap-4">
               {[Facebook, Twitter, Instagram, Linkedin].map((Icon, index) => (
                 <a

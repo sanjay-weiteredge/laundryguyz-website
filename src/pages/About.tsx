@@ -49,8 +49,14 @@ const About = () => {
                 <span className="text-gradient">done better!</span>
 
               </h1>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-4">
-                The Laundry Guyz are built to match the rhythm of today's fast-moving lifestyles, valuing speed and accessibility without compromising care. With flexible bundles and express turnarounds, including our 3-hour PRIORITY service, we bring ease to everyday Laundry and Dry Cleaning. Combining professional expertise, thoughtful handling, and seamless processes, The Laundry Guyz ensure that all your unique needs for every situation are well met!
+              <p className="text-md text-muted-foreground leading-relaxed mb-2">
+                The Laundry Guyz are built to match the rhythm of today's fast-moving lifestyles, valuing speed and accessibility without compromising care.
+              </p>
+              <p className="text-md text-muted-foreground leading-relaxed mb-2">
+                With flexible bundles and express turnarounds, including our 3-hour PRIORITY service, we bring ease to everyday Laundry and Dry Cleaning. Combining professional expertise, thoughtful handling, and seamless processes-
+              </p>
+              <p className="text-md text-muted-foreground leading-relaxed mb-4">
+                The Laundry Guyz ensure that all your unique needs for every situation are well met!
               </p>
               <Button variant="hero" size="lg" asChild>
                 <Link to="/contact">

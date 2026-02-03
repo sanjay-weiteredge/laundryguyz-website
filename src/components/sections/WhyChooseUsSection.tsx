@@ -1,13 +1,13 @@
-import { Shield, Leaf, Sparkles, Award,ListChecks,Tag } from "lucide-react";
-const feature=[
+import { Shield, Leaf, Sparkles, Award, ListChecks, Tag } from "lucide-react";
+const feature = [
   {
-    icon:ListChecks,
-    title:"Defined Care Protocols",
-    description:"Each service follows documented care steps to maintain consistency."
-  },{
-    icon:Tag,
-    title:"Individual Garment Tracking",
-    description:"Every item is logged and monitored by our experts through each stage of the process."
+    icon: ListChecks,
+    title: "Defined Care Protocols",
+    description: "Each service follows documented care steps to maintain consistency."
+  }, {
+    icon: Tag,
+    title: "Individual Garment Tracking",
+    description: "Every item is logged and monitored by our experts through each stage of the process."
   }
 ]
 const features = [
@@ -43,12 +43,15 @@ const WhyChooseUsSection = () => {
             <span className="inline-block text-primary font-semibold mb-4 tracking-wide  text-sm">
               Why Choose Us
             </span>
-             <h2 className="font-serif text-3xl md:text-4xl lg:text-4xl font-bold text-foreground mb-6">
+            <h2 className="font-serif text-3xl md:text-4xl lg:text-4xl font-bold text-foreground mb-6">
               Impeccable Quality,{" "}
               <span className="text-gradient">Every Time!</span>
             </h2>
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              We equip our stores with global-standard machines, fabric-specialized solvents, and industry-seasoned professionals to deliver fresh, flawless, and sparkling clothes—every single time. Your garments don’t just get cleaned; they get expert care.
+              We equip our stores with global-standard machines, fabric-specialized solvents, and industry-seasoned professionals to deliver fresh, flawless, and sparkling clothes—every single time.
+            </p>
+            <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
+              Your garments don’t just get cleaned; they get expert care.
             </p>
 
             <div className="space-y-6">

@@ -16,7 +16,7 @@ const HeroSection = () => {
   const { openModal } = useBookingModal();
   const features = [
     { icon: Truck, text: "Free Pickup & Delivery" },
-    { icon: Zap, text: "3 hour Priority Delivery" },
+    { icon: Zap, text: "3 Hour Priority Delivery" },
     { icon: Timer, text: "Same-Day Delivery" },
     { icon: CalendarCheck, text: "Next Day Delivery" },
     { icon: Package, text: "Standard Delivery" },
@@ -44,22 +44,25 @@ const HeroSection = () => {
             {/* <h1 className="font-serif text-3xl md:text-5xl lg:text-3xl font-bold text-foreground leading-tight mb-6 animate-fade-up delay-100">
              Premium Laundry & Dry Clean Service at Your Doorstep
             </h1> */}
-            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6 animate-fade-up delay-100">
+            <h1 className="font-serif text-4xl md:text-5xl lg:text-4xl font-bold text-foreground leading-tight mb-6 animate-fade-up delay-100">
               Premium{" "}
               <span className="text-gradient">Laundry & Dry Clean</span>{" "}
               Service at Your Doorstep
             </h1>
 
+            <p className="text-lg text-muted-foreground  max-w-xl leading-relaxed animate-fade-up delay-200">
+              Experience World-Class Laundry, Dry-Cleaning, and related services by Industry-Seasoned professionals and Trusted Machinery!
+            </p>
             <p className="text-lg text-muted-foreground mb-8 max-w-xl leading-relaxed animate-fade-up delay-200">
-              Experience World-Class Laundry, Dry-Cleaning, and related services by Industry-Seasoned professionals and Trusted Machinery! Fresh, Fragrant, and Clean clothes delivered right to your door!
+              Fresh, Fragrant, and Clean clothes delivered right to your door!
             </p>
 
             <div className="flex flex-wrap gap-4 mb-10 animate-fade-up delay-300">
               <Button variant="hero" size="xl" onClick={() => openModal('book')} disabled={true}>
-                “Schedule Pickup”<ArrowRight className="w-5 h-5" />
+                Schedule Pickup<ArrowRight className="w-5 h-5" />
               </Button>
               <Button variant="hero-outline" size="xl" asChild>
-                <Link to="/pricing">“View Pricing”</Link>
+                <Link to="/pricing">View Pricing</Link>
               </Button>
             </div>
 
@@ -90,7 +93,7 @@ const HeroSection = () => {
               {/* Floating Stats Card */}
               <div className="absolute -bottom-6 -left-6 bg-card rounded-2xl p-6 shadow-large animate-float">
                 {/* <div className="text-3xl font-serif font-bold text-primary mb-1">50+</div> */}
-                <div className="text-sm text-muted-foreground">3hr to 3Day Turnaround! </div>
+                <div className="text-sm text-muted-foreground">3Hour to 3Day Turnaround! </div>
               </div>
 
               {/* Floating Badge */}
