@@ -2,8 +2,8 @@ import Layout from "@/components/layout/Layout";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Award, Users, Heart, Target } from "lucide-react";
-import heroImage from "@/assets/hero-laundry.jpg";
-import storyImage from "@/assets/service-laundry.jpg";
+import heroImage from "@/assets/about-hero.png";
+import storyImage from "@/assets/about.png";
 
 const values = [
   {
@@ -66,11 +66,11 @@ const About = () => {
               </Button>
             </div>
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-coral/20 rounded-3xl transform rotate-3" />
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-coral/20 rounded-2xl transform rotate-3" />
               <img
                 src={heroImage}
                 alt="The Laundry Guyz team at work"
-                className="relative rounded-3xl shadow-large object-cover w-full h-[400px]"
+                className="relative rounded-3xl shadow-large object-cover w-full h-[500px]"
               />
             </div>
           </div>
@@ -139,7 +139,7 @@ const About = () => {
               <img
                 src={storyImage}
                 alt="Our Story"
-                className="rounded-3xl shadow-large object-cover w-full h-auto"
+                className="rounded-xl shadow-large  w-[500px] h-[700px]"
               />
             </div>
           </div>

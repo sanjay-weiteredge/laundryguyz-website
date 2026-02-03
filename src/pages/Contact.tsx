@@ -215,9 +215,6 @@ const Contact = () => {
               <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground mb-2">
                 Our Locations
               </h2>
-              <p className="text-muted-foreground mb-8">
-                Find a Laundry Guyz store near you. We're expanding to new cities every month.
-              </p>
 
               <div className="space-y-4">
                 {locations.map((location, index) => (
@@ -229,9 +226,9 @@ const Contact = () => {
                       <h3 className="font-semibold text-foreground text-lg">
                         {location.city}
                       </h3>
-                      <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">
+                      {/* <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">
                         {location.stores} stores
-                      </span>
+                      </span> */}
                     </div>
                     <p className="text-muted-foreground text-sm">{location.address}</p>
                   </div>

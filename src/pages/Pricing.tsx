@@ -1,7 +1,9 @@
 import Layout from "@/components/layout/Layout";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Check, ArrowRight, Star } from "lucide-react";
+import { Check, ArrowRight, Star, FileText } from "lucide-react";
+import priceListPdf from "@/assets/pdf/pricelist.pdf";
+import priceImage from "@/assets/price.jpg";
 
 const pricingPlans = [
   {
@@ -153,16 +155,24 @@ const Pricing = () => {
       {/* Individual Pricing */}
       <section className="section-padding bg-secondary/30">
         <div className="container-custom">
-          <div className="text-center mb-16">
-            <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Pay-As-You-Go Pricing
-            </h2>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Prefer one-time service? Here's our individual pricing for all services.
-            </p>
+          <div className="flex flex-col items-center gap-8 mb-16">
+            <div className="max-w-lg mx-auto rounded-2xl shadow-card overflow-hidden">
+              <img
+                src={priceImage}
+                alt="Laundry Guyz Price List"
+                className="w-full h-auto object-contain"
+              />
+            </div>
+
+            <Button variant="outline" size="lg" className="group" asChild>
+              <a href={priceListPdf} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                <FileText className="w-4 h-4" />
+                View Pricelist in a New Window
+              </a>
+            </Button>
           </div>
 
-          <div className="max-w-3xl mx-auto bg-card rounded-3xl shadow-card overflow-hidden">
+          {/* <div className="max-w-3xl mx-auto bg-card rounded-3xl shadow-card overflow-hidden">
             <div className="grid grid-cols-3 gap-4 p-4 bg-secondary/50 font-semibold text-foreground">
               <div>Service</div>
               <div className="text-center">Price</div>
@@ -171,16 +181,15 @@ const Pricing = () => {
             {individualPricing.map((item, index) => (
               <div
                 key={index}
-                className={`grid grid-cols-3 gap-4 p-4 ${
-                  index % 2 === 0 ? "bg-card" : "bg-secondary/20"
-                }`}
+                className={`grid grid-cols-3 gap-4 p-4 ${index % 2 === 0 ? "bg-card" : "bg-secondary/20"
+                  }`}
               >
                 <div className="text-foreground">{item.service}</div>
                 <div className="text-center font-semibold text-primary">{item.price}</div>
                 <div className="text-right text-muted-foreground text-sm">{item.min}</div>
-              </div>
-            ))}
           </div>
+            ))}
+          </div> */}
         </div>
       </section>
 
