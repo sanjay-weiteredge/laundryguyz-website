@@ -3,7 +3,11 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Check, ArrowRight, Star, FileText } from "lucide-react";
 import priceListPdf from "@/assets/pdf/pricelist.pdf";
+import priceListPdf1 from "@/assets/pdf/TLG Pricelist 2.pdf";
+
 import priceImage from "@/assets/price.jpg";
+import dryCleaning from "@/assets/drycleaning.png";
+import dryCleaning1 from "@/assets/drycleaning1.png";
 
 const pricingPlans = [
   {
@@ -88,88 +92,53 @@ const Pricing = () => {
           </div>
         </div>
       </section>
-
-      {/* Subscription Plans */}
-      {/* <section className="section-padding">
-        <div className="container-custom">
-          <div className="text-center mb-16">
-            <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Monthly Subscription Plans
-            </h2>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Save more with our subscription plans. Perfect for regular laundry needs.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {pricingPlans.map((plan, index) => (
-              <div
-                key={index}
-                className={`relative bg-card rounded-3xl p-8 shadow-card hover-lift ${
-                  plan.popular ? "ring-2 ring-primary" : ""
-                }`}
-              >
-                {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-semibold flex items-center gap-1">
-                    <Star className="w-4 h-4 fill-current" />
-                    Most Popular
-                  </div>
-                )}
-
-                <div className="text-center mb-8">
-                  <h3 className="font-serif text-2xl font-bold text-foreground mb-2">
-                    {plan.name}
-                  </h3>
-                  <p className="text-muted-foreground mb-6">{plan.description}</p>
-                  <div className="flex items-end justify-center gap-1">
-                    <span className="text-5xl font-bold text-foreground">${plan.price}</span>
-                    <span className="text-muted-foreground mb-2">{plan.period}</span>
-                  </div>
-                </div>
-
-                <ul className="space-y-4 mb-8">
-                  {plan.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start gap-3">
-                      <div className="w-5 h-5 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <Check className="w-3 h-3 text-primary" />
-                      </div>
-                      <span className="text-foreground">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <Button
-                  variant={plan.popular ? "hero" : "outline"}
-                  size="lg"
-                  className="w-full"
-                  asChild
-                >
-                  <Link to="/contact">Get Started</Link>
-                </Button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section> */}
-
       {/* Individual Pricing */}
       <section className="section-padding bg-secondary/30">
         <div className="container-custom">
-          <div className="flex flex-col items-center gap-8 mb-16">
-            <div className="max-w-lg mx-auto rounded-2xl shadow-card overflow-hidden">
-              <img
-                src={priceImage}
-                alt="Laundry Guyz Price List"
-                className="w-full h-auto object-contain"
-              />
+          <div className="flex flex-col lg:flex-row items-start justify-center gap-8 mb-16">
+            {/* Price List Section */}
+            <div className="flex flex-col items-center gap-6 flex-1 w-full max-w-lg">
+              <div className="rounded-2xl shadow-card overflow-hidden w-full">
+                <img
+                  src={priceImage}
+                  alt="Laundry Guyz Price List"
+                  className="w-full h-auto object-contain"
+                />
+              </div>
+              <Button variant="outline" size="lg" className="group" asChild>
+                <a href={priceListPdf1} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4">
+                  <FileText className="w-4 h-4" />
+                  View Pricelist in a New Window
+                </a>
+              </Button>
             </div>
 
-            <Button variant="outline" size="lg" className="group" asChild>
-              <a href={priceListPdf} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                <FileText className="w-4 h-4" />
-                View Pricelist in a New Window
-              </a>
-            </Button>
+            {/* Dry Cleaning Section */}
+            <div className="flex flex-col items-center gap-6 flex-[2] w-full">
+              <div className="flex flex-col md:flex-row gap-4 w-full justify-center">
+                <div className="rounded-2xl shadow-card overflow-hidden w-full max-w-lg">
+                  <img
+                    src={dryCleaning}
+                    alt="Dry Cleaning Price List"
+                    className="w-full h-auto object-contain"
+                  />
+                </div>
+                <div className="rounded-2xl shadow-card overflow-hidden w-full max-w-lg">
+                  <img
+                    src={dryCleaning1}
+                    alt="Dry Cleaning Price List Continued"
+                    className="w-full h-auto object-contain"
+                  />
+                </div>
+              </div>
+
+              <Button variant="outline" size="lg" className="group" asChild>
+                <a href={priceListPdf} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                  <FileText className="w-4 h-4" />
+                  View Pricelist in a New Window
+                </a>
+              </Button>
+            </div>
           </div>
 
           {/* <div className="max-w-3xl mx-auto bg-card rounded-3xl shadow-card overflow-hidden">

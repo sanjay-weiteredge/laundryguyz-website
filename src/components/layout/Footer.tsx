@@ -50,6 +50,9 @@ const Footer = () => {
             <p className="text-background/70 mb-2 leading-relaxed">
               Experience the difference with The Laundry Guyz.
             </p>
+            <p className="text-background/70 mb-2 leading-relaxed">
+              Laundry, done better!
+            </p>
 
             <div className="flex gap-4">
               {[Facebook, Twitter, Instagram, Linkedin].map((Icon, index) => (

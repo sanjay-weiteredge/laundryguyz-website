@@ -40,7 +40,7 @@ const HowItWorksSection = () => {
             Fresh Clothes in 4 Simple Steps
           </h2>
           <p className="text-lg text-muted-foreground">
-            Getting your laundry done has never been easier.
+            Getting your laundry done has never been easier!
           </p>
           <p className="text-lg text-muted-foreground">
             We take care of everything from pickup to delivery.

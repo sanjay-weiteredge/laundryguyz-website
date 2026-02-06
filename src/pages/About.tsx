@@ -139,7 +139,7 @@ const About = () => {
               <img
                 src={storyImage}
                 alt="Our Story"
-                className="rounded-xl shadow-large  w-[500px] h-[700px]"
+                className="rounded-xl shadow-large  w-full h-[600px]"
               />
             </div>
           </div>
