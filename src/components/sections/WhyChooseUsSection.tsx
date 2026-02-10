@@ -48,10 +48,10 @@ const WhyChooseUsSection = () => {
               <span className="text-gradient">Every Time!</span>
             </h2>
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              We equip our stores with global-standard machines, fabric-specialized solvents, and industry-seasoned professionals to deliver fresh, flawless, and sparkling clothes—every single time.
+              We equip our stores with <b>global-standard machines, fabric-specialized solvents,</b> and <b>industry-seasoned professionals</b> to deliver fresh, flawless, and sparkling clothes—every single time.
             </p>
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              Your garments don’t just get cleaned; they get expert care.
+              Your garments don’t just get cleaned; they get <b>expert care.</b>
             </p>
 
             <div className="space-y-6">

@@ -117,7 +117,7 @@ const Services = () => {
             <span className="inline-block text-primary text-center font-semibold mb-4 tracking-wide text-sm">
               Our Services
             </span>
-            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
+            <h1 className="font-serif text-4xl md:text-5xl lg:text-5xl font-bold text-foreground mb-6">
               Laundry & Care- {" "}
               <span className="text-gradient">Done to Perfection!</span>
             </h1>
