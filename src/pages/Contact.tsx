@@ -30,11 +30,13 @@ const contactInfo = [
 ];
 
 const locations = [
-  { city: "Hyderabad", stores: 12, address: "Gachibowli" },
-  { city: "Hyderabad", stores: 8, address: "HITEC City" },
-  { city: "Hyderabad", stores: 6, address: "Jubilee Hills" },
-  { city: "Hyderabad", stores: 5, address: "Ameerpet" },
-  // { city: "Miami", stores: 4, address: "Miami-Dade and Broward County" },
+  { city: "Padma Rao Nagar", address: "Padmarao Nagar main road, Secunderabad, Telangana 500020" },
+  { city: "Tellapur/Nallagandla", address: "Tellapur Road, Tellapur/Nallagandla, Hyderabad, Telangana 500046" },
+  { city: "My Home Tridasa", address: "Shop no 4, club house, My Home Tridasa, Tellapur, Hyderabad. Telangana 502034" },
+  { city: "Maredpally/Mahendra Hills", address: "Near St marks high school, East Marredpally, Secunderabad, Hyderabad, Telangana 500026" },
+  { city: "Yapral", address: "Yapral Main Rd, Yapral, Secunderabad, Telangana 500087" },
+  { city: "Saket", address: "Near Saket Towers, Kapra-Saket Road, Kapra, Secunderabad, Telangana 500103" },
+  { city: "AS Rao Nagar", address: "Pista House lane, AS Rao Nagar, Hyderabad, Telangana 500062" },
 ];
 
 const Contact = () => {
@@ -47,13 +49,51 @@ const Contact = () => {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Message Sent!",
-      description: "We'll get back to you within 24 hours.",
-    });
-    setFormData({ name: "", email: "", phone: "", service: "", message: "" });
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/info@thelaundryguyz.com", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          service: formData.service,
+          message: formData.message,
+          _subject: "New Message from Laundry Guyz Website"
+        })
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Message Sent!",
+          description: "We'll get back to you within 24 hours.",
+        });
+        setFormData({ name: "", email: "", phone: "", service: "", message: "" });
+      } else {
+        toast({
+          title: "Error",
+          description: "There was a problem sending your message. Please try again.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "There was a problem sending your message. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -203,9 +243,9 @@ const Contact = () => {
                   />
                 </div>
 
-                <Button type="submit" variant="hero" size="lg" className="w-full">
-                  Send Message
-                  <Send className="w-4 h-4" />
+                <Button type="submit" variant="hero" size="lg" className="w-full" disabled={isSubmitting}>
+                  {isSubmitting ? "Sending..." : "Send Message"}
+                  {!isSubmitting && <Send className="w-4 h-4" />}
                 </Button>
               </form>
             </div>
@@ -216,30 +256,27 @@ const Contact = () => {
                 Our Locations
               </h2>
 
-              <div className="space-y-4">
+              <div className="space-y-2">
                 {locations.map((location, index) => (
                   <div
                     key={index}
-                    className="bg-card rounded-2xl p-6 shadow-card hover-lift"
+                    className="bg-card rounded-lg p-3 shadow-card hover-lift"
                   >
-                    <div className="flex items-start justify-between mb-2">
-                      <h3 className="font-semibold text-foreground text-lg">
+                    <div className="flex items-start justify-between mb-0.5">
+                      <h3 className="font-semibold text-foreground text-sm">
                         {location.city}
                       </h3>
-                      {/* <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">
-                        {location.stores} stores
-                      </span> */}
                     </div>
-                    <p className="text-muted-foreground text-sm">{location.address}</p>
+                    <p className="text-muted-foreground text-xs leading-relaxed">{location.address}</p>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-8 bg-primary/5 rounded-2xl p-6 border border-primary/20">
-                <h3 className="font-semibold text-foreground mb-2">
+              <div className="mt-4 bg-primary/5 rounded-lg p-3 border border-primary/20">
+                <h3 className="font-semibold text-foreground text-sm mb-1">
                   Opening Soon in More Cities
                 </h3>
-                <p className="text-muted-foreground text-sm">
+                <p className="text-muted-foreground text-xs leading-relaxed">
                   We're expanding to Dallas, Seattle, Boston, and more. Interested in a franchise? Contact us!
                 </p>
               </div>

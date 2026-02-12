@@ -1,239 +1,113 @@
-import { useState, useEffect } from 'react';
 import Layout from '@/components/layout/Layout';
-import { MapPin, Phone, Mail, Loader2, AlertCircle } from 'lucide-react';
-import { getNearbyStores } from '@/service/api';
-import { toast } from '@/hooks/use-toast';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { useAuth } from '@/contexts/AuthContext';
+import { Button } from '@/components/ui/button';
+import { Star } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
-interface Store {
-  id: number;
-  name: string;
-  email: string;
-  phone: string;
-  address: string;
-  latitude: number;
-  longitude: number;
-  distance: number;
-  is_active: boolean;
-  is_admin_locked: boolean;
-}
-
-interface NearbyStoresResponse {
-  success: boolean;
-  data: Store[];
-  meta: {
-    radiusKm: number;
-    center: { latitude: number; longitude: number };
-    count: number;
-  };
-}
+const storeData = [
+  {
+    id: 1,
+    name: "Padma Rao Nagar",
+    code: "500020",
+    address: "Padmarao Nagar main road, Secunderabad, Telangana 500020",
+    phone: "7799456886",
+    email: "info@thelaundryguyz.com",
+  },
+  {
+    id: 2,
+    name: "Tellapur/Nallagandla",
+    code: "500046",
+    address: "Tellapur Road, Tellapur/Nallagandla, Hyderabad, Telangana 500046",
+    phone: "7799456886",
+    email: "info@thelaundryguyz.com",
+  },
+  {
+    id: 3,
+    name: "My Home Tridasa",
+    code: "502034",
+    address: "Shop no 4, club house, My Home Tridasa, Tellapur, Hyderabad. Telangana 502034",
+    phone: "7799456886",
+    email: "info@thelaundryguyz.com",
+  },
+  {
+    id: 4,
+    name: "Maredpally/Mahendra Hills",
+    code: "500026",
+    address: "Near St marks high school, East Marredpally, Secunderabad, Hyderabad, Telangana 500026",
+    phone: "7799456886",
+    email: "info@thelaundryguyz.com",
+  },
+  {
+    id: 5,
+    name: "Yapral",
+    code: "500087",
+    address: "Yapral Main Rd, Yapral, Secunderabad, Telangana 500087",
+    phone: "7799456886",
+    email: "info@thelaundryguyz.com",
+  },
+  {
+    id: 6,
+    name: "Saket",
+    code: "500103",
+    address: "Near Saket Towers, Kapra-Saket Road, Kapra, Secunderabad, Telangana 500103",
+    phone: "7799456886",
+    email: "info@thelaundryguyz.com",
+  },
+  {
+    id: 7,
+    name: "As Rao Nagar",
+    code: "500062",
+    address: "Pista House lane, AS Rao Nagar, Hyderabad, Telangana 500062",
+    phone: "7799456886",
+    email: "info@thelaundryguyz.com",
+  }
+];
 
 const Store = () => {
-  const [stores, setStores] = useState<Store[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [locationError, setLocationError] = useState<string | null>(null);
-  const [meta, setMeta] = useState<NearbyStoresResponse['meta'] | null>(null);
-  const { token } = useAuth();
-
-  useEffect(() => {
-    const fetchStores = async () => {
-      setLoading(true);
-      setError(null);
-      setLocationError(null);
-
-      //  if (!token) {
-      //   setError('Please log in to view nearby stores.');
-      //   setLoading(false);
-      //   return;
-      // }
-
-      // Get user's current location
-      if (!navigator.geolocation) {
-        setLocationError('Geolocation is not supported by your browser');
-        setLoading(false);
-        return;
-      }
-
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          try {
-            const { latitude, longitude } = position.coords;
-            const response = await getNearbyStores(latitude, longitude, token || null) as NearbyStoresResponse;
-
-            if (response.success) {
-              setStores(response.data || []);
-              setMeta(response.meta || null);
-            } else {
-              setError('Failed to fetch stores');
-            }
-          } catch (err: any) {
-            console.error('Error fetching nearby stores:', err);
-            setError(err.message || 'Failed to fetch nearby stores');
-            toast({
-              variant: 'destructive',
-              title: 'Error',
-              description: err.message || 'Failed to fetch nearby stores',
-            });
-          } finally {
-            setLoading(false);
-          }
-        },
-        (error) => {
-          console.error('Error getting location:', error);
-          let errorMessage = 'Unable to fetch your location';
-
-          switch (error.code) {
-            case error.PERMISSION_DENIED:
-              errorMessage = 'Location access denied. Please enable location permissions.';
-              break;
-            case error.POSITION_UNAVAILABLE:
-              errorMessage = 'Location information unavailable.';
-              break;
-            case error.TIMEOUT:
-              errorMessage = 'Location request timed out.';
-              break;
-          }
-
-          setLocationError(errorMessage);
-          setLoading(false);
-          toast({
-            variant: 'destructive',
-            title: 'Location Error',
-            description: errorMessage,
-          });
-        },
-        { enableHighAccuracy: true, timeout: 10000 }
-      );
-    };
-
-    fetchStores();
-  }, []);
-
-  const formatDistance = (distance: number) => {
-    if (distance < 1) {
-      return `${Math.round(distance * 1000)}m away`;
-    }
-    return `${distance.toFixed(2)}km away`;
-  };
-
   return (
     <Layout>
       {/* Hero Section */}
       <section className="bg-gradient-hero py-20">
         <div className="container-custom">
           <div className="max-w-3xl mx-auto text-center">
-            <span className="inline-block text-primary font-semibold mb-4 tracking-wide uppercase text-sm">
-              Locations
-            </span>
             <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
-              Stores Near{" "}
-              <span className="text-gradient">You</span>
+              Stores <span className="text-gradient">Near You</span>
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Discover Laundry Guyz stores closest to your location. Fast pickup,
-              premium care at your doorstep.
+              Discover Laundry Guyz stores closest to your location. Fast pickup, premium care at your doorstep.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Stores Section */}
-      <section className="section-padding bg-secondary/30">
+      {/* Stores List Section */}
+      <section className="section-padding bg-secondary/10">
         <div className="container-custom">
-          {locationError && (
-            <Alert variant="destructive" className="mb-6">
-              <AlertCircle className="h-4 w-4" />
-              <AlertTitle>Location Error</AlertTitle>
-              <AlertDescription>{locationError}</AlertDescription>
-            </Alert>
-          )}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {storeData.map((store) => (
+              <div key={store.id} className="bg-card border border-border rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+                <div>
+                  <div className="flex justify-between items-start mb-4">
+                    <h3 className="font-bold text-lg text-foreground  tracking-tight">
+                      {store.name}-{store.code}
+                    </h3>
+                  </div>
 
-          {error && !locationError && (
-            <Alert variant="destructive" className="mb-6">
-              <AlertCircle className="h-4 w-4" />
-              <AlertTitle>Error</AlertTitle>
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
-
-          {loading && (
-            <div className="flex items-center justify-center py-12">
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
-              <span className="ml-2 text-muted-foreground">Finding stores near you...</span>
-            </div>
-          )}
-
-          {!loading && !error && !locationError && (
-            <>
-              {meta && (
-                <div className="text-center mb-12">
-                  <p className="text-muted-foreground text-lg">
-                    Found <span className="font-semibold text-foreground">{meta.count}</span> store{meta.count !== 1 ? 's' : ''} within <span className="font-semibold text-foreground">{meta.radiusKm}km</span>
+                  <p className="text-muted-foreground mb-4 min-h-[3rem] text-sm leading-relaxed">
+                    {store.address}
                   </p>
                 </div>
-              )}
 
-              {stores.length === 0 ? (
-                <div className="max-w-2xl mx-auto bg-card rounded-3xl shadow-card p-12 text-center">
-                  <p className="text-muted-foreground text-lg">
-                    No stores found near your location. Try expanding your search radius.
-                  </p>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {stores.map((store) => (
-                    <div
-                      key={store.id}
-                      className="bg-card rounded-3xl shadow-card hover-lift p-6"
-                    >
-                      <div className="flex items-start justify-between mb-4">
-                        <h3 className="font-serif text-xl font-bold text-foreground">
-                          {store.name}
-                        </h3>
-                        {store.distance !== null && (
-                          <span className="text-sm font-semibold text-primary whitespace-nowrap ml-2">
-                            {formatDistance(store.distance)}
-                          </span>
-                        )}
-                      </div>
-                      <div className="space-y-3">
-                        {store.address && (
-                          <div className="flex items-start gap-3">
-                            <MapPin className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
-                            <span className="text-muted-foreground">{store.address}</span>
-                          </div>
-                        )}
-                        {store.phone && (
-                          <div className="flex items-center gap-3">
-                            <Phone className="h-5 w-5 text-primary flex-shrink-0" />
-                            <a
-                              href={`tel:${store.phone}`}
-                              className="text-foreground hover:text-primary transition-colors"
-                            >
-                              {store.phone}
-                            </a>
-                          </div>
-                        )}
-                        {store.email && (
-                          <div className="flex items-center gap-3">
-                            <Mail className="h-5 w-5 text-primary flex-shrink-0" />
-                            <a
-                              href={`mailto:${store.email}`}
-                              className="text-foreground hover:text-primary transition-colors break-all"
-                            >
-                              {store.email}
-                            </a>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </>
-          )}
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(store.address)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary font-semibold text-sm inline-flex items-center hover:underline mt-4"
+                >
+                  Locate Now
+                </a>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </Layout>
