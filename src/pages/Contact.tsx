@@ -157,75 +157,70 @@ const Contact = () => {
                 Fill out the form and we'll get back to you within 24 hours.
               </p>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid sm:grid-cols-2 gap-6">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
-                      Full Name
-                    </label>
-                    <Input
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      placeholder="John Doe"
-                      required
-                      className="h-12"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                      Email Address
-                    </label>
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="john@example.com"
-                      required
-                      className="h-12"
-                    />
-                  </div>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
+                    Full Name
+                  </label>
+                  <Input
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="John Doe"
+                    required
+                    className="h-12"
+                  />
                 </div>
-
-                <div className="grid sm:grid-cols-2 gap-6">
-                  <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
-                      Phone Number
-                    </label>
-                    <Input
-                      id="phone"
-                      name="phone"
-                      type="tel"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      placeholder="+1 (234) 567-890"
-                      className="h-12"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="service" className="block text-sm font-medium text-foreground mb-2">
-                      Service Interest
-                    </label>
-                    <select
-                      id="service"
-                      name="service"
-                      value={formData.service}
-                      onChange={handleChange}
-                      className="w-full h-12 rounded-lg border border-input bg-background px-3 text-foreground"
-                    >
-                      <option value="">Select a service</option>
-                      <option value="laundry">Laundry Service</option>
-                      <option value="drycleaning">Dry Cleaning</option>
-                      <option value="ironing">Steam Ironing</option>
-                      <option value="shoes">Shoe Cleaning</option>
-                      <option value="subscription">Subscription Plans</option>
-                      <option value="franchise">Franchise Inquiry</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </div>
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
+                    Email Address
+                  </label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="john@example.com"
+                    required
+                    className="h-12"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
+                    Phone Number
+                  </label>
+                  <Input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder="+1 (234) 567-890"
+                    className="h-12"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="service" className="block text-sm font-medium text-foreground mb-2">
+                    Service Interest
+                  </label>
+                  <select
+                    id="service"
+                    name="service"
+                    value={formData.service}
+                    onChange={handleChange}
+                    className="w-full h-12 rounded-lg border border-input bg-background px-3 text-foreground"
+                  >
+                    <option value="">Select a service</option>
+                    <option value="laundry">Laundry Service</option>
+                    <option value="drycleaning">Dry Cleaning</option>
+                    <option value="ironing">Steam Ironing</option>
+                    <option value="shoes">Shoe Cleaning</option>
+                    <option value="subscription">Subscription Plans</option>
+                    <option value="franchise">Franchise Inquiry</option>
+                    <option value="other">Other</option>
+                  </select>
                 </div>
 
                 <div>
@@ -245,38 +240,38 @@ const Contact = () => {
 
                 <Button type="submit" variant="hero" size="lg" className="w-full" disabled={isSubmitting}>
                   {isSubmitting ? "Sending..." : "Send Message"}
-                  {!isSubmitting && <Send className="w-4 h-4" />}
+                  {!isSubmitting && <Send className="w-4 h-4 ml-2" />}
                 </Button>
               </form>
             </div>
 
             {/* Store Locations */}
             <div>
-              <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground mb-2">
+              <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground mb-6">
                 Our Locations
               </h2>
 
-              <div className="space-y-2">
+              <div className="space-y-4">
                 {locations.map((location, index) => (
                   <div
                     key={index}
-                    className="bg-card rounded-lg p-3 shadow-card hover-lift"
+                    className="bg-card rounded-xl p-4 shadow-card hover-lift"
                   >
-                    <div className="flex items-start justify-between mb-0.5">
-                      <h3 className="font-semibold text-foreground text-sm">
+                    <div className="flex items-start justify-between mb-1">
+                      <h3 className="font-semibold text-foreground text-base">
                         {location.city}
                       </h3>
                     </div>
-                    <p className="text-muted-foreground text-xs leading-relaxed">{location.address}</p>
+                    <p className="text-muted-foreground text-sm leading-relaxed">{location.address}</p>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-4 bg-primary/5 rounded-lg p-3 border border-primary/20">
-                <h3 className="font-semibold text-foreground text-sm mb-1">
+              <div className="mt-6 bg-primary/5 rounded-xl p-4 border border-primary/20">
+                <h3 className="font-semibold text-foreground text-base mb-1">
                   Opening Soon in More Cities
                 </h3>
-                <p className="text-muted-foreground text-xs leading-relaxed">
+                <p className="text-muted-foreground text-sm leading-relaxed">
                   We're expanding to Dallas, Seattle, Boston, and more. Interested in a franchise? Contact us!
                 </p>
               </div>
