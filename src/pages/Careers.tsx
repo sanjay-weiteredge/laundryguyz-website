@@ -111,7 +111,7 @@ const Careers = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="bg-gradient-hero py-20">
+      <section className="bg-gradient-hero pt-12 pb-10">
         <div className="container-custom text-center">
           <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
             Join Our Team
@@ -123,7 +123,7 @@ const Careers = () => {
       </section>
 
       {/* Current Openings Section */}
-      <section className="section-padding">
+      {/* <section className="section-padding">
         <div className="container-custom">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-6">
@@ -155,10 +155,10 @@ const Careers = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* CTA Section / Application Form */}
-      <section className="section-padding bg-secondary/20">
+      <section className="py-12 md:py-16 bg-secondary/20">
         <div className="container-custom">
           <div className="grid md:grid-cols-2 gap-12 items-start">
             {/* Left Side: Application Form */}

@@ -54,7 +54,7 @@ const storeData = [
   },
   {
     id: 7,
-    name: "As Rao Nagar",
+    name: "A.S. Rao Nagar",
     code: "500062",
     address: "Pista House lane, AS Rao Nagar, Hyderabad, Telangana 500062",
     phone: "7799456886",
@@ -66,7 +66,7 @@ const Store = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="bg-gradient-hero py-20">
+      <section className="bg-gradient-hero py-10">
         <div className="container-custom">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
@@ -80,7 +80,7 @@ const Store = () => {
       </section>
 
       {/* Stores List Section */}
-      <section className="section-padding bg-secondary/10">
+      <section className="py-10 bg-secondary/10">
         <div className="container-custom">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {storeData.map((store) => (

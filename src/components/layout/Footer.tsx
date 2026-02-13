@@ -33,7 +33,7 @@ const Footer = () => {
   return (
     <footer className="bg-foreground text-background">
       {/* Main Footer */}
-      <div className="container-custom section-padding">
+      <div className="container-custom py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand */}
           <div className="lg:col-span-1">
@@ -131,7 +131,7 @@ const Footer = () => {
 
       {/* Bottom Bar */}
       <div className="border-t border-background/10">
-        <div className="container-custom py-6">
+        <div className="container-custom py-4">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-background/60">
             <p>&copy; {currentYear} The Laundry Guyz. All rights reserved.</p>
             <div className="flex gap-6">

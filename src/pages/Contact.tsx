@@ -103,7 +103,7 @@ const Contact = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="bg-gradient-hero py-20">
+      <section className="bg-gradient-hero py-10">
         <div className="container-custom">
           <div className="max-w-3xl mx-auto text-center">
             <span className="inline-block text-primary font-semibold mb-4 tracking-wide uppercase text-sm">
@@ -147,9 +147,9 @@ const Contact = () => {
       {/* Contact Form & Map */}
       <section className="section-padding bg-secondary/30">
         <div className="container-custom">
-          <div className="grid lg:grid-cols-2 gap-12">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
             {/* Form */}
-            <div className="bg-card rounded-3xl p-8 md:p-10 shadow-card">
+            <div className="bg-card rounded-3xl p-8 md:p-10 shadow-card h-full">
               <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground mb-2">
                 Send Us a Message
               </h2>
@@ -158,69 +158,74 @@ const Contact = () => {
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
-                    Full Name
-                  </label>
-                  <Input
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="John Doe"
-                    required
-                    className="h-12"
-                  />
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
+                      Full Name
+                    </label>
+                    <Input
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder="John Doe"
+                      required
+                      className="h-12"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
+                      Email Address
+                    </label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="john@example.com"
+                      required
+                      className="h-12"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                    Email Address
-                  </label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="john@example.com"
-                    required
-                    className="h-12"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
-                    Phone Number
-                  </label>
-                  <Input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    placeholder="+1 (234) 567-890"
-                    className="h-12"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="service" className="block text-sm font-medium text-foreground mb-2">
-                    Service Interest
-                  </label>
-                  <select
-                    id="service"
-                    name="service"
-                    value={formData.service}
-                    onChange={handleChange}
-                    className="w-full h-12 rounded-lg border border-input bg-background px-3 text-foreground"
-                  >
-                    <option value="">Select a service</option>
-                    <option value="laundry">Laundry Service</option>
-                    <option value="drycleaning">Dry Cleaning</option>
-                    <option value="ironing">Steam Ironing</option>
-                    <option value="shoes">Shoe Cleaning</option>
-                    <option value="subscription">Subscription Plans</option>
-                    <option value="franchise">Franchise Inquiry</option>
-                    <option value="other">Other</option>
-                  </select>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
+                      Phone Number
+                    </label>
+                    <Input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      placeholder="+1 (234) 567-890"
+                      className="h-12"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="service" className="block text-sm font-medium text-foreground mb-2">
+                      Service Interest
+                    </label>
+                    <select
+                      id="service"
+                      name="service"
+                      value={formData.service}
+                      onChange={handleChange}
+                      className="w-full h-12 rounded-lg border border-input bg-background px-3 text-foreground"
+                    >
+                      <option value="">Select a service</option>
+                      <option value="laundry">Laundry Service</option>
+                      <option value="drycleaning">Dry Cleaning</option>
+                      <option value="ironing">Steam Ironing</option>
+                      <option value="shoes">Shoe Cleaning</option>
+                      <option value="subscription">Subscription Plans</option>
+                      <option value="franchise">Franchise Inquiry</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
                 </div>
 
                 <div>
@@ -246,33 +251,45 @@ const Contact = () => {
             </div>
 
             {/* Store Locations */}
-            <div>
-              <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground mb-6">
+            {/* Store Locations & Opening Soon */}
+            <div className="flex flex-col h-full gap-6">
+              {/* Locations Card */}
+              <p className="font-serif text-3xl md:text-3xl font-bold text-foreground ">
                 Our Locations
-              </h2>
+              </p>
+              <div className="bg-card rounded-3xl p-8 md:p-10 shadow-card flex-grow transition-all">
+                <div className="flex items-center mb-8">
+                  <MapPin className="w-6 h-6 text-primary mr-3" />
+                  <h3 className="font-serif text-2xl font-bold text-foreground">Hyderabad</h3>
+                </div>
 
-              <div className="space-y-4">
-                {locations.map((location, index) => (
-                  <div
-                    key={index}
-                    className="bg-card rounded-xl p-4 shadow-card hover-lift"
-                  >
-                    <div className="flex items-start justify-between mb-1">
-                      <h3 className="font-semibold text-foreground text-base">
-                        {location.city}
-                      </h3>
+                <div className="flex flex-col space-y-4">
+                  {[
+                    "Padma Rao Nagar",
+                    "Nallagandla",
+                    "My Home Tridasa- Tellapur",
+                    "Maredpally",
+                    "Yapral",
+                    "A.S. Rao Nagar"
+                  ].map((area, index) => (
+                    <div key={index} className="flex items-center text-muted-foreground">
+                      <span className="w-2 h-2 bg-primary rounded-full mr-4 flex-shrink-0" />
+                      <span className="text-md">{area}</span>
                     </div>
-                    <p className="text-muted-foreground text-sm leading-relaxed">{location.address}</p>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
 
-              <div className="mt-6 bg-primary/5 rounded-xl p-4 border border-primary/20">
-                <h3 className="font-semibold text-foreground text-base mb-1">
-                  Opening Soon in More Cities
+              {/* Opening Soon Card */}
+              <div className="bg-primary/5 rounded-3xl p-4 border border-primary/20 shadow-sm">
+                <h3 className="font-semibold text-foreground text-md mb-2">
+                  Opening Soon Near You!
                 </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  We're expanding to Dallas, Seattle, Boston, and more. Interested in a franchise? Contact us!
+                <p className="text-muted-foreground text-sm leading-relaxed mb-1">
+                  We're expanding to new locations!
+                </p>
+                <p className="text-muted-foreground text-sm leading-relaxed font-medium text-primary">
+                  Interested in a franchise? Contact us!
                 </p>
               </div>
             </div>

@@ -40,7 +40,7 @@ const About = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="bg-gradient-hero py-20">
+      <section className="bg-gradient-hero py-10">
         <div className="container-custom">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -78,7 +78,7 @@ const About = () => {
       </section>
 
       {/* Mission Section */}
-      <section className="section-padding">
+      <section className="py-10">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-6">
@@ -107,9 +107,9 @@ const About = () => {
       </section>
 
       {/* Our Story Section */}
-      <section className="section-padding bg-secondary/20">
+      <section className="py-10 bg-secondary/20">
         <div className="container-custom">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-12 items-center px-20">
             <div>
               <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-6">
                 Our Story
@@ -139,7 +139,7 @@ const About = () => {
               <img
                 src={storyImage}
                 alt="Our Story"
-                className="rounded-xl shadow-large  w-full h-[600px]"
+                className="rounded-xl shadow-large "
               />
             </div>
           </div>

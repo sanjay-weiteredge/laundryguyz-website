@@ -62,7 +62,7 @@ const Header = () => {
           <div className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
               <Link
-                key={link.path}
+                key={link.name}
                 to={link.path}
                 className={`font-medium transition-all duration-300 hover:text-primary ${isActive(link.path)
                   ? "text-primary border-b-2 border-primary pb-1"

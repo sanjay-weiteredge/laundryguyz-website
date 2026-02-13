@@ -76,7 +76,7 @@ const Pricing = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="bg-gradient-hero py-20">
+      <section className="bg-gradient-hero py-10">
         <div className="container-custom">
           <div className="max-w-3xl mx-auto text-center">
             <span className="inline-block text-primary font-semibold mb-4 tracking-wide uppercase text-sm">
@@ -93,7 +93,7 @@ const Pricing = () => {
         </div>
       </section>
       {/* Individual Pricing */}
-      <section className="section-padding bg-secondary/30">
+      <section className="py-10 bg-secondary/30">
         <div className="container-custom">
           <div className="flex flex-col lg:flex-row items-start justify-center gap-8 mb-16">
             {/* Price List Section */}
