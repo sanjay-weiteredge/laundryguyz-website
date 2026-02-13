@@ -109,7 +109,7 @@ const About = () => {
       {/* Our Story Section */}
       <section className="py-10 bg-secondary/20">
         <div className="container-custom">
-          <div className="grid lg:grid-cols-2 gap-12 items-center px-20">
+          <div className="grid lg:grid-cols-2 gap-12 items-center py-10">
             <div>
               <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-6">
                 Our Story
