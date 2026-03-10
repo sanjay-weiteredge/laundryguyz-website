@@ -8,57 +8,57 @@ import { Link } from 'react-router-dom';
 const storeData = [
   {
     id: 1,
-    name: "Padma Rao Nagar",
-    code: "500020",
-    address: "Padmarao Nagar main road, Secunderabad, Telangana 500020",
+    name: "Tellapur Store",
+    code: "500046",
+    address: "Tellapur Road, Tellapur/Nallagandla, Hyderabad, Telangana 500046",
+    mapUrl: "https://maps.app.goo.gl/aHKEpF56SySUtn7s5",
     phone: "7799456886",
     email: "info@thelaundryguyz.com",
   },
   {
     id: 2,
-    name: "Tellapur/Nallagandla",
-    code: "500046",
-    address: "Tellapur Road, Tellapur/Nallagandla, Hyderabad, Telangana 500046",
+    name: "West Maredpally Store",
+    code: "500026",
+    address: "Near St marks high school, East Marredpally, Secunderabad, Hyderabad, Telangana 500026",
+    mapUrl: "https://maps.app.goo.gl/BruPr85ch8c83RQG6",
     phone: "7799456886",
     email: "info@thelaundryguyz.com",
   },
   {
     id: 3,
-    name: "My Home Tridasa",
-    code: "502034",
-    address: "Shop no 4, club house, My Home Tridasa, Tellapur, Hyderabad. Telangana 502034",
+    name: "Padma Rao Nagar Store",
+    code: "500020",
+    address: "Padmarao Nagar main road, Secunderabad, Telangana 500020",
+    mapUrl: "https://maps.app.goo.gl/YJWRoWuYjv12LwLH6", // Add your Google Maps link here
     phone: "7799456886",
     email: "info@thelaundryguyz.com",
   },
+
+
   {
     id: 4,
-    name: "Maredpally/Mahendra Hills",
-    code: "500026",
-    address: "Near St marks high school, East Marredpally, Secunderabad, Hyderabad, Telangana 500026",
+    name: "Yapral Store",
+    code: "500087",
+    address: "Yapral Main Rd, Yapral, Secunderabad, Telangana 500087",
+    mapUrl: "https://maps.app.goo.gl/8oXakRoAm9DuuWGf9", // Add your Google Maps link here
     phone: "7799456886",
     email: "info@thelaundryguyz.com",
   },
   {
     id: 5,
-    name: "Yapral",
-    code: "500087",
-    address: "Yapral Main Rd, Yapral, Secunderabad, Telangana 500087",
+    name: "Saket Store",
+    code: "500103",
+    address: "Near Saket Towers, Kapra-Saket Road, Kapra, Secunderabad, Telangana 500103",
+    mapUrl: "https://maps.app.goo.gl/4c7o1h4HMyZ3FuHK6",
     phone: "7799456886",
     email: "info@thelaundryguyz.com",
   },
   {
     id: 6,
-    name: "Saket",
-    code: "500103",
-    address: "Near Saket Towers, Kapra-Saket Road, Kapra, Secunderabad, Telangana 500103",
-    phone: "7799456886",
-    email: "info@thelaundryguyz.com",
-  },
-  {
-    id: 7,
-    name: "A.S. Rao Nagar",
+    name: "AS Rao Nagar Store",
     code: "500062",
     address: "Pista House lane, AS Rao Nagar, Hyderabad, Telangana 500062",
+    mapUrl: "https://maps.app.goo.gl/tToPoM6WJVFTHdr17", // Add your Google Maps link here
     phone: "7799456886",
     email: "info@thelaundryguyz.com",
   }
@@ -127,7 +127,7 @@ const Store = () => {
                     asChild
                   >
                     <a
-                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(store.address)}`}
+                      href={store.mapUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(store.address)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >

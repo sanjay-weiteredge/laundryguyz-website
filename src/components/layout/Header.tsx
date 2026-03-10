@@ -32,7 +32,7 @@ const Header = () => {
           <div className="flex items-center gap-6">
             <a href="tel:+1234567890" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
               <Phone className="w-4 h-4" />
-              <span className="hidden sm:inline">+91 7799456886</span>
+              <span className="hidden sm:inline">4079697735</span>
             </a>
             <a href="mailto:hello@thelaundryguyz.com" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
               <Mail className="w-4 h-4" />

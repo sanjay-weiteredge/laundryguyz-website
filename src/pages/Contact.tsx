@@ -265,12 +265,12 @@ const Contact = () => {
 
                 <div className="flex flex-col space-y-4">
                   {[
-                    "Padma Rao Nagar",
-                    "Nallagandla",
-                    "My Home Tridasa- Tellapur",
-                    "Maredpally",
-                    "Yapral",
-                    "A.S. Rao Nagar"
+                    "Tellapur Store",
+                    "West Maredpally Store",
+                    "Padma Rao Nagar Store",
+                    "Yapral Store",
+                    "Saket Store",
+                    "AS Rao Nagar Store"
                   ].map((area, index) => (
                     <div key={index} className="flex items-center text-muted-foreground">
                       <span className="w-2 h-2 bg-primary rounded-full mr-4 flex-shrink-0" />
