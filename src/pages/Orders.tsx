@@ -57,7 +57,6 @@ const Orders = () => {
         setOrders(processed);
       }
     } catch (err: any) {
-      console.error('Error fetching orders:', err);
       setError(err.message || 'Failed to fetch orders');
     } finally {
       setLoading(false);
@@ -79,7 +78,6 @@ const Orders = () => {
       });
       fetchOrders(); // Refresh orders list
     } catch (err: any) {
-      console.error('Error cancelling order:', err);
       toast({
         title: 'Cancel Failed',
         description: err.message || 'We could not cancel this order. Please contact support.',

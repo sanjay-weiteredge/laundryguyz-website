@@ -67,10 +67,6 @@ const Login = () => {
         description: `An OTP has been sent to ${data.mobileNumber}${response.verificationCode ? `. Debug Code: ${response.verificationCode}` : ''}`,
       });
 
-      // For development/debugging: if verificationCode is in response, log it
-      if (response && response.verificationCode) {
-        console.log('OTP (dev only):', response.verificationCode);
-      }
 
       setStep(2);
     } catch (error) {
@@ -165,7 +161,6 @@ const Login = () => {
       });
       navigate('/');
     } catch (error) {
-      console.error('Error updating profile:', error);
       toast({
         title: 'Update Failed',
         description: error.message || 'Failed to update profile. Please try again.',

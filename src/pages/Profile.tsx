@@ -103,7 +103,6 @@ const Profile = () => {
           login(mappedUser, token, storeId || '');
         }
       } catch (error) {
-        console.error('Error fetching profile:', error);
         toast({
           title: 'Error',
           description: error.message || 'Failed to fetch profile',
@@ -180,7 +179,6 @@ const Profile = () => {
         description: 'Your profile has been updated successfully.',
       });
     } catch (error) {
-      console.error('Error updating profile:', error);
       toast({
         title: 'Update Failed',
         description: error.message || 'Failed to update profile. Please try again.',

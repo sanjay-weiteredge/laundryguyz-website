@@ -47,7 +47,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setToken(storedToken);
         setStoreId(storedStoreId);
       } catch (error) {
-        console.error('Error parsing stored user:', error);
         localStorage.removeItem('user');
         localStorage.removeItem('token');
         localStorage.removeItem('storeId');

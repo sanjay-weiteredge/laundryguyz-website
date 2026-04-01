@@ -167,7 +167,6 @@ const AddressesPage = () => {
       // --- End Pincode Check ---
 
     } catch (error) {
-      console.error('Error fetching addresses:', error);
       toast({ variant: 'destructive', title: 'Address Error', description: error?.message || 'Unable to load addresses.' });
     } finally {
       setLoadingAddresses(false);
@@ -211,7 +210,6 @@ const AddressesPage = () => {
         toast({ title: 'Location Fetched', description: 'Fetching address details...' });
         try {
           const locationInfo = await getReverseLocationOSM(latitude, longitude);
-          console.log('Location Data fetched from Use My Location (OSM):', locationInfo);
           const addressObj = locationInfo.address || {};
 
           const house = [
@@ -235,14 +233,12 @@ const AddressesPage = () => {
             street: street,
           }));
         } catch (error) {
-          console.error('Error fetching address details:', error);
           toast({ variant: 'destructive', title: 'Address Error', description: 'Could not fetch address details.' });
         } finally {
           setLocationLoading(false);
         }
       },
       (error) => {
-        console.error('Error fetching current location:', error);
         toast({ variant: 'destructive', title: 'Location Error', description: 'Unable to fetch your current location.' });
         setLocationLoading(false);
       },
@@ -301,7 +297,6 @@ const AddressesPage = () => {
       await fetchSavedAddresses();
       toast({ title: 'Address Deleted' });
     } catch (error) {
-      console.error('Delete address error:', error);
       toast({ variant: 'destructive', title: 'Error', description: 'Failed to delete address' });
     } finally {
       setShowDeleteModal(false);
@@ -371,7 +366,6 @@ const AddressesPage = () => {
       resetForm();
       toast({ title: 'Success', description: 'Address saved successfully' });
     } catch (error) {
-      console.error('Error saving address:', error);
       toast({ variant: 'destructive', title: 'Error', description: 'Failed to save address' });
     } finally {
       setSavingAddress(false);

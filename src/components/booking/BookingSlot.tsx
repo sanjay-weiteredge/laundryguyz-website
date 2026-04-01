@@ -94,7 +94,6 @@ const BookingSlot = ({ onSlotSelect, selectedSlot, serviceId, selectedDate, onDa
 
         setTimeSlots(grouped);
       } catch (err) {
-        console.error('Config fetch error:', err);
         toast({ variant: 'destructive', title: 'Error', description: 'Failed to load booking slots.' });
       } finally {
         setLoadingSlots(false);

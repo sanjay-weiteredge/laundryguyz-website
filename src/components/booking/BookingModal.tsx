@@ -133,8 +133,6 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, mode = 'bo
       if (a1) found.push(a1);
       if (a2) found.push(a2);
       setUserAddresses(found);
-    } catch (err) {
-      console.error('Error loading addresses:', err);
     } finally {
       setLoadingAddresses(false);
     }
@@ -165,7 +163,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, mode = 'bo
             if (data && data.assaignStoreId) return store;
           }
         } catch (e) {
-          console.warn(`[Pincode] Check failed for store ${store.id}:`, e);
+          // Silent catch for store availability checks
         }
         return null;
       })
@@ -209,7 +207,6 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, mode = 'bo
       setAlternateStore(found); // null = no store found at all
       setShowNotServiceableModal(true);
     } catch (err) {
-      console.error('[Pincode] Validation error:', err);
       if (type === 'pickup') setPickupPincodeStatus('not_serviceable');
       else setDeliveryPincodeStatus('not_serviceable');
     }
@@ -344,11 +341,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, mode = 'bo
         shippingLongitude: pickupAddress.location?.lon || pickupAddress.longitude || 0,
       };
 
-      console.log('[BookingModal] schedulePickup payload:', JSON.stringify(payload, null, 2));
-
       const result = await schedulePickup(storeId, payload);
-
-      console.log('[BookingModal] schedulePickup response:', JSON.stringify(result, null, 2));
 
       // schedulePickup returns: { orderCreate: "success", orderIdStr: "ISTRE-4", orderId: 5926912 }
       if (result.orderCreate !== 'success') {
@@ -365,7 +358,6 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, mode = 'bo
       });
       setStep(3);
     } catch (error: any) {
-      console.error('Booking failed:', error);
       toast({ variant: 'destructive', title: 'Booking Failed', description: error.message || 'Could not complete your booking.' });
     } finally {
       setIsBooking(false);
@@ -620,11 +612,29 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, mode = 'bo
 
           <div className="mt-4 flex-grow overflow-y-auto p-1 no-scrollbar">
             {step === 1 && (
-              <ServiceSelection
-                selectedServices={selectedServices}
-                onServiceToggle={setSelectedServices}
-                onClose={handleClose}
-              />
+              !user ? (
+                <div className="flex flex-col items-center justify-center p-10 text-center bg-secondary/10 rounded-2xl border-2 border-dashed border-border/60">
+                  <div className="bg-primary/10 p-4 rounded-full mb-4">
+                    <CheckCircle2 className="w-10 h-10 text-primary opacity-20" />
+                  </div>
+                  <h3 className="text-lg font-bold text-foreground mb-2">Login Required</h3>
+                  <p className="text-muted-foreground text-xs max-w-[240px] mb-6 leading-relaxed">
+                    You need to be logged in to view services and schedule a pickup.
+                  </p>
+                  <Button
+                    className="w-full max-w-[180px] font-bold rounded-xl"
+                    onClick={() => { handleClose(); navigate('/login'); }}
+                  >
+                    Login to Continue
+                  </Button>
+                </div>
+              ) : (
+                <ServiceSelection
+                  selectedServices={selectedServices}
+                  onServiceToggle={setSelectedServices}
+                  onClose={handleClose}
+                />
+              )
             )}
 
             {step === 2 && (
@@ -650,7 +660,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, mode = 'bo
           </div>
 
           <div className="mt-6">
-            {step === 1 && (
+            {step === 1 && user && (
               <Button onClick={nextStep} disabled={isNextDisabled()} className="w-full">
                 Continue with {selectedServices.length} service{selectedServices.length !== 1 ? 's' : ''}
               </Button>
