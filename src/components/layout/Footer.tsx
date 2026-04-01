@@ -19,7 +19,7 @@ const Footer = () => {
   const company = [
     { name: "About Us", path: "/about" },
     { name: "Our Team", path: "/about" },
-    { name: "Careers", path: "/contact" },
+    { name: "Careers", path: "/careers" },
     { name: "Franchise", path: "/contact" },
   ];
 
@@ -107,15 +107,15 @@ const Footer = () => {
             <h4 className="font-serif font-bold text-lg mb-6">Contact Us</h4>
             <ul className="space-y-4">
               <li>
-                <a href="tel:+1234567890" className="flex items-start gap-3 text-background/70 hover:text-primary transition-colors">
+                <a href="tel:+914079697735" className="flex items-start gap-3 text-background/70 hover:text-primary transition-colors">
                   <Phone className="w-5 h-5 mt-0.5 flex-shrink-0" />
-                  <span>+91 7799456886</span>
+                  <span>+91 4079697735</span>
                 </a>
               </li>
               <li>
-                <a href="mailto:hello@thelaundryguyz.com" className="flex items-start gap-3 text-background/70 hover:text-primary transition-colors">
+                <a href="mailto:support@thelaundryguyz.com" className="flex items-start gap-3 text-background/70 hover:text-primary transition-colors">
                   <Mail className="w-5 h-5 mt-0.5 flex-shrink-0" />
-                  <span>info@thelaundryguyz.com</span>
+                  <span>support@thelaundryguyz.com</span>
                 </a>
               </li>
               <li>

@@ -3,7 +3,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+
 import {
   Card,
   CardContent,
@@ -22,10 +22,11 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { User, Mail, Phone, Save, Camera, Loader2 } from 'lucide-react';
+import { User, Mail, Phone, Save, Loader2 } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { useEffect, useState, useRef } from 'react';
-import { getUserProfile, updateProfile } from '@/service/api';
+// import { getUserProfile, updateProfile } from '@/service/api'; // Removed to use fabclean
+import { getFabkleanProfile, updateFabkleanProfile } from '@/service/fabklean';
 
 const profileSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -40,29 +41,13 @@ const profileSchema = z.object({
 type ProfileFormData = z.infer<typeof profileSchema>;
 
 const Profile = () => {
-  const { user, token, login } = useAuth();
-  const [photoPreview, setPhotoPreview] = useState<string | null>(user?.photo || null);
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const { user, token, storeId, login } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const hasFetchedRef = useRef(false);
   const previousTokenRef = useRef<string | null>(null);
 
-  // Initialize photoPreview from user context if available
-  useEffect(() => {
-    if (user?.photo && !photoPreview) {
-      setPhotoPreview(user.photo);
-    }
-  }, [user?.photo, photoPreview]);
 
-  // Cleanup object URL on unmount or when photo changes
-  useEffect(() => {
-    return () => {
-      if (photoPreview && photoPreview.startsWith('blob:')) {
-        URL.revokeObjectURL(photoPreview);
-      }
-    };
-  }, [photoPreview]);
 
   const form = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
@@ -70,55 +55,52 @@ const Profile = () => {
       name: user?.name || '',
       email: user?.email || '',
       mobileNumber: user?.mobileNumber || '',
-      photo: user?.photo || '',
     },
   });
 
   // Fetch profile from API ONLY ONCE on mount (when token changes)
   useEffect(() => {
     if (!token) return;
-    
+
     // Prevent multiple fetches - only fetch once per token
     if (hasFetchedRef.current) return;
-    
+
     // Reset flag when token changes
     if (previousTokenRef.current !== token) {
       hasFetchedRef.current = false;
       previousTokenRef.current = token;
     }
-    
+
     const fetchProfile = async () => {
       // Double check to prevent race conditions
       if (hasFetchedRef.current) return;
       hasFetchedRef.current = true;
-      
+
       setIsFetching(true);
       try {
-        const profileData = await getUserProfile(token);
+        if (!user?.id || !storeId) return;
+        const profileResponse = await getFabkleanProfile(user.id, storeId);
+        const userInfo = profileResponse.userInfo;
         // Map backend fields to frontend format
         const mappedUser = {
-          id: profileData.id,
-          name: profileData.name || '',
-          email: profileData.email || '',
-          mobileNumber: profileData.phone_number || '',
-          photo: profileData.image || '',
+          id: userInfo.id.toString(),
+          name: userInfo.firstName || userInfo.name || '',
+          email: userInfo.email || '',
+          mobileNumber: userInfo.phoneNumber || '',
         };
-        
+
         form.reset({
           name: mappedUser.name,
           email: mappedUser.email,
           mobileNumber: mappedUser.mobileNumber,
-          photo: mappedUser.photo,
         });
-        setPhotoPreview(mappedUser.photo || null);
-        
+
         // Only update auth context if data is different (avoid overwriting recent updates)
         // This prevents overwriting profile updates made during login flow
-        if (!user || 
-            user.name !== mappedUser.name || 
-            user.email !== mappedUser.email || 
-            user.photo !== mappedUser.photo) {
-          login(mappedUser, token);
+        if (!user ||
+          user.name !== mappedUser.name ||
+          user.email !== mappedUser.email) {
+          login(mappedUser, token, storeId || '');
         }
       } catch (error) {
         console.error('Error fetching profile:', error);
@@ -135,69 +117,22 @@ const Profile = () => {
 
     fetchProfile();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]); // Only depend on token - fetch once per token
+  }, [token, user?.id, storeId]);
 
-  // Update form when user changes from other sources (e.g., after profile update in Login)
+  // Update form when user changes from other sources
   useEffect(() => {
     if (user && !isFetching && hasFetchedRef.current) {
-      // Only update if we've already fetched (to avoid conflicts with initial fetch)
-      // This handles cases where user data is updated in auth context (e.g., after login profile update)
-      const currentPhoto = user.photo || '';
-      const currentPreview = photoPreview || '';
-      
       // Update form with latest user data
       form.reset({
         name: user.name || '',
         email: user.email || '',
         mobileNumber: user.mobileNumber || '',
-        photo: currentPhoto,
       });
-      
-      // Update preview if photo changed
-      if (currentPhoto !== currentPreview) {
-        setPhotoPreview(currentPhoto || null);
-      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user?.photo, user?.name, user?.email, user?.mobileNumber, isFetching]);
+  }, [user?.name, user?.email, user?.mobileNumber, isFetching]);
 
-  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
 
-    // Validate file type - backend only accepts JPEG, JPG, PNG
-    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
-    if (!allowedTypes.includes(file.type.toLowerCase())) {
-      toast({
-        title: 'Invalid File Type',
-        description: 'Please upload a JPEG, JPG, or PNG image file',
-        variant: 'destructive',
-      });
-      return;
-    }
-    
-    // Validate file size (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      toast({
-        title: 'File Too Large',
-        description: 'Please upload an image smaller than 5MB',
-        variant: 'destructive',
-      });
-      return;
-    }
-    
-    // Cleanup previous object URL if exists
-    if (photoPreview && photoPreview.startsWith('blob:')) {
-      URL.revokeObjectURL(photoPreview);
-    }
-    
-    // Store file for upload
-    setImageFile(file);
-    
-    // Create preview using object URL (for display only)
-    const objectUrl = URL.createObjectURL(file);
-    setPhotoPreview(objectUrl);
-  };
 
   const onSubmit = async (data: ProfileFormData) => {
     if (!user || !token) {
@@ -212,7 +147,7 @@ const Profile = () => {
     setIsLoading(true);
     try {
       const profileData: { name?: string; email?: string } = {};
-      
+
       if (data.name !== user.name) {
         profileData.name = data.name;
       }
@@ -221,30 +156,24 @@ const Profile = () => {
       }
 
       // Call API to update profile
-      const updatedProfile = await updateProfile(
-        token,
-        profileData,
-        imageFile || undefined
+      const updateResponse = await updateFabkleanProfile(
+        user.id,
+        storeId,
+        data
       );
+
+      const userInfo = updateResponse.userInfo;
 
       // Map backend response to frontend format
       const updatedUser = {
-        id: updatedProfile.id,
-        name: updatedProfile.name || '',
-        email: updatedProfile.email || '',
-        mobileNumber: updatedProfile.phone_number || user.mobileNumber,
-        photo: updatedProfile.image || user.photo || '',
+        id: userInfo.id.toString(),
+        name: userInfo.firstName || userInfo.name || '',
+        email: userInfo.email || '',
+        mobileNumber: userInfo.phoneNumber || user.mobileNumber,
       };
 
       // Update auth context
-      login(updatedUser, token);
-
-      // Reset image file after successful upload
-      if (imageFile) {
-        setImageFile(null);
-        // Update preview with the new image URL from server
-        setPhotoPreview(updatedProfile.image || null);
-      }
+      login(updatedUser, token, storeId || '');
 
       toast({
         title: 'Profile Updated',
@@ -312,43 +241,7 @@ const Profile = () => {
             <CardContent>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                  {/* Photo Upload */}
-                  <FormItem>
-                    <FormLabel className="text-center block">Profile Photo</FormLabel>
-                    <div className="flex flex-col items-center gap-4">
-                      <Avatar className="h-32 w-32">
-                        <AvatarImage src={photoPreview || user?.photo || ''} alt={user?.name || 'Profile'} />
-                        <AvatarFallback className="text-2xl">
-                          {user?.name
-                            ?.split(' ')
-                            .map((n) => n[0])
-                            .join('')
-                            .toUpperCase() || <User className="h-8 w-8" />}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="relative">
-                        <Input
-                          type="file"
-                          accept="image/jpeg,image/jpg,image/png"
-                          onChange={handlePhotoChange}
-                          className="hidden"
-                          id="profile-photo-upload"
-                        />
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          onClick={() => document.getElementById('profile-photo-upload')?.click()}
-                        >
-                          <Camera className="mr-2 h-4 w-4" />
-                          {photoPreview ? 'Change Photo' : 'Upload Photo'}
-                        </Button>
-                      </div>
-                      <p className="text-xs text-muted-foreground text-center">
-                        Max size: 5MB. JPEG, JPG, or PNG
-                      </p>
-                    </div>
-                  </FormItem>
+
 
                   <FormField
                     control={form.control}
@@ -415,9 +308,9 @@ const Profile = () => {
                   />
 
                   <div className="flex justify-center">
-                    <Button 
-                      type="submit" 
-                      size="lg" 
+                    <Button
+                      type="submit"
+                      size="lg"
                       className="w-full sm:w-auto"
                       disabled={isLoading || isFetching}
                     >

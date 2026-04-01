@@ -20,7 +20,7 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 // OTP schema
 const otpSchema = z.object({
-  otp: z.string().length(4, 'OTP must be 4 digits'),
+  otp: z.string().length(5, 'OTP must be 5 digits'),
 });
 
 export type OtpFormData = z.infer<typeof otpSchema>;
@@ -59,12 +59,12 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({
               <FormControl>
                 <div className="flex justify-center">
                   <InputOTP
-                    maxLength={4}
+                    maxLength={5}
                     {...field}
                     onChange={(value) => {
                       field.onChange(value);
-                     
-                      if (value.length === 4) {
+
+                      if (value.length === 5) {
                         setTimeout(() => {
                           otpForm.handleSubmit(handleSubmit)();
                         }, 100);
@@ -76,6 +76,7 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({
                       <InputOTPSlot index={1} />
                       <InputOTPSlot index={2} />
                       <InputOTPSlot index={3} />
+                      <InputOTPSlot index={4} />
                     </InputOTPGroup>
                   </InputOTP>
                 </div>

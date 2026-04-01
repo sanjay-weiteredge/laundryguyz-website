@@ -5,7 +5,7 @@ import { Check, ArrowRight, Star, FileText } from "lucide-react";
 import priceListPdf from "@/assets/pdf/pricelist.pdf";
 import priceListPdf1 from "@/assets/pdf/TLG Pricelist 2.pdf";
 
-import priceImage from "@/assets/price.jpg";
+import priceImage from "@/assets/price.png";
 import dryCleaning from "@/assets/drycleaning.png";
 import dryCleaning1 from "@/assets/drycleaning1.png";
 

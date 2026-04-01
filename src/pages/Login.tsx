@@ -13,20 +13,29 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import OTPVerification, { type OtpFormData } from '@/components/auth/OTPVerification';
 import BasicDetailsForm, { type DetailsFormData } from '@/components/auth/BasicDetailsForm';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { toast } from '@/hooks/use-toast';
 import { ArrowRight } from 'lucide-react';
-import { sendOTP, verifyOTP, updateProfile, getUserProfile } from '@/service/api';
+// import { updateProfile, getUserProfile } from '@/service/api'; // Removed to use fabclean only during login
+import { generateOTP, verifyFabkleanOTP, STORES, FABKLEAN_TOKEN, updateFabkleanProfile } from '@/service/fabklean';
 
-// Step 1: Mobile number schema
+// Step 1: Mobile number and Store schema
 const mobileSchema = z.object({
   mobileNumber: z
     .string()
     .min(10, 'Mobile number must be at least 10 digits')
     .regex(/^[0-9]+$/, 'Mobile number must contain only digits'),
+  storeId: z.string().min(1, 'Please select a store'),
 });
 
 type MobileFormData = z.infer<typeof mobileSchema>;
@@ -34,7 +43,8 @@ type MobileFormData = z.infer<typeof mobileSchema>;
 const Login = () => {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [mobileNumber, setMobileNumber] = useState('');
-  const { login, token } = useAuth();
+  const [selectedStoreId, setSelectedStoreId] = useState('');
+  const { login, token, user, storeId } = useAuth();
   const navigate = useNavigate();
 
   // Step 1: Mobile number form
@@ -42,17 +52,26 @@ const Login = () => {
     resolver: zodResolver(mobileSchema),
     defaultValues: {
       mobileNumber: '',
+      storeId: '',
     },
   });
 
   const onMobileSubmit = async (data: MobileFormData) => {
     try {
-      await sendOTP(data.mobileNumber);
+      const response = await generateOTP(data.storeId, data.mobileNumber);
       setMobileNumber(data.mobileNumber);
+      setSelectedStoreId(data.storeId);
+
       toast({
         title: 'OTP Sent',
-        description: `An OTP has been sent to ${data.mobileNumber}`,
+        description: `An OTP has been sent to ${data.mobileNumber}${response.verificationCode ? `. Debug Code: ${response.verificationCode}` : ''}`,
       });
+
+      // For development/debugging: if verificationCode is in response, log it
+      if (response && response.verificationCode) {
+        console.log('OTP (dev only):', response.verificationCode);
+      }
+
       setStep(2);
     } catch (error) {
       toast({
@@ -65,54 +84,42 @@ const Login = () => {
 
   const handleOtpVerify = async (data: OtpFormData) => {
     try {
-      const response = await verifyOTP(mobileNumber, data.otp);
-      
-      // Determine if new user - backend may not send isNewUser flag
-      // Check if user has name or email to determine if profile is complete
-      const isNewUser = response.isNewUser ?? (!response.user.name && !response.user.email);
-      
-      // For existing users, fetch complete profile data including image URL
-      if (!isNewUser && response.token) {
-        try {
-          const profileData = await getUserProfile(response.token);
-          const mappedUser = {
-            id: profileData.id,
-            name: profileData.name || '',
-            email: profileData.email || '',
-            mobileNumber: profileData.phone_number || mobileNumber,
-            photo: profileData.image || '',
-          };
-          login(mappedUser, response.token);
-          
-          toast({
-            title: 'Login Successful',
-            description: `Welcome back, ${mappedUser.name || 'User'}!`,
-          });
-          navigate('/');
-          return;
-        } catch (profileError) {
-          // Fallback to response data if profile fetch fails
-          console.error('Error fetching profile:', profileError);
-        }
-      }
-      
-      // Map backend user data to frontend format (for new users or if profile fetch failed)
-      const mappedUser = {
-        id: response.user.id,
-        name: response.user.name || '',
-        email: response.user.email || '',
-        mobileNumber: response.user.phone_number || mobileNumber,
-        photo: response.user.image || '',
-      };
-      
-      login(mappedUser, response.token);
+      const response = await verifyFabkleanOTP(selectedStoreId, mobileNumber, data.otp);
 
-      // If new user, show basic details form
-      toast({
-        title: 'OTP Verified',
-        description: 'Please complete your profile to continue.',
-      });
-      setStep(3);
+      if (!response.userInfo) {
+        throw new Error('Invalid verification response');
+      }
+
+      const userInfo = response.userInfo;
+
+      // Map Fabklean user info to frontend format
+      // If name is the same as phoneNumber, it's likely a new account that needs profile setup
+      const isNewUser = !userInfo.firstName || userInfo.firstName === userInfo.phoneNumber || userInfo.name === userInfo.phoneNumber;
+
+      const mappedUser = {
+        id: userInfo.id.toString(),
+        name: userInfo.name || '',
+        email: userInfo.email || '',
+        mobileNumber: userInfo.phoneNumber || mobileNumber,
+        photo: userInfo.idCardUrl || '',
+      };
+
+      // Use the Fabklean token for subsequent requests
+      login(mappedUser, FABKLEAN_TOKEN, selectedStoreId);
+
+      if (isNewUser) {
+        toast({
+          title: 'OTP Verified',
+          description: 'Please complete your profile to continue.',
+        });
+        setStep(3);
+      } else {
+        toast({
+          title: 'Login Successful',
+          description: `Welcome back, ${mappedUser.name}!`,
+        });
+        navigate('/');
+      }
 
     } catch (error) {
       toast({
@@ -134,36 +141,23 @@ const Login = () => {
     }
 
     try {
-      const profileData: { name?: string; email?: string } = {};
-      
-      if (data.name) {
-        profileData.name = data.name;
-      }
-      if (data.email) {
-        profileData.email = data.email || undefined;
-      }
-
-      // Call API to update profile
-      await updateProfile(
-        token,
-        profileData,
-        data.photoFile || undefined
-      );
-
-      // Fetch updated profile from API to get complete data including image URL
-      const profileDataResponse = await getUserProfile(token);
-      
-      // Map backend response to frontend format
+      // Create local user representation from the form data
       const updatedUser = {
-        id: profileDataResponse.id,
-        name: profileDataResponse.name || '',
-        email: profileDataResponse.email || '',
-        mobileNumber: profileDataResponse.phone_number || mobileNumber,
-        photo: profileDataResponse.image || '',
+        id: user?.id || Date.now().toString(),
+        name: data.name,
+        email: data.email || '',
+        mobileNumber: mobileNumber || user?.mobileNumber || '',
+        photo: user?.photo || '',
       };
 
-      // Update auth context with updated profile
-      login(updatedUser, token);
+      // Update Fabklean profile with the new data
+      const currentStoreId = storeId || selectedStoreId;
+      if (user?.id && currentStoreId) {
+        await updateFabkleanProfile(user.id, currentStoreId, updatedUser);
+      }
+
+      // Update local auth context with the new data
+      login(updatedUser, token, currentStoreId);
 
       toast({
         title: 'Profile Setup Complete',
@@ -198,9 +192,8 @@ const Login = () => {
             <div className="flex items-center justify-center mb-8">
               <div className="flex items-center">
                 <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                    step >= 1 ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'
-                  }`}
+                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${step >= 1 ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'
+                    }`}
                 >
                   1
                 </div>
@@ -208,9 +201,8 @@ const Login = () => {
                   className={`w-16 h-1 mx-2 ${step >= 2 ? 'bg-primary' : 'bg-muted'}`}
                 />
                 <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                    step >= 2 ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'
-                  }`}
+                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${step >= 2 ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'
+                    }`}
                 >
                   2
                 </div>
@@ -218,19 +210,42 @@ const Login = () => {
                   className={`w-16 h-1 mx-2 ${step >= 3 ? 'bg-primary' : 'bg-muted'}`}
                 />
                 <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                    step >= 3 ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'
-                  }`}
+                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${step >= 3 ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'
+                    }`}
                 >
                   3
                 </div>
               </div>
             </div>
 
-            {/* Step 1: Mobile Number */}
+            {/* Step 1: Mobile Number & Store Selection */}
             {step === 1 && (
               <Form {...mobileForm}>
                 <form onSubmit={mobileForm.handleSubmit(onMobileSubmit)} className="space-y-6">
+                  <FormField
+                    control={mobileForm.control}
+                    name="storeId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Select Store</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select a store" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {STORES.map((store) => (
+                              <SelectItem key={store.id} value={store.id}>
+                                {store.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                   <FormField
                     control={mobileForm.control}
                     name="mobileNumber"

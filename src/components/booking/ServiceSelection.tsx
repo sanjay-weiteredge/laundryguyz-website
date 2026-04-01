@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAllServices } from '../../service/api';
+import { getFabkleanCatalogs } from '../../service/fabklean';
 import { useAuth } from '../../contexts/AuthContext';
 
 interface Service {
@@ -8,10 +8,6 @@ interface Service {
   name: string;
   image: string;
   description: string;
-  price: number;
-  vendor: boolean;
-  user: boolean;
-  created_at: string;
 }
 
 interface ServiceSelectionProps {
@@ -21,7 +17,7 @@ interface ServiceSelectionProps {
 }
 
 const ServiceSelection: React.FC<ServiceSelectionProps> = ({ selectedServices, onServiceToggle, onClose }) => {
-  const { token } = useAuth();
+  const { storeId } = useAuth();
   const navigate = useNavigate();
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
@@ -29,16 +25,37 @@ const ServiceSelection: React.FC<ServiceSelectionProps> = ({ selectedServices, o
 
   useEffect(() => {
     const fetchServices = async () => {
-      if (!token) {
-        onClose();
-        navigate('/login');
+      // If storeId is missing, we can't fetch catalogs
+      if (!storeId) {
+        setLoading(false);
         return;
       }
 
       try {
-        const fetchedServices = await getAllServices(token);
-        setServices(fetchedServices);
-      } catch (err) {
+        const fabkleanCatalogs = await getFabkleanCatalogs(storeId);
+
+        // Map Fabklean objectList to UI Service type
+        const mappedServices: Service[] = fabkleanCatalogs.map((item: any) => {
+          let imageUrl = '/placeholder-service.png';
+
+          if (item.imageExtension) {
+            if (item.imageExtension.startsWith('http')) {
+              imageUrl = item.imageExtension;
+            } else {
+              imageUrl = `https://support.fabklean.com/api/catalogs/${item.id}/image`;
+            }
+          }
+
+          return {
+            id: item.id.toString(),
+            name: item.title,
+            image: imageUrl,
+            description: item.description || ''
+          };
+        });
+
+        setServices(mappedServices);
+      } catch (err: any) {
         setError(err.message);
       } finally {
         setLoading(false);
@@ -46,7 +63,7 @@ const ServiceSelection: React.FC<ServiceSelectionProps> = ({ selectedServices, o
     };
 
     fetchServices();
-  }, [token]);
+  }, [storeId]);
 
   const toggleService = (service) => {
     onServiceToggle(prev => {
@@ -77,11 +94,14 @@ const ServiceSelection: React.FC<ServiceSelectionProps> = ({ selectedServices, o
             <div className="custom-carousel-item" key={service.id}>
               <div
                 onClick={() => toggleService(service)}
-              className={`cursor-pointer p-2 rounded-xl border-2 relative transition-all duration-200 ${
-                isSelected ? 'bg-primary/10 border-primary shadow-md' : 'bg-card border-border'
-              }`}>
-              <img src={service.image} alt={service.name} className="w-full h-16 object-contain mb-1" />
-              <h4 className="font-bold text-center text-foreground text-sm">{service.name}</h4>
+                className={`cursor-pointer p-3 rounded-2xl border-2 relative transition-all duration-300 flex flex-col items-center justify-between min-h-[150px] w-full ${isSelected ? 'bg-primary/5 border-primary shadow-lg ring-1 ring-primary/20' : 'bg-card border-border hover:border-primary/30'
+                  }`}>
+                <div className="flex-1 flex items-center justify-center w-full mb-2">
+                  <img src={service.image} alt={service.name} className="w-full h-16 object-contain transition-transform duration-300 group-hover:scale-110" />
+                </div>
+                <h4 className="font-black text-center text-foreground text-[10px] sm:text-[11px] leading-tight uppercase tracking-tight min-h-[32px] flex items-center justify-center">
+                  {service.name}
+                </h4>
               </div>
             </div>
           );

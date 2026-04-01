@@ -58,7 +58,7 @@ const HeroSection = () => {
             </p>
 
             <div className="flex flex-wrap gap-4 mb-10 animate-fade-up delay-300">
-              <Button variant="hero" size="xl" onClick={() => openModal('book')} disabled={true}>
+              <Button variant="hero" size="xl" onClick={() => openModal('book')}>
                 Schedule Pickup<ArrowRight className="w-5 h-5" />
               </Button>
               <Button variant="hero-outline" size="xl" asChild>

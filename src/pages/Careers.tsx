@@ -74,7 +74,7 @@ const Careers = () => {
         formDataToSend.append("attachment", file, file.name);
       }
 
-      const response = await fetch("https://formsubmit.co/info@thelaundryguyz.com", {
+      const response = await fetch("https://formsubmit.co/support@thelaundryguyz.com", {
         method: "POST",
         headers: {
           'Accept': 'application/json'
@@ -259,7 +259,7 @@ const Careers = () => {
               </p>
               <div className="flex items-center text-muted-foreground mb-2">
                 <Mail className="w-5 h-5 mr-3 text-primary" />
-                <span>info@thelaundryguyz.com</span>
+                <span>support@thelaundryguyz.com</span>
               </div>
             </div>
           </div>

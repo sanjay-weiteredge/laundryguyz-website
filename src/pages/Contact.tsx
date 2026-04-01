@@ -10,12 +10,12 @@ const contactInfo = [
   {
     icon: Phone,
     title: "Phone",
-    details: ["+91 7799456886"],
+    details: ["+91 4079697735"],
   },
   {
     icon: Mail,
     title: "Email",
-    details: ["info@thelaundryguyz.com"],
+    details: ["support@thelaundryguyz.com"],
   },
   {
     icon: MapPin,
@@ -56,7 +56,7 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("https://formsubmit.co/ajax/info@thelaundryguyz.com", {
+      const response = await fetch("https://formsubmit.co/ajax/support@thelaundryguyz.com", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',

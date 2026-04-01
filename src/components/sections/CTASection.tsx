@@ -31,7 +31,6 @@ const CTASection = () => {
               size="xl"
               className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 shadow-lg"
               onClick={() => setIsModalOpen(true)}
-              disabled={true}
             >
               Schedule Pickup
               <ArrowRight className="w-5 h-5" />
