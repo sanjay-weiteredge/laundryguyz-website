@@ -44,8 +44,17 @@ const Header = () => {
             </a>
           </div>
           <div className="flex items-center gap-2">
-            {/* <MapPin className="w-4 h-4" /> */}
-            {/* <span className="hidden sm:inline">50+ Locations Nationwide</span> */}
+            <a 
+              href="https://play.google.com/store/apps/details?id=com.thelaundryguyz.app" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="flex items-center gap-1.5 hover:opacity-80 transition-opacity bg-primary-foreground/10 px-3 py-1 rounded-full text-xs font-semibold"
+            >
+              <svg viewBox="0 0 512 512" className="w-3.5 h-3.5 fill-current text-[#3DDB85]">
+                <path d="M325.3 234.3L104.6 14l280.8 161.2-60.1 59.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58 33.3-60.1-60 60.1-59.1 58 33.3c17.5 10 27.6 26.3 27.6 46.2s-10.1 36.3-27.6 46.3zM385.4 336.8L104.6 498l220.7-220.3 60.1 59.1z"/>
+              </svg>
+              <span>Download Our App</span>
+            </a>
           </div>
         </div>
       </div>
