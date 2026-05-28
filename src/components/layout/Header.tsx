@@ -4,7 +4,7 @@ import { Menu, X, Phone, Mail, MapPin, LogOut, MessageCircle } from "lucide-reac
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import UserProfileDropdown from "@/components/auth/UserProfileDropdown";
-import logoImage from "@/assets/image.png";
+import logoImage from "@/assets/laundry_guyz.png";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -58,7 +58,7 @@ const Header = () => {
             <img
               src={logoImage}
               alt="The Laundry Guyz Logo"
-              className="h-18 w-48 object-contain"
+              className="h-28 md:h-32 w-auto object-contain my-[-20px] max-w-[240px]"
             />
           </Link>
 

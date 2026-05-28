@@ -1,9 +1,15 @@
 import { Link } from "react-router-dom";
-import { Phone, Mail, MapPin, Facebook, Twitter, Instagram, Linkedin, MessageCircle } from "lucide-react";
+import { Phone, Mail, MapPin, Facebook, Instagram, Youtube, MessageCircle } from "lucide-react";
 import logoImage from "@/assets/image.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+
+  const socialLinks = [
+    { icon: Facebook, url: "https://www.facebook.com/share/18s3f2gmfA/", label: "Facebook" },
+    { icon: Instagram, url: "https://www.instagram.com/thelaundryguyz.pvt.ltd/", label: "Instagram" },
+    { icon: Youtube, url: "https://youtube.com/@thelaundryguyz.pvtltd?si=FQja_XVpAzcxjEo1", label: "YouTube" }
+  ];
 
   const services = [
     { name: "Laundry Service", path: "/services" },
@@ -55,14 +61,16 @@ const Footer = () => {
             </p>
 
             <div className="flex gap-4 mb-6">
-              {[Facebook, Twitter, Instagram, Linkedin].map((Icon, index) => (
+              {socialLinks.map((item, index) => (
                 <a
                   key={index}
-                  href="#"
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary transition-colors duration-300"
-                  aria-label={`Social link ${index + 1}`}
+                  aria-label={item.label}
                 >
-                  <Icon className="w-5 h-5" />
+                  <item.icon className="w-5 h-5" />
                 </a>
               ))}
             </div>
@@ -70,7 +78,7 @@ const Footer = () => {
             <div className="border-t border-background/10 pt-4">
               <p className="text-xs font-semibold text-background/80 mb-2 uppercase tracking-wider">Download Our App</p>
               <div className="flex items-center gap-3">
-                <a href="#" className="inline-flex items-center gap-2 bg-zinc-900 text-white px-3 py-1.5 rounded-lg hover:bg-zinc-800 transition-colors border border-zinc-800 text-[10px] tracking-tight">
+                <a href="https://play.google.com/store/apps/details?id=com.thelaundryguyz.app" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-zinc-900 text-white px-3 py-1.5 rounded-lg hover:bg-zinc-800 transition-colors border border-zinc-800 text-[10px] tracking-tight">
                   <svg viewBox="0 0 512 512" className="w-3.5 h-3.5 fill-current">
                     <path d="M325.3 234.3L104.6 14l280.8 161.2-60.1 59.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58 33.3-60.1-60 60.1-59.1 58 33.3c17.5 10 27.6 26.3 27.6 46.2s-10.1 36.3-27.6 46.3zM385.4 336.8L104.6 498l220.7-220.3 60.1 59.1z"/>
                   </svg>

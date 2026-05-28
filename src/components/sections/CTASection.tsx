@@ -55,7 +55,7 @@ const CTASection = () => {
             </div>
             
             <div className="flex items-center gap-4">
-              <a href="#" className="inline-flex items-center gap-2 bg-black text-white px-4 py-2 rounded-xl hover:bg-zinc-900 transition-colors border border-zinc-800 text-[11px] tracking-tight">
+              <a href="https://play.google.com/store/apps/details?id=com.thelaundryguyz.app" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-black text-white px-4 py-2 rounded-xl hover:bg-zinc-900 transition-colors border border-zinc-800 text-[11px] tracking-tight">
                 <svg viewBox="0 0 512 512" className="w-5 h-5 fill-current">
                   <path d="M325.3 234.3L104.6 14l280.8 161.2-60.1 59.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58 33.3-60.1-60 60.1-59.1 58 33.3c17.5 10 27.6 26.3 27.6 46.2s-10.1 36.3-27.6 46.3zM385.4 336.8L104.6 498l220.7-220.3 60.1 59.1z"/>
                 </svg>

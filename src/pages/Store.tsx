@@ -173,7 +173,80 @@ const Store = () => {
           </div>
         </div>
       </section>
-    </Layout >
+
+      {/* Coming Soon Stores Section */}
+      <section className="py-20 bg-background relative overflow-hidden">
+        {/* Decorative background elements */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-1/2 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl" />
+          <div className="absolute bottom-10 right-10 w-96 h-96 bg-coral/20 rounded-full blur-3xl" />
+        </div>
+
+        <div className="container-custom relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="inline-block text-primary font-semibold mb-3 tracking-wide uppercase text-sm">
+              Expanding Rapidly
+            </span>
+            <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Coming Soon to Your Neighborhood
+            </h2>
+            <p className="text-muted-foreground text-md md:text-lg">
+              We are expanding to bring premium, hassle-free fabric care closer to you. Keep an eye out for our upcoming stores!
+            </p>
+          </div>
+
+          <div className="space-y-12">
+            {/* Hyderabad Locations */}
+            <div className="bg-secondary/20 border border-border/60 rounded-3xl p-8 md:p-10">
+              <h3 className="font-serif text-xl md:text-2xl font-bold text-foreground mb-6 flex items-center gap-2.5">
+                <span className="w-2.5 h-2.5 bg-primary rounded-full animate-pulse" />
+                Hyderabad Expansion
+              </h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                {[
+                  "Manikonda", "Khajaguda", "Narsingi", "Kokapet", 
+                  "Gachibowli", "Madhapur", "Kondapur", "Kukatpally", 
+                  "Miyapur", "Kompally", "Uppal", "Thukkuguda"
+                ].map((location, index) => (
+                  <div 
+                    key={index}
+                    className="bg-card border border-border/80 rounded-xl px-4 py-3 text-center font-medium text-foreground/80 shadow-sm transition-all duration-300 hover:border-primary/40 hover:text-primary hover:shadow-md cursor-default"
+                  >
+                    {location}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Other Cities */}
+            <div className="bg-secondary/10 border border-border/60 rounded-3xl p-8 md:p-10">
+              <h3 className="font-serif text-xl md:text-2xl font-bold text-foreground mb-6 flex items-center gap-2.5">
+                <span className="w-2.5 h-2.5 bg-coral rounded-full" />
+                Regional Expansion
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                {[
+                  { city: "Vijayawada", desc: "Multiple premium locations launching soon" },
+                  { city: "Chennai", desc: "Expanding to key residential and business hubs" },
+                  { city: "Bengaluru", desc: "Bringing premier fabric care to the tech capital" }
+                ].map((item, index) => (
+                  <div 
+                    key={index}
+                    className="bg-card border border-border/80 rounded-2xl p-6 shadow-sm transition-all duration-300 hover:border-coral/40 hover:shadow-md cursor-default text-center"
+                  >
+                    <h4 className="font-serif font-bold text-lg text-foreground mb-2">{item.city}</h4>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
+                    <span className="inline-block mt-4 text-[10px] uppercase font-bold text-coral bg-coral/10 px-3 py-1 rounded-full">
+                      Launch Phase
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </Layout>
   );
 };
 
