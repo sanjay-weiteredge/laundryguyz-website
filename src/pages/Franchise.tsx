@@ -35,6 +35,7 @@ const locations = [
   "Maredpally/Mahendra Hills Store",
   "Padma Rao Nagar Store",
   "Serilingampalle Store",
+  "Bangalore Store",
 ];
 
 const Franchise = () => {
@@ -53,9 +54,13 @@ const Franchise = () => {
           <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
             Franchise <span className="text-gradient">Opportunities</span>
           </h1>
-          <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-8 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-6 max-w-2xl mx-auto">
             Join India's most innovative, premium laundry chain. Partner with TheLaundryGuyz and start a rewarding business journey.
           </p>
+          <div className="bg-primary/10 border border-primary/20 text-primary font-medium py-3 px-6 rounded-2xl inline-flex items-center gap-2 mb-8 shadow-sm">
+             <Send className="w-5 h-5" />
+             For direct inquiries: <a href="mailto:franchise@thelaundryguyz.com" className="font-bold hover:underline">franchise@thelaundryguyz.com</a>
+          </div>
           <div className="flex justify-center gap-4">
             <Button variant="hero" size="lg" asChild>
               <a href="#inquiry">Inquire Now</a>

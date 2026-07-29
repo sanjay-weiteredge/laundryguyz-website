@@ -75,6 +75,16 @@ const storeData = [
     phone: "040-32624985",
     whatsapp: "8143735454",
     email: "support@thelaundryguyz.com",
+  },
+  {
+    id: 8,
+    name: "Nagavara, Bangalore",
+    code: "560045",
+    address: "Manyata Tech Park 22/7, Chanakya Layout, 2nd Cross, Nagawara, Near Canara Bank / Shree Ramdev Medical, Bengaluru – 560045, Karnataka",
+    mapUrl: "",
+    phone: "8951279247",
+    whatsapp: "8951279247",
+    email: "support@thelaundryguyz.com",
   }
 ];
 

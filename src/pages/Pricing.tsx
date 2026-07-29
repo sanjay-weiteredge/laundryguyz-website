@@ -2,12 +2,7 @@ import Layout from "@/components/layout/Layout";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Check, ArrowRight, Star, FileText } from "lucide-react";
-import priceListPdf from "@/assets/pdf/pricelist.pdf";
-import priceListPdf1 from "@/assets/pdf/TLG Pricelist 2.pdf";
-
-import priceImage from "@/assets/price.png";
-import dryCleaning from "@/assets/drycleaning.png";
-import dryCleaning1 from "@/assets/drycleaning1.png";
+import finalPriceList from "@/assets/Final pricelist.jpg";
 
 const pricingPlans = [
   {
@@ -95,47 +90,19 @@ const Pricing = () => {
       {/* Individual Pricing */}
       <section className="py-10 bg-secondary/30">
         <div className="container-custom">
-          <div className="flex flex-col lg:flex-row items-start justify-center gap-8 mb-16">
-            {/* Price List Section */}
-            <div className="flex flex-col items-center gap-6 flex-1 w-full max-w-lg">
+          <div className="flex flex-col items-center justify-center gap-8 mb-16">
+            <div className="flex flex-col items-center gap-6 w-full max-w-2xl">
               <div className="rounded-2xl shadow-card overflow-hidden w-full">
                 <img
-                  src={priceImage}
-                  alt="Laundry Guyz Price List"
+                  src={finalPriceList}
+                  alt="Laundry Guyz Final Pricelist"
                   className="w-full h-auto object-contain"
                 />
               </div>
               <Button variant="outline" size="lg" className="group" asChild>
-                <a href={priceListPdf1} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4">
+                <a href={finalPriceList} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4">
                   <FileText className="w-4 h-4" />
-                  View Pricelist in a New Window
-                </a>
-              </Button>
-            </div>
-
-            {/* Dry Cleaning Section */}
-            <div className="flex flex-col items-center gap-6 flex-[2] w-full">
-              <div className="flex flex-col md:flex-row gap-4 w-full justify-center">
-                <div className="rounded-2xl shadow-card overflow-hidden w-full max-w-lg">
-                  <img
-                    src={dryCleaning}
-                    alt="Dry Cleaning Price List"
-                    className="w-full h-auto object-contain"
-                  />
-                </div>
-                <div className="rounded-2xl shadow-card overflow-hidden w-full max-w-lg">
-                  <img
-                    src={dryCleaning1}
-                    alt="Dry Cleaning Price List Continued"
-                    className="w-full h-auto object-contain"
-                  />
-                </div>
-              </div>
-
-              <Button variant="outline" size="lg" className="group" asChild>
-                <a href={priceListPdf} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                  <FileText className="w-4 h-4" />
-                  View Pricelist in a New Window
+                  View Image in a New Tab
                 </a>
               </Button>
             </div>
