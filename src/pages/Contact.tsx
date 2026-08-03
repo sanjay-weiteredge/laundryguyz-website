@@ -257,27 +257,47 @@ const Contact = () => {
               <p className="font-serif text-3xl md:text-3xl font-bold text-foreground ">
                 Our Locations
               </p>
-              <div className="bg-card rounded-3xl p-8 md:p-10 shadow-card flex-grow transition-all">
-                <div className="flex items-center mb-8">
-                  <MapPin className="w-6 h-6 text-primary mr-3" />
-                  <h3 className="font-serif text-2xl font-bold text-foreground">Hyderabad</h3>
+              <div className="bg-card rounded-3xl p-8 md:p-10 shadow-card flex-grow transition-all flex flex-col gap-8">
+                <div>
+                  <div className="flex items-center mb-6">
+                    <MapPin className="w-6 h-6 text-primary mr-3" />
+                    <h3 className="font-serif text-2xl font-bold text-foreground">Hyderabad</h3>
+                  </div>
+
+                  <div className="flex flex-col space-y-4">
+                    {[
+                      "Tellapur",
+                      "Maredpally/Mahendra Hills",
+                      "Padma Rao Nagar",
+                      "Yapral",
+                      "Saket",
+                      "AS Rao Nagar",
+                      "Serilingampalle"
+                    ].map((area, index) => (
+                      <div key={index} className="flex items-center text-muted-foreground">
+                        <span className="w-2.5 h-2.5 bg-primary rounded-full mr-4 flex-shrink-0" />
+                        <span className="text-md">{area}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
-                <div className="flex flex-col space-y-4">
-                  {[
-                    "Tellapur Store",
-                    "Maredpally/Mahendra Hills Store",
-                    "Padma Rao Nagar Store",
-                    "Yapral Store",
-                    "Saket Store",
-                    "AS Rao Nagar Store",
-                    "Serilingampalle Store"
-                  ].map((area, index) => (
-                    <div key={index} className="flex items-center text-muted-foreground">
-                      <span className="w-2.5 h-2.5 bg-primary rounded-full mr-4 flex-shrink-0" />
-                      <span className="text-md">{area}</span>
-                    </div>
-                  ))}
+                <div>
+                  <div className="flex items-center mb-6">
+                    <MapPin className="w-6 h-6 text-primary mr-3" />
+                    <h3 className="font-serif text-2xl font-bold text-foreground">Bangalore</h3>
+                  </div>
+
+                  <div className="flex flex-col space-y-4">
+                    {[
+                      "Nagavara"
+                    ].map((area, index) => (
+                      <div key={index} className="flex items-center text-muted-foreground">
+                        <span className="w-2.5 h-2.5 bg-primary rounded-full mr-4 flex-shrink-0" />
+                        <span className="text-md">{area}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
 
